@@ -3,15 +3,15 @@ import { DashboardMock } from "./DashboardMock";
 
 export function ProductOverview() {
   return (
-    <section id="platform" className="py-32 lg:py-40">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+    <section id="platform" className="py-24 sm:py-32 lg:py-40">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-20 items-center">
         <div className="lg:col-span-5">
           <Reveal>
             <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
               The platform
             </div>
           </Reveal>
-          <h2 className="mt-5 text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
+          <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
             <SplitLines text="One quiet surface" />
             <br />
             <span className="text-muted-foreground">

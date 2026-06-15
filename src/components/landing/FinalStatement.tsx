@@ -13,9 +13,9 @@ export function FinalStatement() {
   const words = text.split(" ");
 
   return (
-    <section ref={ref} className="py-44 lg:py-56 bg-background">
-      <motion.div style={{ opacity: opacityCtx }} className="mx-auto max-w-7xl px-6 lg:px-10">
-        <h2 className="text-center text-[44px] sm:text-[72px] lg:text-[112px] leading-[1.0] tracking-[-0.04em] font-medium text-balance">
+    <section ref={ref} className="py-32 sm:py-44 lg:py-56 bg-background">
+      <motion.div style={{ opacity: opacityCtx }} className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+        <h2 className="text-center text-[36px] sm:text-[72px] lg:text-[112px] leading-[1.02] sm:leading-[1.0] tracking-[-0.04em] font-medium text-balance">
           {words.map((w, i) => (
             <span key={i} className="inline-block overflow-hidden align-bottom mr-[0.25em] last:mr-0">
               <motion.span

@@ -3,8 +3,8 @@ import { Reveal, Parallax } from "./primitives";
 
 export function ProductDemo() {
   return (
-    <section className="border-y border-border bg-card/40 py-32 lg:py-40">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+    <section className="border-y border-border bg-card/40 py-24 sm:py-32 lg:py-40">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -12,14 +12,14 @@ export function ProductDemo() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="mt-5 text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
+            <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
               A surface that responds <span className="text-muted-foreground">in real time.</span>
             </h2>
           </Reveal>
         </div>
 
         <Parallax intensity={24}>
-          <div className="mt-16 grid lg:grid-cols-3 gap-6">
+          <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <Reveal delay={0.05}>
               <Card title="Spot price" sub="BTC · USD">
                 <div className="mt-4 text-[34px] tracking-tight tabular-nums">$64,201.50</div>
