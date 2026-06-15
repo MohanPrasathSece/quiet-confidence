@@ -1,207 +1,38 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { motion, AnimatePresence, useInView } from "motion/react";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { motion, AnimatePresence } from "motion/react";
 import { submitLead } from "@/lib/crmApi";
 import {
-  TrendingUp,
-  TrendingDown,
   LogOut,
-  Bell,
-  Settings,
-  ArrowUpRight,
-  ArrowDownLeft,
   Send,
   Loader2,
   CheckCircle,
-  Bitcoin,
-  Wallet,
-  BarChart3,
-  Shield,
+  Play,
+  Pause,
+  Home,
+  Bot,
+  Activity,
   Zap,
-  Globe,
+  Cpu,
+  RefreshCw,
 } from "lucide-react";
 
-// ─── Data ──────────────────────────────────────────────────────────────────
+// ─── Types & Interfaces ────────────────────────────────────────────────────
 
-const PORTFOLIO_HISTORY = [
-  { date: "May 17", value: 84200 },
-  { date: "May 19", value: 87800 },
-  { date: "May 21", value: 83100 },
-  { date: "May 23", value: 91400 },
-  { date: "May 25", value: 94700 },
-  { date: "May 27", value: 92200 },
-  { date: "May 29", value: 98500 },
-  { date: "May 31", value: 96100 },
-  { date: "Jun 02", value: 102300 },
-  { date: "Jun 04", value: 99800 },
-  { date: "Jun 06", value: 107400 },
-  { date: "Jun 08", value: 112100 },
-  { date: "Jun 10", value: 108700 },
-  { date: "Jun 12", value: 118900 },
-  { date: "Jun 14", value: 124300 },
-];
-
-const CRYPTOS = [
-  {
-    symbol: "BTC",
-    name: "Bitcoin",
-    price: 67842.5,
-    change: 2.34,
-    held: 1.842,
-    value: 124945.0,
-    color: "#f7931a",
-    sparkline: [62100, 63400, 61800, 65200, 66900, 65500, 67842],
-    icon: "₿",
-  },
-  {
-    symbol: "ETH",
-    name: "Ethereum",
-    price: 3541.2,
-    change: -0.87,
-    held: 14.6,
-    value: 51701.52,
-    color: "#627eea",
-    sparkline: [3200, 3380, 3290, 3450, 3510, 3480, 3541],
-    icon: "Ξ",
-  },
-  {
-    symbol: "SOL",
-    name: "Solana",
-    price: 178.9,
-    change: 5.12,
-    held: 210.0,
-    value: 37569.0,
-    color: "#9945ff",
-    sparkline: [145, 152, 161, 158, 168, 172, 178.9],
-    icon: "◎",
-  },
-  {
-    symbol: "BNB",
-    name: "BNB",
-    price: 612.4,
-    change: 1.22,
-    held: 28.5,
-    value: 17453.4,
-    color: "#f0b90b",
-    sparkline: [580, 591, 585, 602, 608, 610, 612.4],
-    icon: "◈",
-  },
-];
-
-const ALLOCATION_DATA = [
-  { name: "Bitcoin", value: 53.4, color: "#f7931a" },
-  { name: "Ethereum", value: 22.1, color: "#627eea" },
-  { name: "Solana", value: 16.1, color: "#9945ff" },
-  { name: "BNB", value: 7.4, color: "#f0b90b" },
-  { name: "Other", value: 1.0, color: "#6b7280" },
-];
-
-const TRANSACTIONS = [
-  { id: 1, coin: "BTC", type: "buy" as const, amount: 0.25, value: 16960.63, date: "Jun 14, 2026", status: "completed" },
-  { id: 2, coin: "ETH", type: "sell" as const, amount: 3.0, value: 10623.6, date: "Jun 13, 2026", status: "completed" },
-  { id: 3, coin: "SOL", type: "buy" as const, amount: 50.0, value: 8945.0, date: "Jun 12, 2026", status: "completed" },
-  { id: 4, coin: "BNB", type: "buy" as const, amount: 8.5, value: 5205.4, date: "Jun 11, 2026", status: "pending" },
-  { id: 5, coin: "BTC", type: "sell" as const, amount: 0.1, value: 6784.25, date: "Jun 10, 2026", status: "completed" },
-  { id: 6, coin: "ETH", type: "buy" as const, amount: 2.5, value: 8853.0, date: "Jun 09, 2026", status: "completed" },
-];
-
-const MARKET_NEWS = [
-  { tag: "Market", title: "Bitcoin approaches all-time high as institutional demand surges", time: "2h ago", sentiment: "bullish" },
-  { tag: "Analysis", title: "Ethereum's staking yield outperforms traditional bonds for Q2", time: "5h ago", sentiment: "bullish" },
-  { tag: "Regulatory", title: "EU MiCA framework fully operational: crypto firms adapt fast", time: "8h ago", sentiment: "neutral" },
-  { tag: "DeFi", title: "Solana DEX volume hits record $14B in 24 hours, fees compress", time: "12h ago", sentiment: "bullish" },
-];
-
-// ─── Sub-components ────────────────────────────────────────────────────────
-
-function AnimatedNumber({ value, prefix = "", suffix = "", decimals = 2 }: {
-  value: number; prefix?: string; suffix?: string; decimals?: number;
-}) {
-  const [displayed, setDisplayed] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (!inView) return;
-    const start = performance.now();
-    const duration = 1400;
-    const raf = (ts: number) => {
-      const p = Math.min((ts - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - p, 3);
-      setDisplayed(ease * value);
-      if (p < 1) requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
-  }, [inView, value]);
-
-  return (
-    <span ref={ref}>
-      {prefix}{displayed.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}{suffix}
-    </span>
-  );
+interface BotData {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  status: "active" | "paused";
+  stats: {
+    profit24h: string;
+    winRate: string;
+    totalTrades: number;
+    extra: string;
+  };
 }
-
-function Sparkline({ data, color, positive }: { data: number[]; color: string; positive: boolean }) {
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const range = max - min || 1;
-  const w = 80; const h = 32;
-  const points = data.map((v, i) => {
-    const x = (i / (data.length - 1)) * w;
-    const y = h - ((v - min) / range) * h;
-    return `${x},${y}`;
-  }).join(" ");
-  const fillPoints = `0,${h} ${points} ${w},${h}`;
-
-  return (
-    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} fill="none">
-      <defs>
-        <linearGradient id={`spark-${color.replace("#", "")}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.25" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <polygon points={fillPoints} fill={`url(#spark-${color.replace("#", "")})`} />
-      <polyline points={points} stroke={positive ? "#22c55e" : "#ef4444"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-const DASH_INVESTMENT_OPTIONS = [
-  { value: "", label: "Select investment amount…" },
-  { value: "under_1000", label: "Under $1,000" },
-  { value: "1000", label: "$1,000 – $4,999" },
-  { value: "5000", label: "$5,000 – $9,999" },
-  { value: "10000", label: "$10,000 – $24,999" },
-  { value: "25000", label: "$25,000 – $49,999" },
-  { value: "50000", label: "$50,000 – $99,999" },
-  { value: "100000", label: "$100,000+" },
-];
-
-const DASH_COUNTRY_OPTIONS = [
-  { value: "cy", label: "Cyprus" },
-  { value: "gb", label: "United Kingdom" },
-  { value: "us", label: "United States" },
-  { value: "de", label: "Germany" },
-  { value: "fr", label: "France" },
-  { value: "ae", label: "UAE" },
-  { value: "sg", label: "Singapore" },
-  { value: "au", label: "Australia" },
-  { value: "other", label: "Other" },
-];
 
 interface DashForm {
   name: string;
@@ -211,8 +42,191 @@ interface DashForm {
 }
 
 const DASH_EMPTY: DashForm = {
-  name: "", email: "", phone: "", message: "",
+  name: "",
+  email: "",
+  phone: "",
+  message: "",
 };
+
+// ─── Demo Bots Initial Data ────────────────────────────────────────────────
+
+const INITIAL_BOTS: BotData[] = [
+  {
+    id: "arbitrage",
+    name: "Alpha Arbitrage Bot",
+    description: "Monitors sub-second price discrepancies across multiple decentralized liquidity pools to capture instant delta-neutral returns.",
+    type: "Arbitrage Execution",
+    status: "active",
+    stats: { profit24h: "+$42.50", winRate: "99.2%", totalTrades: 1208, extra: "Latency: 8ms" },
+  },
+  {
+    id: "momentum",
+    name: "Trend Momentum Bot",
+    description: "Capitalizes on structural trend movements using advanced exponential moving average crossovers and volume breakouts.",
+    type: "Trend Following",
+    status: "active",
+    stats: { profit24h: "+$134.12", winRate: "74.5%", totalTrades: 184, extra: "SMA: 200/50" },
+  },
+  {
+    id: "market_maker",
+    name: "Delta Market Maker Bot",
+    description: "Provides bid-ask spread depth on high-volume trading pairs, continuously adjusting inventory ratios based on order flow.",
+    type: "Spread Provision",
+    status: "paused",
+    stats: { profit24h: "$0.00", winRate: "92.1%", totalTrades: 4210, extra: "Spread: 0.05%" },
+  },
+  {
+    id: "yield",
+    name: "Yield Harvester Bot",
+    description: "Automatically redirects smart contract deposit capital to capture peak compounding yield opportunities across vetted protocols.",
+    type: "Yield Optimization",
+    status: "active",
+    stats: { profit24h: "+$89.40", winRate: "100.0%", totalTrades: 48, extra: "APY: 14.2%" },
+  },
+];
+
+// ─── Bot Animation Sub-components ──────────────────────────────────────────
+
+function ArbitrageAnimation({ active }: { active: boolean }) {
+  return (
+    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 flex items-center justify-center relative overflow-hidden">
+      <div className="flex items-center gap-6 z-10">
+        {["USD", "BTC", "ETH"].map((coin, i) => (
+          <div key={coin} className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-[10px] font-bold text-slate-700 shadow-sm">
+              {coin}
+            </div>
+            {i < 2 && (
+              <div className="w-6 h-px bg-slate-200 relative">
+                <motion.div
+                  className="h-1.5 w-1.5 rounded-full bg-amber-500 absolute top-[-2px] left-0"
+                  animate={active ? { left: ["0%", "100%"] } : { left: "0%" }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.4, ease: "linear" }}
+                />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {active && (
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-amber-500/[0.02] via-transparent to-amber-500/[0.02]"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+      )}
+    </div>
+  );
+}
+
+function MomentumAnimation({ active }: { active: boolean }) {
+  return (
+    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 flex items-center justify-center relative overflow-hidden px-4">
+      <svg viewBox="0 0 200 60" className="w-full h-full text-slate-300">
+        <line x1="0" y1="30" x2="200" y2="30" stroke="rgba(0,0,0,0.03)" strokeDasharray="3 3" />
+        <motion.path
+          d="M0,45 Q40,10 80,45 T160,15 T200,30"
+          fill="none"
+          stroke={active ? "#f59e0b" : "#94a3b8"}
+          strokeWidth="2"
+          initial={{ pathLength: 0.8 }}
+          animate={active ? { pathOffset: [0, 1] } : {}}
+          style={{ strokeDasharray: "15, 5" }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.path
+          d="M0,35 Q40,35 80,25 T160,25 T200,20"
+          fill="none"
+          stroke="#cbd5e1"
+          strokeWidth="1"
+          strokeDasharray="4 4"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function MarketMakerAnimation({ active }: { active: boolean }) {
+  const [ticks, setTicks] = useState([
+    { p: 67840, size: 45, type: "bid" },
+    { p: 67839, size: 70, type: "bid" },
+    { p: 67843, size: 30, type: "ask" },
+    { p: 67844, size: 55, type: "ask" },
+  ]);
+
+  useEffect(() => {
+    if (!active) return;
+    const int = setInterval(() => {
+      setTicks((prev) =>
+        prev.map((t) => ({
+          ...t,
+          size: Math.max(10, Math.min(95, t.size + (Math.random() - 0.5) * 20)),
+        }))
+      );
+    }, 900);
+    return () => clearInterval(int);
+  }, [active]);
+
+  return (
+    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 p-3 flex flex-col justify-between overflow-hidden">
+      {ticks.map((t, i) => (
+        <div key={i} className="flex items-center justify-between text-[9px] font-mono text-slate-500">
+          <span className={t.type === "bid" ? "text-emerald-600 font-semibold" : "text-rose-600 font-semibold"}>
+            {t.p}
+          </span>
+          <div className="flex-1 mx-3 h-1.5 bg-slate-200/50 rounded-full overflow-hidden relative">
+            <div
+              className={`absolute top-0 bottom-0 rounded-full transition-all duration-700 ${t.type === "bid" ? "bg-emerald-400" : "bg-rose-400"}`}
+              style={{
+                width: active ? `${t.size}%` : "15%",
+                left: t.type === "bid" ? 0 : "auto",
+                right: t.type === "ask" ? 0 : "auto",
+              }}
+            />
+          </div>
+          <span className="tabular-nums">{(t.size / 100).toFixed(2)} BTC</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function YieldAnimation({ active }: { active: boolean }) {
+  return (
+    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 flex items-center justify-center relative overflow-hidden">
+      <div className="relative h-14 w-14">
+        <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
+          <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="3" />
+          <motion.circle
+            cx="18"
+            cy="18"
+            r="16"
+            fill="none"
+            stroke="#f59e0b"
+            strokeWidth="3"
+            strokeDasharray="100"
+            animate={active ? { strokeDashoffset: [100, 0] } : { strokeDashoffset: 65 }}
+            transition={active ? { duration: 5, repeat: Infinity, ease: "linear" } : {}}
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <RefreshCw className={`h-4 w-4 text-amber-500/80 ${active ? "animate-spin" : ""}`} style={{ animationDuration: active ? "3s" : "0s" }} />
+        </div>
+      </div>
+      {active && (
+        <motion.div
+          className="absolute right-4 bottom-2 text-[10px] text-emerald-600 font-medium flex items-center gap-1"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          Compounding...
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+// ─── Contact Form Component ─────────────────────────────────────────────────
 
 function DashboardContactForm() {
   const [form, setForm] = useState<DashForm>(DASH_EMPTY);
@@ -254,94 +268,119 @@ function DashboardContactForm() {
   };
 
   const inputClass = (field: keyof DashForm) =>
-    `w-full rounded-xl border ${errors[field] ? "border-red-500/60" : "border-white/10"} bg-white/5 px-4 py-3 text-[14px] text-white placeholder:text-white/30 outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/10 transition-all duration-200`;
+    `w-full rounded-xl border ${errors[field] ? "border-red-400" : "border-border"} bg-background/60 px-4 py-3 text-[14px] text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all duration-200 backdrop-blur-sm`;
 
   return (
-    <section className="relative py-20 border-t border-white/10">
-      <div className="mx-auto max-w-3xl px-6">
+    <section className="relative overflow-hidden py-20 border-t border-border/60">
+      <div className="mx-auto max-w-3xl px-5 sm:px-6 lg:px-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
+          {/* Header */}
           <div className="text-center mb-10">
-            <div className="mx-auto mb-4 flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/50">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+            <div className="mx-auto mb-4 flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
               Support
             </div>
-            <h2 className="text-[28px] sm:text-[36px] font-medium tracking-[-0.03em] text-white">
-              Need help with your portfolio?
+            <h2 className="text-[28px] sm:text-[36px] font-medium tracking-[-0.03em] leading-[1.08] text-foreground">
+              Need help with your strategies?
             </h2>
-            <p className="mt-3 text-[14px] sm:text-[16px] text-white/50 leading-relaxed">
-              Our investment advisors are available 24/7 to assist with your crypto strategy.
+            <p className="mt-3 text-[14px] sm:text-[15px] text-muted-foreground leading-relaxed max-w-md mx-auto">
+              Our investment advisors are available to assist with your automated trading setups.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8">
+          {/* Card */}
+          <div className="rounded-2xl border border-border bg-card/50 backdrop-blur-xl p-6 sm:p-8 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.05)]">
             <AnimatePresence mode="wait">
+              {/* Success */}
               {status === "success" ? (
                 <motion.div
                   key="success"
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4 }}
-                  className="flex flex-col items-center gap-4 py-10 text-center"
+                  className="flex flex-col items-center justify-center gap-4 py-10 text-center"
                 >
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: "spring", stiffness: 200 }}>
-                    <CheckCircle className="h-12 w-12 text-amber-400" strokeWidth={1.5} />
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+                  >
+                    <CheckCircle className="h-12 w-12 text-foreground" strokeWidth={1.5} />
                   </motion.div>
-                  <h3 className="text-[20px] font-medium text-white">Message received!</h3>
-                  <p className="text-[13px] text-white/50 max-w-xs">Your advisor will reach out within 2 hours during market hours.</p>
+                  <h3 className="text-[20px] font-medium tracking-tight text-foreground">Message sent!</h3>
+                  <p className="text-[13px] text-muted-foreground max-w-xs leading-relaxed">
+                    Thank you. A trading strategist will contact you within 2 hours.
+                  </p>
                   <button
                     onClick={() => { setForm(DASH_EMPTY); setStatus("idle"); setErrors({}); setApiError(""); }}
-                    className="mt-2 inline-flex h-9 items-center rounded-full border border-white/20 px-5 text-[13px] text-white/70 hover:text-white transition-colors"
+                    className="mt-2 inline-flex h-9 items-center rounded-full border border-border bg-background px-5 text-[13px] font-medium text-foreground hover:bg-accent transition-colors"
                   >
-                    Send another
+                    Send another message
                   </button>
                 </motion.div>
               ) : (
-                <motion.form key="form" onSubmit={handleSubmit} className="space-y-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                /* Form */
+                <motion.form
+                  key="form"
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
                   {/* Name */}
                   <div>
-                    <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Name *</label>
+                    <label className="block text-[12px] font-medium text-foreground mb-2">Name *</label>
                     <input type="text" placeholder="John Doe" value={form.name} onChange={setF("name")} className={inputClass("name")} />
-                    {errors.name && <p className="mt-1 text-[11px] text-red-400">{errors.name}</p>}
+                    {errors.name && <p className="mt-1 text-[11px] text-red-500">{errors.name}</p>}
                   </div>
 
                   {/* Email + Phone */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Email *</label>
+                      <label className="block text-[12px] font-medium text-foreground mb-2">Email address *</label>
                       <input type="email" placeholder="you@domain.com" value={form.email} onChange={setF("email")} className={inputClass("email")} />
-                      {errors.email && <p className="mt-1 text-[11px] text-red-400">{errors.email}</p>}
+                      {errors.email && <p className="mt-1 text-[11px] text-red-500">{errors.email}</p>}
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Phone *</label>
+                      <label className="block text-[12px] font-medium text-foreground mb-2">Phone number *</label>
                       <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={setF("phone")} className={inputClass("phone")} />
-                      {errors.phone && <p className="mt-1 text-[11px] text-red-400">{errors.phone}</p>}
+                      {errors.phone && <p className="mt-1 text-[11px] text-red-500">{errors.phone}</p>}
                     </div>
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Message (optional)</label>
-                    <textarea rows={4} placeholder="Ask about trading strategies, portfolio rebalancing, tax optimization, or anything else…" value={form.message} onChange={setF("message")} className={`${inputClass("message")} resize-none`} />
+                    <label className="block text-[12px] font-medium text-foreground mb-2">Message (optional)</label>
+                    <textarea
+                      rows={4}
+                      placeholder="Ask about trading strategies, bot optimization, or portfolio tools..."
+                      value={form.message}
+                      onChange={setF("message")}
+                      className={`${inputClass("message")} resize-none`}
+                    />
                   </div>
 
                   {/* API error */}
                   {apiError && (
-                    <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-red-400">{apiError}</div>
+                    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-600">
+                      {apiError}
+                    </div>
                   )}
+
                   <div className="flex items-center justify-between gap-4 pt-1">
-                    <p className="text-[11px] text-white/30">Encrypted & secure. Never shared.</p>
+                    <p className="text-[11px] text-muted-foreground">Secure & encrypted transmission.</p>
                     <button
                       type="submit"
                       disabled={status === "loading"}
-                      className="inline-flex h-10 items-center gap-2 rounded-full bg-amber-400 px-5 text-[13px] font-semibold text-black hover:bg-amber-300 transition-colors disabled:opacity-60"
+                      className="inline-flex h-10 items-center gap-2 rounded-full bg-foreground px-5 text-[13px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60"
                     >
                       {status === "loading" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
-                      {status === "loading" ? "Sending…" : "Send message"}
+                      {status === "loading" ? "Sending..." : "Send message"}
                     </button>
                   </div>
                 </motion.form>
@@ -354,412 +393,255 @@ function DashboardContactForm() {
   );
 }
 
-// ─── Custom Tooltip ────────────────────────────────────────────────────────
-
-function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{value: number}>; label?: string }) {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="rounded-xl border border-white/10 bg-[#0f1218] px-3 py-2 text-[12px] shadow-xl">
-      <div className="text-white/40 mb-0.5">{label}</div>
-      <div className="text-white font-medium">${payload[0].value.toLocaleString()}</div>
-    </div>
-  );
-}
-
-// ─── Main Dashboard ────────────────────────────────────────────────────────
+// ─── Main Dashboard Page ────────────────────────────────────────────────────
 
 export default function DashboardPage() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<"1W" | "1M" | "3M" | "1Y">("1M");
-  const [notifOpen, setNotifOpen] = useState(false);
+  const [bots, setBots] = useState<BotData[]>(INITIAL_BOTS);
 
-  const totalValue = CRYPTOS.reduce((s, c) => s + c.value, 0);
-  const totalPnL = 24312.4;
-  const pnlPct = 24.3;
+  const toggleBot = (id: string) => {
+    setBots((prev) =>
+      prev.map((b) =>
+        b.id === id
+          ? { ...b, status: b.status === "active" ? "paused" : "active" }
+          : b
+      )
+    );
+  };
 
-  const initials = user ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase() : "U";
-  const displayName = user ? `${user.firstName} ${user.lastName[0]}.` : "Guest";
+  const activeBotsCount = bots.filter((b) => b.status === "active").length;
 
   return (
-    <div className="min-h-screen bg-[#080b10] text-white font-['Inter_Tight',sans-serif] antialiased">
-      {/* Ambient background */}
+    <div className="min-h-screen bg-background text-foreground font-['Inter_Tight',sans-serif] antialiased selection:bg-foreground selection:text-background relative">
+      
+      {/* Ambient background grid & gradients */}
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.22] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute top-[-20%] left-[-10%] h-[500px] w-[500px] rounded-full bg-amber-500/5 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-purple-600/5 blur-[140px]" />
-        <div className="absolute top-[30%] right-[20%] h-[300px] w-[300px] rounded-full bg-blue-500/4 blur-[100px]" />
+        <div className="absolute top-[10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-amber-500/[0.02] blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-purple-600/[0.02] blur-[140px]" />
       </div>
 
-      {/* ── Nav ─────────────────────────────────────────────────────── */}
+      {/* ── Header ─────────────────────────────────────────────────── */}
       <motion.header
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#080b10]/80 backdrop-blur-xl"
+        className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl"
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-10">
           {/* Logo */}
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-7 w-7 place-items-center rounded-[7px] border border-amber-400/30 bg-amber-400/10 text-amber-400 text-[12px] font-bold">A</span>
-            <span className="text-[15px] font-medium tracking-tight">AtlasLedger</span>
-            <span className="ml-1 rounded-full bg-amber-400/10 px-2 py-0.5 text-[10px] font-medium text-amber-400 uppercase tracking-wider">Pro</span>
-          </div>
+          <a
+            href="/"
+            className="flex shrink-0 items-center gap-2 text-[15px] font-medium tracking-tight cursor-pointer"
+          >
+            <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">
+              A
+            </span>
+            <span>AtlasLedger</span>
+          </a>
 
-          {/* Center nav */}
-          <nav className="hidden md:flex items-center gap-1 rounded-xl border border-white/[0.06] bg-white/[0.03] px-1 py-1">
-            {["Portfolio", "Markets", "Trade", "Analytics", "Earn"].map((item) => (
-              <button
-                key={item}
-                className={`px-3.5 py-1.5 rounded-lg text-[13px] font-medium transition-all ${item === "Portfolio" ? "bg-white/10 text-white" : "text-white/40 hover:text-white"}`}
-              >
-                {item}
-              </button>
-            ))}
-          </nav>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setNotifOpen(!notifOpen)}
-              className="relative grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/5 text-white/60 hover:text-white transition-colors"
+          {/* Navigation Links */}
+          <nav className="flex items-center gap-7 text-[14px] text-muted-foreground">
+            <a
+              href="/"
+              className="hover:text-foreground transition-colors flex items-center gap-1.5 font-medium"
             >
-              <Bell className="h-4 w-4" />
-              <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-amber-400" />
-            </button>
-            <button className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/5 text-white/60 hover:text-white transition-colors">
-              <Settings className="h-4 w-4" />
-            </button>
-            <div className="flex h-9 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3">
-              <div className="h-6 w-6 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-[10px] font-bold text-black">{initials}</div>
-              <span className="text-[13px] text-white/80 hidden sm:block">{displayName}</span>
-            </div>
+              <Home className="h-4 w-4" />
+              Home
+            </a>
             <button
-              onClick={() => { logout(); navigate("/"); }}
-              className="hidden sm:inline-flex h-9 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3.5 text-[13px] text-white/60 hover:text-white transition-colors"
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+              className="hover:text-foreground transition-colors flex items-center gap-1.5 font-medium focus:outline-none cursor-pointer"
             >
-              <LogOut className="h-3.5 w-3.5" />
+              <LogOut className="h-4 w-4" />
               Logout
             </button>
-          </div>
+          </nav>
         </div>
       </motion.header>
 
-      <main className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-8 space-y-8">
-
-        {/* ── Portfolio Overview ───────────────────────────────────── */}
+      {/* ── Main Content ───────────────────────────────────────────── */}
+      <main className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-12 space-y-12">
+        
+        {/* Welcome Section */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="relative"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            {/* Total value card */}
-            <div className="lg:col-span-2 rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-6 sm:p-7 backdrop-blur-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 h-48 w-48 rounded-full bg-amber-400/5 blur-[60px] -translate-y-1/2 translate-x-1/4" />
-              <div className="relative">
-                <div className="text-[11px] uppercase tracking-[0.18em] text-white/40 mb-3">Total Portfolio Value</div>
-                <div className="text-[42px] sm:text-[52px] font-medium tracking-[-0.03em] leading-none text-white">
-                  $<AnimatedNumber value={totalValue} decimals={2} />
-                </div>
-                <div className="mt-3 flex items-center gap-3">
-                  <div className="flex items-center gap-1.5 rounded-full bg-green-500/10 px-2.5 py-1 text-[12px] font-medium text-green-400">
-                    <TrendingUp className="h-3 w-3" />
-                    +<AnimatedNumber value={pnlPct} decimals={2} suffix="%" />
-                  </div>
-                  <span className="text-[13px] text-white/40">
-                    +$<AnimatedNumber value={totalPnL} decimals={2} /> this month
-                  </span>
-                </div>
-
-                {/* Stats row */}
-                <div className="mt-6 grid grid-cols-3 gap-4 pt-6 border-t border-white/[0.06]">
-                  {[
-                    { label: "Total invested", value: "$93,356", sub: "Cost basis" },
-                    { label: "Unrealized P&L", value: "+$24,312", sub: "All time", color: "text-green-400" },
-                    { label: "Assets", value: "4 coins", sub: "Active positions" },
-                  ].map((s) => (
-                    <div key={s.label}>
-                      <div className="text-[10px] uppercase tracking-wider text-white/30 mb-1">{s.label}</div>
-                      <div className={`text-[15px] font-medium ${s.color ?? "text-white"}`}>{s.value}</div>
-                      <div className="text-[11px] text-white/30">{s.sub}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              System Status Online
             </div>
-
-            {/* Allocation pie */}
-            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6 backdrop-blur-sm">
-              <div className="text-[11px] uppercase tracking-[0.18em] text-white/40 mb-4">Allocation</div>
-              <div className="flex justify-center">
-                <PieChart width={160} height={160}>
-                  <Pie data={ALLOCATION_DATA} cx={80} cy={80} innerRadius={52} outerRadius={78} paddingAngle={2} dataKey="value" stroke="none">
-                    {ALLOCATION_DATA.map((entry, i) => (
-                      <Cell key={i} fill={entry.color} opacity={0.9} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </div>
-              <div className="mt-3 space-y-2">
-                {ALLOCATION_DATA.map((a) => (
-                  <div key={a.name} className="flex items-center justify-between text-[12px]">
-                    <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full" style={{ background: a.color }} />
-                      <span className="text-white/60">{a.name}</span>
-                    </div>
-                    <span className="text-white/80 font-medium tabular-nums">{a.value}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <h1 className="mt-5 text-[32px] sm:text-[44px] font-medium tracking-[-0.03em] leading-[1.08] text-foreground">
+              Hello, {user?.firstName || "Investor"}.
+            </h1>
+            <p className="mt-3 text-[15px] sm:text-[17px] text-muted-foreground leading-relaxed">
+              Welcome to your automated trading workspace. Currently, you have{" "}
+              <span className="font-semibold text-foreground">{activeBotsCount} of {bots.length} trading bots</span> running simulations on active crypto market parameters.
+            </p>
           </div>
         </motion.section>
 
-        {/* ── Performance Chart ────────────────────────────────────── */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6 backdrop-blur-sm"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        {/* ── Demo Bots Section ──────────────────────────────────────── */}
+        <section className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-5">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.18em] text-white/40 mb-1">Performance</div>
-              <div className="text-[18px] font-medium text-white">Portfolio Growth</div>
+              <h2 className="text-[20px] font-medium tracking-tight">Active Algorithmic Bots</h2>
+              <p className="text-[13px] text-muted-foreground mt-0.5">Control and inspect real-time demo bot strategies.</p>
             </div>
-            <div className="flex items-center gap-1 rounded-xl border border-white/[0.08] bg-white/[0.03] p-1">
-              {(["1W", "1M", "3M", "1Y"] as const).map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setActiveTab(t)}
-                  className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all ${activeTab === t ? "bg-white/10 text-white" : "text-white/30 hover:text-white"}`}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5 text-[12px] bg-slate-100 rounded-full px-3 py-1 font-medium text-slate-600">
+                <Activity className="h-3.5 w-3.5" />
+                Live Simulations
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {bots.map((bot, idx) => {
+              const isActive = bot.status === "active";
+              return (
+                <motion.div
+                  key={bot.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="rounded-2xl border border-border bg-card/50 backdrop-blur-sm p-6 shadow-sm flex flex-col justify-between hover:border-slate-300 transition-all duration-300 relative overflow-hidden group"
                 >
-                  {t}
-                </button>
-              ))}
-            </div>
-          </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={PORTFOLIO_HISTORY} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
-              <defs>
-                <linearGradient id="portfolioGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.18} />
-                  <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
-              <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 11 }} axisLine={false} tickLine={false} interval={2} />
-              <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} width={42} />
-              <Tooltip content={<ChartTooltip />} />
-              <Area type="monotone" dataKey="value" stroke="#f59e0b" strokeWidth={2} fill="url(#portfolioGrad)" dot={false} activeDot={{ r: 4, fill: "#f59e0b", stroke: "#080b10", strokeWidth: 2 }} />
-            </AreaChart>
-          </ResponsiveContainer>
-        </motion.section>
+                  <div className="space-y-4">
+                    {/* Header */}
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/40">
+                          {bot.type}
+                        </span>
+                        <h3 className="text-[18px] font-semibold text-foreground pt-1.5">{bot.name}</h3>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className={`h-2 w-2 rounded-full ${isActive ? "bg-emerald-500" : "bg-slate-300"}`} />
+                        <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+                          {bot.status}
+                        </span>
+                      </div>
+                    </div>
 
-        {/* ── Crypto Cards ─────────────────────────────────────────── */}
-        <section>
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-[16px] font-medium text-white">Your Holdings</h2>
-            <button className="text-[12px] text-white/40 hover:text-white transition-colors">View all markets →</button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            {CRYPTOS.map((crypto, i) => (
-              <motion.div
-                key={crypto.symbol}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -2, transition: { duration: 0.2 } }}
-                className="group rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-sm cursor-pointer hover:border-white/[0.14] transition-all duration-300"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-2.5">
-                    <div
-                      className="grid h-9 w-9 place-items-center rounded-xl text-[16px] font-bold"
-                      style={{ background: `${crypto.color}18`, color: crypto.color }}
+                    {/* Description */}
+                    <p className="text-[13px] text-muted-foreground leading-relaxed h-12 overflow-hidden text-ellipsis">
+                      {bot.description}
+                    </p>
+
+                    {/* Visual Animation Container */}
+                    <div className="pt-2">
+                      {bot.id === "arbitrage" && <ArbitrageAnimation active={isActive} />}
+                      {bot.id === "momentum" && <MomentumAnimation active={isActive} />}
+                      {bot.id === "market_maker" && <MarketMakerAnimation active={isActive} />}
+                      {bot.id === "yield" && <YieldAnimation active={isActive} />}
+                    </div>
+
+                    {/* Stats Rows */}
+                    <div className="grid grid-cols-3 gap-2 py-4 border-t border-b border-border/40 text-[12px] bg-slate-50/40 rounded-xl px-3">
+                      <div>
+                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground">24H Profit</div>
+                        <div className={`font-semibold mt-0.5 tabular-nums ${isActive ? "text-emerald-600" : "text-slate-400"}`}>
+                          {bot.stats.profit24h}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Win Rate</div>
+                        <div className="font-semibold text-slate-800 mt-0.5 tabular-nums">
+                          {bot.stats.winRate}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Total Trades</div>
+                        <div className="font-semibold text-slate-800 mt-0.5 tabular-nums">
+                          {bot.stats.totalTrades}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions & controls */}
+                  <div className="flex items-center justify-between mt-5 pt-3 border-t border-border/40">
+                    <span className="text-[11px] text-muted-foreground font-mono">{bot.stats.extra}</span>
+                    <button
+                      onClick={() => toggleBot(bot.id)}
+                      className={`inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-[12px] font-medium border transition-colors cursor-pointer focus:outline-none ${
+                        isActive
+                          ? "bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100"
+                          : "bg-emerald-50 border-emerald-200 text-emerald-600 hover:bg-emerald-100"
+                      }`}
                     >
-                      {crypto.icon}
-                    </div>
-                    <div>
-                      <div className="text-[14px] font-medium text-white">{crypto.symbol}</div>
-                      <div className="text-[11px] text-white/40">{crypto.name}</div>
-                    </div>
+                      {isActive ? (
+                        <>
+                          <Pause className="h-3.5 w-3.5 fill-current" />
+                          Pause Bot
+                        </>
+                      ) : (
+                        <>
+                          <Play className="h-3.5 w-3.5 fill-current" />
+                          Start Bot
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <div className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${crypto.change >= 0 ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"}`}>
-                    {crypto.change >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                    {crypto.change >= 0 ? "+" : ""}{crypto.change}%
-                  </div>
-                </div>
-
-                <div className="mb-3">
-                  <div className="text-[22px] font-medium text-white tabular-nums">
-                    ${crypto.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                  </div>
-                  <div className="text-[11px] text-white/40 mt-0.5">
-                    {crypto.held} {crypto.symbol} · ${crypto.value.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                  </div>
-                </div>
-
-                <Sparkline data={crypto.sparkline} color={crypto.color} positive={crypto.change >= 0} />
-
-                {/* Live indicator */}
-                <div className="mt-3 flex items-center gap-1.5 text-[10px] text-white/25">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: crypto.color }} />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: crypto.color }} />
-                  </span>
-                  Live price
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
-        {/* ── Transactions + Market Intel ───────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-          {/* Transactions */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6 backdrop-blur-sm"
-          >
-            <div className="flex items-center justify-between mb-5">
-              <div className="text-[15px] font-medium text-white">Recent Transactions</div>
-              <button className="text-[12px] text-white/40 hover:text-white transition-colors">View all</button>
-            </div>
-            <div className="space-y-2">
-              {TRANSACTIONS.map((tx, i) => (
-                <motion.div
-                  key={tx.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.06 }}
-                  className="flex items-center justify-between rounded-xl border border-white/[0.05] bg-white/[0.02] px-4 py-3 hover:bg-white/[0.04] transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`grid h-8 w-8 place-items-center rounded-full ${tx.type === "buy" ? "bg-green-500/10" : "bg-red-500/10"}`}>
-                      {tx.type === "buy" ? (
-                        <ArrowDownLeft className="h-3.5 w-3.5 text-green-400" />
-                      ) : (
-                        <ArrowUpRight className="h-3.5 w-3.5 text-red-400" />
-                      )}
-                    </div>
-                    <div>
-                      <div className="text-[13px] font-medium text-white capitalize">{tx.type} {tx.coin}</div>
-                      <div className="text-[11px] text-white/30">{tx.date}</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className={`text-[13px] font-medium tabular-nums ${tx.type === "buy" ? "text-green-400" : "text-red-400"}`}>
-                      {tx.type === "buy" ? "−" : "+"}${tx.value.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                    </div>
-                    <div className={`text-[10px] uppercase tracking-wide mt-0.5 ${tx.status === "completed" ? "text-white/30" : "text-amber-400"}`}>
-                      {tx.status}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Market intel */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-2 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6 backdrop-blur-sm"
-          >
-            <div className="flex items-center justify-between mb-5">
-              <div className="text-[15px] font-medium text-white">Market Intel</div>
-              <div className="flex items-center gap-1.5 text-[10px] text-white/30">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-400" />
-                </span>
-                Live
-              </div>
-            </div>
-            <div className="space-y-3">
-              {MARKET_NEWS.map((news, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: 10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3.5 cursor-pointer hover:bg-white/[0.04] transition-colors group"
-                >
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider ${
-                      news.sentiment === "bullish" ? "bg-green-500/10 text-green-400" :
-                      news.sentiment === "bearish" ? "bg-red-500/10 text-red-400" :
-                      "bg-white/5 text-white/30"
-                    }`}>{news.tag}</span>
-                    <span className="text-[10px] text-white/25">{news.time}</span>
-                  </div>
-                  <p className="text-[12px] text-white/70 leading-relaxed group-hover:text-white/90 transition-colors">{news.title}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* ── Feature Highlights ───────────────────────────────────── */}
+        {/* ── Crypto Investment Highlights ───────────────────────────── */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7 }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 sm:p-8"
+          viewport={{ once: true }}
+          className="rounded-2xl border border-border bg-card p-6 sm:p-8 relative overflow-hidden"
         >
-          <div className="text-center mb-8">
-            <div className="text-[11px] uppercase tracking-[0.18em] text-white/30 mb-2">Platform Features</div>
-            <h2 className="text-[22px] font-medium text-white">Everything you need to invest smarter</h2>
+          <div className="absolute top-0 right-0 h-48 w-48 rounded-full bg-amber-500/[0.01] blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+          
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">Investment Infrastructure</div>
+            <h2 className="text-[22px] font-medium text-foreground">Next-generation quantitative vaults</h2>
+            <p className="text-[13px] text-muted-foreground mt-2 leading-relaxed">
+              AtlasLedger connects multi-venue liquidity channels directly to localized processing instances, allowing you to configure, audit, and simulate complex algorithmic models.
+            </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { icon: <Shield className="h-5 w-5" />, title: "Bank-grade Security", desc: "Multi-sig wallets, 2FA, cold storage" },
-              { icon: <Zap className="h-5 w-5" />, title: "Real-time Trading", desc: "Sub-second execution on all pairs" },
-              { icon: <BarChart3 className="h-5 w-5" />, title: "Advanced Analytics", desc: "AI-powered market signals & insights" },
-              { icon: <Wallet className="h-5 w-5" />, title: "DeFi Integration", desc: "Access 500+ protocols seamlessly" },
-              { icon: <Bitcoin className="h-5 w-5" />, title: "150+ Assets", desc: "Crypto, tokens, and derivatives" },
-              { icon: <Globe className="h-5 w-5" />, title: "Global Coverage", desc: "Available in 80+ countries" },
-            ].map((feat, i) => (
-              <motion.div
-                key={feat.title}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}
-                className="flex items-start gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] p-4 hover:bg-white/[0.04] transition-colors"
-              >
-                <div className="mt-0.5 text-amber-400 shrink-0">{feat.icon}</div>
-                <div>
-                  <div className="text-[13px] font-medium text-white">{feat.title}</div>
-                  <div className="text-[11px] text-white/40 mt-0.5 leading-relaxed">{feat.desc}</div>
-                </div>
-              </motion.div>
+              { icon: <Cpu className="h-5 w-5 text-amber-500" />, title: "Quant Engine", desc: "Process real-time order matching with zero slippage during demo environments." },
+              { icon: <Zap className="h-5 w-5 text-amber-500" />, title: "Arbitrage Execution", desc: "Scan cross-venue price spreads to leverage instant decentralized exchange margins." },
+              { icon: <Bot className="h-5 w-5 text-amber-500" />, title: "Automated Triggers", desc: "Deploy rules to rebalance currency weighting dynamically when threshold drifts exceed 1.5%." },
+            ].map((item, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-4 rounded-xl border border-border/40 bg-slate-50/20">
+                <div className="mb-3">{item.icon}</div>
+                <h3 className="text-[14px] font-semibold text-foreground">{item.title}</h3>
+                <p className="text-[12px] text-muted-foreground mt-1.5 leading-relaxed">{item.desc}</p>
+              </div>
             ))}
           </div>
         </motion.section>
 
-        {/* ── Contact Form ─────────────────────────────────────────── */}
+        {/* ── Contact Form ───────────────────────────────────────────── */}
         <DashboardContactForm />
-
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/[0.06] py-6 mt-4">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-white/25">
+      {/* ── Footer ─────────────────────────────────────────────────── */}
+      <footer className="border-t border-border py-6 mt-8 relative">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-muted-foreground">
           <div>© {new Date().getFullYear()} AtlasLedger · All rights reserved.</div>
           <div className="flex items-center gap-5">
-            <a href="#" className="hover:text-white/60 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white/60 transition-colors">Terms</a>
-            <a href="#" className="hover:text-white/60 transition-colors">API Docs</a>
+            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
+            <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+            <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
           </div>
         </div>
       </footer>

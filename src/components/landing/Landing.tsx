@@ -33,7 +33,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased selection:bg-foreground selection:text-background">
-      <Nav onSignIn={handleSignIn} onSignUp={() => openAuth("signup")} />
+      <Nav onSignIn={() => openAuth("signin")} onSignUp={() => openAuth("signup")} />
       <main>
         <Hero onPrimary={() => openAuth("signup")} />
         <Metrics />
