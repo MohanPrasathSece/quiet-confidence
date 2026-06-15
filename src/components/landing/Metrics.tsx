@@ -1,0 +1,32 @@
+import { Counter, Reveal } from "./primitives";
+
+const items = [
+  { value: 12, suffix: "B", prefix: "$", label: "Volume processed", decimals: 0 },
+  { value: 180, suffix: "", prefix: "", label: "Countries served" },
+  { value: 1, suffix: "M+", prefix: "", label: "Active users" },
+  { value: 99.99, suffix: "%", prefix: "", label: "Uptime guarantee", decimals: 2 },
+];
+
+export function Metrics() {
+  return (
+    <section className="border-y border-border bg-card/40">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-24">
+        <Reveal>
+          <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+            Trusted at scale
+          </div>
+        </Reveal>
+        <div className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-px bg-border overflow-hidden rounded-2xl">
+          {items.map((it, i) => (
+            <Reveal key={it.label} delay={i * 0.08} className="bg-background p-8 lg:p-10">
+              <div className="text-[40px] lg:text-[56px] leading-none tracking-[-0.03em] font-medium tabular-nums">
+                <Counter to={it.value} prefix={it.prefix} suffix={it.suffix} decimals={it.decimals ?? 0} />
+              </div>
+              <div className="mt-4 text-[13px] text-muted-foreground">{it.label}</div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
