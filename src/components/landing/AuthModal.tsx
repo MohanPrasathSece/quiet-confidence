@@ -290,9 +290,9 @@ export function AuthModal({
             {submitStatus !== "success" && (
               <div className="border-t border-border bg-card/40 px-6 py-4 text-center text-[13px] text-muted-foreground rounded-b-2xl">
                 {mode === "signin" ? (
-                  <>New to AtlasLedger?{" "}<button onClick={() => setMode("signup")} className="text-foreground hover:underline">Create an account</button></>
+                  <>New to AtlasLedger?{" "}<button onClick={() => { setMode("signup"); setApiError(""); setSignupErrors({}); setSigninErrors({}); }} className="text-foreground hover:underline">Create an account</button></>
                 ) : (
-                  <>Already have an account?{" "}<button onClick={() => setMode("signin")} className="text-foreground hover:underline">Sign in</button></>
+                  <>Already have an account?{" "}<button onClick={() => { setMode("signin"); setApiError(""); setSignupErrors({}); setSigninErrors({}); }} className="text-foreground hover:underline">Sign in</button></>
                 )}
               </div>
             )}

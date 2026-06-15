@@ -9,31 +9,16 @@ import {
   Send,
   Loader2,
   CheckCircle,
-  Play,
-  Pause,
-  Home,
-  Bot,
   Activity,
   Zap,
   Cpu,
   RefreshCw,
+  Brain,
+  TrendingUp,
+  ShieldCheck,
 } from "lucide-react";
 
 // ─── Types & Interfaces ────────────────────────────────────────────────────
-
-interface BotData {
-  id: string;
-  name: string;
-  description: string;
-  type: string;
-  status: "active" | "paused";
-  stats: {
-    profit24h: string;
-    winRate: string;
-    totalTrades: number;
-    extra: string;
-  };
-}
 
 interface DashForm {
   name: string;
@@ -49,185 +34,187 @@ const DASH_EMPTY: DashForm = {
   message: "",
 };
 
-// ─── Demo Bots Initial Data ────────────────────────────────────────────────
+// ─── AI Engine Log Messages Pool ───────────────────────────────────────────
 
-const INITIAL_BOTS: BotData[] = [
-  {
-    id: "arbitrage",
-    name: "Alpha Arbitrage Bot",
-    description: "Monitors sub-second price discrepancies across multiple decentralized liquidity pools to capture instant delta-neutral returns.",
-    type: "Arbitrage Execution",
-    status: "active",
-    stats: { profit24h: "+$42.50", winRate: "99.2%", totalTrades: 1208, extra: "Latency: 8ms" },
-  },
-  {
-    id: "momentum",
-    name: "Trend Momentum Bot",
-    description: "Capitalizes on structural trend movements using advanced exponential moving average crossovers and volume breakouts.",
-    type: "Trend Following",
-    status: "active",
-    stats: { profit24h: "+$134.12", winRate: "74.5%", totalTrades: 184, extra: "SMA: 200/50" },
-  },
-  {
-    id: "market_maker",
-    name: "Delta Market Maker Bot",
-    description: "Provides bid-ask spread depth on high-volume trading pairs, continuously adjusting inventory ratios based on order flow.",
-    type: "Spread Provision",
-    status: "paused",
-    stats: { profit24h: "$0.00", winRate: "92.1%", totalTrades: 4210, extra: "Spread: 0.05%" },
-  },
-  {
-    id: "yield",
-    name: "Yield Harvester Bot",
-    description: "Automatically redirects smart contract deposit capital to capture peak compounding yield opportunities across vetted protocols.",
-    type: "Yield Optimization",
-    status: "active",
-    stats: { profit24h: "+$89.40", winRate: "100.0%", totalTrades: 48, extra: "APY: 14.2%" },
-  },
+const LOG_MESSAGES = [
+  "neural models active: scanning cross-venue liquidity...",
+  "BTC order book depth analysis complete: Buy confidence 94.2%.",
+  "ETH gas-optimized entry routing active: Target spread 0.08%.",
+  "SOL volume acceleration identified: increasing weight allocation to 18%.",
+  "Capital preservation check: risk threshold limits holding green.",
+  "Rebalancing transaction completed successfully.",
+  "Yield pool deviation detected: re-routing stable assets to compound vault.",
+  "Scanning institutional derivatives for volatility hedge parameters...",
+  "L1 chain transaction velocity analysis complete.",
+  "Drift rebalancer active: asset target parameters matching baseline model.",
 ];
 
-// ─── Bot Animation Sub-components ──────────────────────────────────────────
+// ─── AI Engine Premium Visualizer ───────────────────────────────────────────
 
-function ArbitrageAnimation({ active }: { active: boolean }) {
-  return (
-    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 flex items-center justify-center relative overflow-hidden">
-      <div className="flex items-center gap-6 z-10">
-        {["USD", "BTC", "ETH"].map((coin, i) => (
-          <div key={coin} className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-[10px] font-bold text-slate-700 shadow-sm">
-              {coin}
-            </div>
-            {i < 2 && (
-              <div className="w-6 h-px bg-slate-200 relative">
-                <motion.div
-                  className="h-1.5 w-1.5 rounded-full bg-amber-500 absolute top-[-2px] left-0"
-                  animate={active ? { left: ["0%", "100%"] } : { left: "0%" }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.4, ease: "linear" }}
-                />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-      {active && (
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-amber-500/[0.02] via-transparent to-amber-500/[0.02]"
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-      )}
-    </div>
-  );
-}
-
-function MomentumAnimation({ active }: { active: boolean }) {
-  return (
-    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 flex items-center justify-center relative overflow-hidden px-4">
-      <svg viewBox="0 0 200 60" className="w-full h-full text-slate-300">
-        <line x1="0" y1="30" x2="200" y2="30" stroke="rgba(0,0,0,0.03)" strokeDasharray="3 3" />
-        <motion.path
-          d="M0,45 Q40,10 80,45 T160,15 T200,30"
-          fill="none"
-          stroke={active ? "#f59e0b" : "#94a3b8"}
-          strokeWidth="2"
-          initial={{ pathLength: 0.8 }}
-          animate={active ? { pathOffset: [0, 1] } : {}}
-          style={{ strokeDasharray: "15, 5" }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.path
-          d="M0,35 Q40,35 80,25 T160,25 T200,20"
-          fill="none"
-          stroke="#cbd5e1"
-          strokeWidth="1"
-          strokeDasharray="4 4"
-        />
-      </svg>
-    </div>
-  );
-}
-
-function MarketMakerAnimation({ active }: { active: boolean }) {
-  const [ticks, setTicks] = useState([
-    { p: 67840, size: 45, type: "bid" },
-    { p: 67839, size: 70, type: "bid" },
-    { p: 67843, size: 30, type: "ask" },
-    { p: 67844, size: 55, type: "ask" },
+function AIEngineAnimation() {
+  const [logs, setLogs] = useState<string[]>([
+    "System boot successful.",
+    "neural models active: scanning cross-venue liquidity...",
+    "BTC order book depth analysis complete: Buy confidence 94.2%.",
   ]);
 
+  const [btcWeight, setBtcWeight] = useState(45);
+  const [ethWeight, setEthWeight] = useState(35);
+  const [solWeight, setSolWeight] = useState(20);
+
+  // Rotate logs
   useEffect(() => {
-    if (!active) return;
-    const int = setInterval(() => {
-      setTicks((prev) =>
-        prev.map((t) => ({
-          ...t,
-          size: Math.max(10, Math.min(95, t.size + (Math.random() - 0.5) * 20)),
-        }))
-      );
-    }, 900);
-    return () => clearInterval(int);
-  }, [active]);
+    const logInterval = setInterval(() => {
+      const randomMsg = LOG_MESSAGES[Math.floor(Math.random() * LOG_MESSAGES.length)];
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      setLogs((prev) => [`[${timestamp}] ${randomMsg}`, ...prev.slice(0, 3)]);
+    }, 4000);
+
+    return () => clearInterval(logInterval);
+  }, []);
+
+  // Fluctuates weights slightly to look active
+  useEffect(() => {
+    const weightInterval = setInterval(() => {
+      setBtcWeight((prev) => Math.max(40, Math.min(50, prev + (Math.random() > 0.5 ? 1 : -1))));
+      setEthWeight((prev) => Math.max(30, Math.min(40, prev + (Math.random() > 0.5 ? 1 : -1))));
+      setSolWeight((prev) => Math.max(15, Math.min(25, prev + (Math.random() > 0.5 ? 1 : -1))));
+    }, 3000);
+
+    return () => clearInterval(weightInterval);
+  }, []);
 
   return (
-    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 p-3 flex flex-col justify-between overflow-hidden">
-      {ticks.map((t, i) => (
-        <div key={i} className="flex items-center justify-between text-[9px] font-mono text-slate-500">
-          <span className={t.type === "bid" ? "text-emerald-600 font-semibold" : "text-rose-600 font-semibold"}>
-            {t.p}
-          </span>
-          <div className="flex-1 mx-3 h-1.5 bg-slate-200/50 rounded-full overflow-hidden relative">
-            <div
-              className={`absolute top-0 bottom-0 rounded-full transition-all duration-700 ${t.type === "bid" ? "bg-emerald-400" : "bg-rose-400"}`}
-              style={{
-                width: active ? `${t.size}%` : "15%",
-                left: t.type === "bid" ? 0 : "auto",
-                right: t.type === "ask" ? 0 : "auto",
-              }}
+    <div className="w-full bg-slate-50/70 rounded-2xl border border-slate-100/80 p-6 sm:p-8 space-y-6 shadow-sm">
+      {/* Visual Scanning Node Network */}
+      <div className="h-44 w-full bg-white rounded-xl border border-slate-100 flex items-center justify-center relative overflow-hidden">
+        <svg viewBox="0 0 300 160" className="w-full h-full text-slate-300">
+          {/* Animated Connecting Lines */}
+          <g stroke="#e2e8f0" strokeWidth="1.5">
+            <motion.line x1="150" y1="80" x2="60" y2="40"
+              animate={{ stroke: ["#e2e8f0", "#f59e0b", "#e2e8f0"] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
             />
-          </div>
-          <span className="tabular-nums">{(t.size / 100).toFixed(2)} BTC</span>
-        </div>
-      ))}
-    </div>
-  );
-}
+            <motion.line x1="150" y1="80" x2="240" y2="45"
+              animate={{ stroke: ["#e2e8f0", "#3b82f6", "#e2e8f0"] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 1 }}
+            />
+            <motion.line x1="150" y1="80" x2="150" y2="135"
+              animate={{ stroke: ["#e2e8f0", "#10b981", "#e2e8f0"] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 0.5 }}
+            />
+          </g>
 
-function YieldAnimation({ active }: { active: boolean }) {
-  return (
-    <div className="h-28 w-full bg-slate-50/60 rounded-xl border border-slate-100 flex items-center justify-center relative overflow-hidden">
-      <div className="relative h-14 w-14">
-        <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
-          <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="3" />
-          <motion.circle
-            cx="18"
-            cy="18"
-            r="16"
-            fill="none"
-            stroke="#f59e0b"
-            strokeWidth="3"
-            strokeDasharray="100"
-            animate={active ? { strokeDashoffset: [100, 0] } : { strokeDashoffset: 65 }}
-            transition={active ? { duration: 5, repeat: Infinity, ease: "linear" } : {}}
+          {/* Central AI Engine Node */}
+          <motion.circle cx="150" cy="80" r="18" fill="#fafafa" stroke="#1e293b" strokeWidth="2"
+            animate={{ scale: [1, 1.08, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
           />
+          <text x="150" y="83" textAnchor="middle" className="text-[9px] font-bold fill-slate-800 tracking-wider font-mono">
+            ATLAS
+          </text>
+
+          {/* Orbiting Asset Nodes */}
+          {/* BTC */}
+          <circle cx="60" cy="40" r="14" fill="#fff" stroke="#f59e0b" strokeWidth="2" />
+          <text x="60" y="43" textAnchor="middle" className="text-[8px] font-bold fill-amber-600 font-mono">BTC</text>
+          
+          {/* ETH */}
+          <circle cx="240" cy="45" r="14" fill="#fff" stroke="#3b82f6" strokeWidth="2" />
+          <text x="240" y="48" textAnchor="middle" className="text-[8px] font-bold fill-blue-600 font-mono">ETH</text>
+
+          {/* SOL */}
+          <circle cx="150" cy="135" r="14" fill="#fff" stroke="#10b981" strokeWidth="2" />
+          <text x="150" y="138" textAnchor="middle" className="text-[8px] font-bold fill-emerald-600 font-mono">SOL</text>
         </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <RefreshCw className={`h-4 w-4 text-amber-500/80 ${active ? "animate-spin" : ""}`} style={{ animationDuration: active ? "3s" : "0s" }} />
+
+        {/* Pulse Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-500/[0.01] to-transparent pointer-events-none" />
+      </div>
+
+      {/* Asset Weights & Confidence Scores */}
+      <div className="space-y-4 bg-white rounded-xl border border-slate-100 p-4 sm:p-5">
+        <div className="text-[12px] font-bold uppercase tracking-wider text-slate-400">
+          Target Asset Selection & Weights
+        </div>
+        <div className="space-y-3">
+          {/* BTC */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-[13px] sm:text-[14px]">
+              <span className="font-semibold text-slate-800">Bitcoin (BTC)</span>
+              <span className="font-mono text-amber-600 font-bold">{btcWeight}% Allocation</span>
+            </div>
+            <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-amber-500 rounded-full"
+                style={{ width: `${btcWeight}%` }}
+                transition={{ type: "spring", stiffness: 50 }}
+              />
+            </div>
+          </div>
+
+          {/* ETH */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-[13px] sm:text-[14px]">
+              <span className="font-semibold text-slate-800">Ethereum (ETH)</span>
+              <span className="font-mono text-blue-600 font-bold">{ethWeight}% Allocation</span>
+            </div>
+            <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-blue-500 rounded-full"
+                style={{ width: `${ethWeight}%` }}
+                transition={{ type: "spring", stiffness: 50 }}
+              />
+            </div>
+          </div>
+
+          {/* SOL */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-[13px] sm:text-[14px]">
+              <span className="font-semibold text-slate-800">Solana (SOL)</span>
+              <span className="font-mono text-emerald-600 font-bold">{solWeight}% Allocation</span>
+            </div>
+            <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-emerald-500 rounded-full"
+                style={{ width: `${solWeight}%` }}
+                transition={{ type: "spring", stiffness: 50 }}
+              />
+            </div>
+          </div>
         </div>
       </div>
-      {active && (
-        <motion.div
-          className="absolute right-4 bottom-2 text-[10px] text-emerald-600 font-medium flex items-center gap-1"
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          Compounding...
-        </motion.div>
-      )}
+
+      {/* Real-time Decision Log */}
+      <div className="bg-slate-900 rounded-xl p-4 sm:p-5 font-mono text-[12px] sm:text-[13px] text-slate-300 space-y-2 border border-slate-800 shadow-inner">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+          <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            Live AI Decisions
+          </span>
+          <span className="text-[11px] text-slate-500 uppercase">Interactive Feed</span>
+        </div>
+        <div className="space-y-1.5 h-28 overflow-hidden flex flex-col justify-start">
+          <AnimatePresence>
+            {logs.map((log, i) => (
+              <motion.div
+                key={log + i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0 }}
+                className="truncate leading-relaxed"
+              >
+                <span className="text-slate-500">&gt;</span> {log}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }
 
-// ─── Contact Form Component ─────────────────────────────────────────────────
+// ─── Support Contact Form ───────────────────────────────────────────────────
 
 function DashboardContactForm() {
   const [form, setForm] = useState<DashForm>(DASH_EMPTY);
@@ -269,10 +256,10 @@ function DashboardContactForm() {
   };
 
   const inputClass = (field: keyof DashForm) =>
-    `w-full rounded-xl border ${errors[field] ? "border-red-400" : "border-border"} bg-background/60 px-4 py-3 text-[14px] text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all duration-200 backdrop-blur-sm`;
+    `w-full rounded-xl border ${errors[field] ? "border-red-400" : "border-border"} bg-background/60 px-4 py-4 text-[16px] text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all duration-200 backdrop-blur-sm`;
 
   return (
-    <section className="relative overflow-hidden py-20 border-t border-border/60">
+    <section className="relative overflow-hidden py-24 border-t border-border/60">
       <div className="mx-auto max-w-3xl px-5 sm:px-6 lg:px-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -281,21 +268,21 @@ function DashboardContactForm() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Header */}
-          <div className="text-center mb-10">
-            <div className="mx-auto mb-4 flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] text-muted-foreground">
+          <div className="text-center mb-12">
+            <div className="mx-auto mb-4 flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-[13px] sm:text-[14px] text-muted-foreground font-semibold">
               <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-              Support
+              Support Desk
             </div>
-            <h2 className="text-[28px] sm:text-[36px] font-medium tracking-[-0.03em] leading-[1.08] text-foreground">
-              Need help with your strategies?
+            <h2 className="text-[32px] sm:text-[44px] font-medium tracking-[-0.03em] leading-[1.08] text-foreground">
+              Speak with our strategy team
             </h2>
-            <p className="mt-3 text-[14px] sm:text-[15px] text-muted-foreground leading-relaxed max-w-md mx-auto">
-              Our investment advisors are available to assist with your automated trading setups.
+            <p className="mt-4 text-[16px] sm:text-[18px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
+              Our trading desks can assist in constructing private allocations, API integrations, and customized rebalancing rules.
             </p>
           </div>
 
           {/* Card */}
-          <div className="rounded-2xl border border-border bg-card/50 backdrop-blur-xl p-6 sm:p-8 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.05)]">
+          <div className="rounded-2xl border border-border bg-card/50 backdrop-blur-xl p-8 sm:p-12 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.05)]">
             <AnimatePresence mode="wait">
               {/* Success */}
               {status === "success" ? (
@@ -304,22 +291,22 @@ function DashboardContactForm() {
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4 }}
-                  className="flex flex-col items-center justify-center gap-4 py-10 text-center"
+                  className="flex flex-col items-center justify-center gap-4 py-12 text-center"
                 >
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
                   >
-                    <CheckCircle className="h-12 w-12 text-foreground" strokeWidth={1.5} />
+                    <CheckCircle className="h-16 w-14 text-foreground" strokeWidth={1.5} />
                   </motion.div>
-                  <h3 className="text-[20px] font-medium tracking-tight text-foreground">Message sent!</h3>
-                  <p className="text-[13px] text-muted-foreground max-w-xs leading-relaxed">
-                    Thank you. A trading strategist will contact you within 2 hours.
+                  <h3 className="text-[24px] font-medium tracking-tight text-foreground">Request received</h3>
+                  <p className="text-[15px] text-muted-foreground max-w-xs leading-relaxed">
+                    An advisor will contact you within 2 hours during active market sessions.
                   </p>
                   <button
                     onClick={() => { setForm(DASH_EMPTY); setStatus("idle"); setErrors({}); setApiError(""); }}
-                    className="mt-2 inline-flex h-9 items-center rounded-full border border-border bg-background px-5 text-[13px] font-medium text-foreground hover:bg-accent transition-colors"
+                    className="mt-4 inline-flex h-11 items-center rounded-full border border-border bg-background px-6 text-[15px] font-medium text-foreground hover:bg-accent transition-colors"
                   >
                     Send another message
                   </button>
@@ -329,37 +316,37 @@ function DashboardContactForm() {
                 <motion.form
                   key="form"
                   onSubmit={handleSubmit}
-                  className="space-y-4"
+                  className="space-y-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   {/* Name */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground mb-2">Name *</label>
+                    <label className="block text-[14px] font-semibold text-foreground uppercase tracking-wide mb-2">Name *</label>
                     <input type="text" placeholder="John Doe" value={form.name} onChange={setF("name")} className={inputClass("name")} />
-                    {errors.name && <p className="mt-1 text-[11px] text-red-500">{errors.name}</p>}
+                    {errors.name && <p className="mt-1.5 text-[12px] text-red-500">{errors.name}</p>}
                   </div>
 
                   {/* Email + Phone */}
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Email address *</label>
+                      <label className="block text-[14px] font-semibold text-foreground uppercase tracking-wide mb-2">Email address *</label>
                       <input type="email" placeholder="you@domain.com" value={form.email} onChange={setF("email")} className={inputClass("email")} />
-                      {errors.email && <p className="mt-1 text-[11px] text-red-500">{errors.email}</p>}
+                      {errors.email && <p className="mt-1.5 text-[12px] text-red-500">{errors.email}</p>}
                     </div>
                     <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Phone number *</label>
+                      <label className="block text-[14px] font-semibold text-foreground uppercase tracking-wide mb-2">Phone number *</label>
                       <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={setF("phone")} className={inputClass("phone")} />
-                      {errors.phone && <p className="mt-1 text-[11px] text-red-500">{errors.phone}</p>}
+                      {errors.phone && <p className="mt-1.5 text-[12px] text-red-500">{errors.phone}</p>}
                     </div>
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground mb-2">Message (optional)</label>
+                    <label className="block text-[14px] font-semibold text-foreground uppercase tracking-wide mb-2">Message (optional)</label>
                     <textarea
                       rows={4}
-                      placeholder="Ask about trading strategies, bot optimization, or portfolio tools..."
+                      placeholder="Specify your target allocation, underlying portfolio values, or technical questions..."
                       value={form.message}
                       onChange={setF("message")}
                       className={`${inputClass("message")} resize-none`}
@@ -368,19 +355,19 @@ function DashboardContactForm() {
 
                   {/* API error */}
                   {apiError && (
-                    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-600">
+                    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[14px] text-red-600">
                       {apiError}
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between gap-4 pt-1">
-                    <p className="text-[11px] text-muted-foreground">Secure & encrypted transmission.</p>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+                    <p className="text-[13px] text-muted-foreground">All metrics and discussions remain strictly confidential.</p>
                     <button
                       type="submit"
                       disabled={status === "loading"}
-                      className="inline-flex h-10 items-center gap-2 rounded-full bg-foreground px-5 text-[13px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60"
+                      className="inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-8 text-[15px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer"
                     >
-                      {status === "loading" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
+                      {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                       {status === "loading" ? "Sending..." : "Send message"}
                     </button>
                   </div>
@@ -399,19 +386,6 @@ function DashboardContactForm() {
 export default function DashboardPage() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [bots, setBots] = useState<BotData[]>(INITIAL_BOTS);
-
-  const toggleBot = (id: string) => {
-    setBots((prev) =>
-      prev.map((b) =>
-        b.id === id
-          ? { ...b, status: b.status === "active" ? "paused" : "active" }
-          : b
-      )
-    );
-  };
-
-  const activeBotsCount = bots.filter((b) => b.status === "active").length;
 
   return (
     <div className="min-h-screen bg-background text-foreground font-['Inter_Tight',sans-serif] antialiased selection:bg-foreground selection:text-background relative">
@@ -434,21 +408,14 @@ export default function DashboardPage() {
           {/* Logo */}
           <a
             href="/"
-            className="flex shrink-0 items-center gap-2 text-[15px] font-medium tracking-tight cursor-pointer"
+            className="flex shrink-0 items-center gap-2 text-[16px] font-medium tracking-tight cursor-pointer"
           >
             <Logo className="h-5 w-5 text-foreground" />
             <span>AtlasLedger</span>
           </a>
 
           {/* Navigation Links */}
-          <nav className="flex items-center gap-7 text-[14px] text-muted-foreground">
-            <a
-              href="/"
-              className="hover:text-foreground transition-colors flex items-center gap-1.5 font-medium"
-            >
-              <Home className="h-4 w-4" />
-              Home
-            </a>
+          <nav className="flex items-center gap-7 text-[15px] text-muted-foreground">
             <button
               onClick={() => {
                 logout();
@@ -456,7 +423,7 @@ export default function DashboardPage() {
               }}
               className="hover:text-foreground transition-colors flex items-center gap-1.5 font-medium focus:outline-none cursor-pointer"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-4.5 w-4.5" />
               Logout
             </button>
           </nav>
@@ -464,7 +431,7 @@ export default function DashboardPage() {
       </motion.header>
 
       {/* ── Main Content ───────────────────────────────────────────── */}
-      <main className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-12 space-y-12">
+      <main className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-20 space-y-20">
         
         {/* Welcome Section */}
         <motion.section
@@ -473,169 +440,112 @@ export default function DashboardPage() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="relative"
         >
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] text-muted-foreground">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-[13px] sm:text-[14px] text-muted-foreground font-semibold">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              System Status Online
+              Authorized Vault Workspace
             </div>
-            <h1 className="mt-5 text-[32px] sm:text-[44px] font-medium tracking-[-0.03em] leading-[1.08] text-foreground">
+            <h1 className="mt-6 text-[42px] sm:text-[56px] lg:text-[68px] font-medium tracking-[-0.035em] leading-[1.08] text-foreground">
               Hello, {user?.firstName || "Investor"}.
             </h1>
-            <p className="mt-3 text-[15px] sm:text-[17px] text-muted-foreground leading-relaxed">
-              Welcome to your automated trading workspace. Currently, you have{" "}
-              <span className="font-semibold text-foreground">{activeBotsCount} of {bots.length} trading bots</span> running simulations on active crypto market parameters.
+            <p className="mt-6 text-[19px] sm:text-[21px] lg:text-[23px] text-muted-foreground leading-relaxed max-w-4xl">
+              Welcome to the AtlasLedger institutional platform. We help you invest in the right cryptocurrency opportunities by leveraging our state-of-the-art **Atlas AI-Quantum Engine**. Our automated systems evaluate volume triggers, price spreads, and structural trend indicators in real time to optimize entry, custody allocations, and asset weights.
             </p>
           </div>
         </motion.section>
 
-        {/* ── Demo Bots Section ──────────────────────────────────────── */}
+        {/* ── Bots Showcase List (Descriptive Focus) ─────────────────── */}
         <section className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-5">
-            <div>
-              <h2 className="text-[20px] font-medium tracking-tight">Active Algorithmic Bots</h2>
-              <p className="text-[13px] text-muted-foreground mt-0.5">Control and inspect real-time demo bot strategies.</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5 text-[12px] bg-slate-100 rounded-full px-3 py-1 font-medium text-slate-600">
-                <Activity className="h-3.5 w-3.5" />
-                Live Simulations
-              </div>
-            </div>
+          <div className="border-b border-border/60 pb-6 mb-12">
+            <h2 className="text-[28px] sm:text-[34px] font-medium tracking-tight text-slate-900">
+              AI-Powered Crypto Investment Strategy
+            </h2>
+            <p className="text-[16px] sm:text-[18px] text-muted-foreground mt-2 leading-relaxed">
+              Understand how our proprietary automation platform secures and optimizes your digital asset exposure.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {bots.map((bot, idx) => {
-              const isActive = bot.status === "active";
-              return (
-                <motion.div
-                  key={bot.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="rounded-2xl border border-border bg-card/50 backdrop-blur-sm p-6 shadow-sm flex flex-col justify-between hover:border-slate-300 transition-all duration-300 relative overflow-hidden group"
-                >
-                  <div className="space-y-4">
-                    {/* Header */}
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/40">
-                          {bot.type}
-                        </span>
-                        <h3 className="text-[18px] font-semibold text-foreground pt-1.5">{bot.name}</h3>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className={`h-2 w-2 rounded-full ${isActive ? "bg-emerald-500" : "bg-slate-300"}`} />
-                        <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
-                          {bot.status}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-[13px] text-muted-foreground leading-relaxed h-12 overflow-hidden text-ellipsis">
-                      {bot.description}
-                    </p>
-
-                    {/* Visual Animation Container */}
-                    <div className="pt-2">
-                      {bot.id === "arbitrage" && <ArbitrageAnimation active={isActive} />}
-                      {bot.id === "momentum" && <MomentumAnimation active={isActive} />}
-                      {bot.id === "market_maker" && <MarketMakerAnimation active={isActive} />}
-                      {bot.id === "yield" && <YieldAnimation active={isActive} />}
-                    </div>
-
-                    {/* Stats Rows */}
-                    <div className="grid grid-cols-3 gap-2 py-4 border-t border-b border-border/40 text-[12px] bg-slate-50/40 rounded-xl px-3">
-                      <div>
-                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground">24H Profit</div>
-                        <div className={`font-semibold mt-0.5 tabular-nums ${isActive ? "text-emerald-600" : "text-slate-400"}`}>
-                          {bot.stats.profit24h}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Win Rate</div>
-                        <div className="font-semibold text-slate-800 mt-0.5 tabular-nums">
-                          {bot.stats.winRate}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Total Trades</div>
-                        <div className="font-semibold text-slate-800 mt-0.5 tabular-nums">
-                          {bot.stats.totalTrades}
-                        </div>
-                      </div>
-                    </div>
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center py-6">
+            {/* Text Specifications */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200/30">
+                <Brain className="h-4 w-4" />
+                Active Quantitative Engine
+              </div>
+              <h3 className="text-[32px] sm:text-[38px] font-semibold text-foreground tracking-tight leading-tight">
+                The Atlas AI-Quantum Engine
+              </h3>
+              <p className="text-[17px] sm:text-[19px] text-muted-foreground leading-relaxed">
+                Rather than relying on speculative advice or manual execution, AtlasLedger deploys a unified neural network model to navigate liquid cryptocurrency markets. The AI bot continuously tracks price volatility, trade imbalances, and developer activity metrics to allocate funds toward the absolute highest quality assets (BTC, ETH, and select blue-chip protocols).
+              </p>
+              
+              <div className="space-y-4 pt-4 border-t border-border/40">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center">
+                    <TrendingUp className="h-3.5 w-3.5 text-emerald-600" />
                   </div>
-
-                  {/* Actions & controls */}
-                  <div className="flex items-center justify-between mt-5 pt-3 border-t border-border/40">
-                    <span className="text-[11px] text-muted-foreground font-mono">{bot.stats.extra}</span>
-                    <button
-                      onClick={() => toggleBot(bot.id)}
-                      className={`inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-[12px] font-medium border transition-colors cursor-pointer focus:outline-none ${
-                        isActive
-                          ? "bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100"
-                          : "bg-emerald-50 border-emerald-200 text-emerald-600 hover:bg-emerald-100"
-                      }`}
-                    >
-                      {isActive ? (
-                        <>
-                          <Pause className="h-3.5 w-3.5 fill-current" />
-                          Pause Bot
-                        </>
-                      ) : (
-                        <>
-                          <Play className="h-3.5 w-3.5 fill-current" />
-                          Start Bot
-                        </>
-                      )}
-                    </button>
+                  <div>
+                    <h4 className="text-[16px] font-bold text-slate-800">Target Selection</h4>
+                    <p className="text-[14px] sm:text-[15px] text-muted-foreground mt-0.5">Scans institutional spreads, network health, and velocity to allocate only to verified tokens with strong fundamental tailwinds.</p>
                   </div>
-                </motion.div>
-              );
-            })}
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-amber-50 flex items-center justify-center">
+                    <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-[16px] font-bold text-slate-800">Risk Allocation</h4>
+                    <p className="text-[14px] sm:text-[15px] text-muted-foreground mt-0.5">Executes delta-neutral hedging and stop-drift rebalancing to defend capital from sudden drawdowns and market slippage.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Activity className="h-3.5 w-3.5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-[16px] font-bold text-slate-800">Yield Compounding</h4>
+                    <p className="text-[14px] sm:text-[15px] text-muted-foreground mt-0.5">Routes stable pool allocations to capital-efficient liquid staking hubs to capture high yields automatically.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats Row */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-border/40">
+                <div>
+                  <div className="text-[12px] uppercase tracking-wider text-muted-foreground font-semibold">Primary Target</div>
+                  <div className="text-[17px] sm:text-[19px] font-bold text-slate-800 mt-1">BTC & ETH Outperformance</div>
+                </div>
+                <div>
+                  <div className="text-[12px] uppercase tracking-wider text-muted-foreground font-semibold">Risk Rating</div>
+                  <div className="text-[17px] sm:text-[19px] font-bold text-slate-800 mt-1">Low / Hedged</div>
+                </div>
+                <div>
+                  <div className="text-[12px] uppercase tracking-wider text-muted-foreground font-semibold">AI Scan Speed</div>
+                  <div className="text-[17px] sm:text-[19px] font-bold text-slate-800 mt-1">&lt;12ms latency</div>
+                </div>
+                <div>
+                  <div className="text-[12px] uppercase tracking-wider text-muted-foreground font-semibold">Execution Spec</div>
+                  <div className="text-[17px] sm:text-[19px] font-bold text-slate-800 mt-1">Auto-rebalance</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Simulation Animation Widget */}
+            <div className="lg:col-span-5 self-start">
+              <AIEngineAnimation />
+            </div>
           </div>
         </section>
-
-        {/* ── Crypto Investment Highlights ───────────────────────────── */}
-        <motion.section
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="rounded-2xl border border-border bg-card p-6 sm:p-8 relative overflow-hidden"
-        >
-          <div className="absolute top-0 right-0 h-48 w-48 rounded-full bg-amber-500/[0.01] blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-          
-          <div className="text-center max-w-xl mx-auto mb-8">
-            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">Investment Infrastructure</div>
-            <h2 className="text-[22px] font-medium text-foreground">Next-generation quantitative vaults</h2>
-            <p className="text-[13px] text-muted-foreground mt-2 leading-relaxed">
-              AtlasLedger connects multi-venue liquidity channels directly to localized processing instances, allowing you to configure, audit, and simulate complex algorithmic models.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              { icon: <Cpu className="h-5 w-5 text-amber-500" />, title: "Quant Engine", desc: "Process real-time order matching with zero slippage during demo environments." },
-              { icon: <Zap className="h-5 w-5 text-amber-500" />, title: "Arbitrage Execution", desc: "Scan cross-venue price spreads to leverage instant decentralized exchange margins." },
-              { icon: <Bot className="h-5 w-5 text-amber-500" />, title: "Automated Triggers", desc: "Deploy rules to rebalance currency weighting dynamically when threshold drifts exceed 1.5%." },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center text-center p-4 rounded-xl border border-border/40 bg-slate-50/20">
-                <div className="mb-3">{item.icon}</div>
-                <h3 className="text-[14px] font-semibold text-foreground">{item.title}</h3>
-                <p className="text-[12px] text-muted-foreground mt-1.5 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </motion.section>
 
         {/* ── Contact Form ───────────────────────────────────────────── */}
         <DashboardContactForm />
       </main>
 
       {/* ── Footer ─────────────────────────────────────────────────── */}
-      <footer className="border-t border-border py-6 mt-8 relative">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-muted-foreground">
+      <footer className="border-t border-border py-8 mt-12 relative">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[14px] text-muted-foreground">
           <div>© {new Date().getFullYear()} AtlasLedger · All rights reserved.</div>
           <div className="flex items-center gap-5">
             <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
