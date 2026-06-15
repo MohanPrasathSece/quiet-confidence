@@ -1,14 +1,24 @@
 export function Footer() {
+  const scrollTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
   return (
     <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16 grid grid-cols-2 md:grid-cols-5 gap-10 text-[13px]">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-14 sm:py-16 grid grid-cols-2 md:grid-cols-5 gap-8 sm:gap-10 text-[13px]">
         <div className="col-span-2">
-          <div className="flex items-center gap-2 text-[15px] font-medium tracking-tight">
+          <button
+            type="button"
+            onClick={scrollTop}
+            aria-label="Back to top"
+            className="flex items-center gap-2 text-[15px] font-medium tracking-tight"
+          >
             <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">
-              V
+              C
             </span>
-            <span>Vault</span>
-          </div>
+            <span>Coffre</span>
+          </button>
           <p className="mt-4 max-w-xs text-muted-foreground leading-relaxed">
             Crypto infrastructure for the next generation of finance.
           </p>
@@ -31,8 +41,8 @@ export function Footer() {
         ))}
       </div>
       <div className="border-t border-border">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-muted-foreground">
-          <div>© {new Date().getFullYear()} Vault Inc. All rights reserved.</div>
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-muted-foreground">
+          <div>© {new Date().getFullYear()} Coffre · Paris. All rights reserved.</div>
           <div className="flex items-center gap-5">
             <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
             <a href="#" className="hover:text-foreground transition-colors">Terms</a>
