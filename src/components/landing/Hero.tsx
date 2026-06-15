@@ -24,7 +24,7 @@ export function Hero({ onPrimary }: { onPrimary: () => void }) {
         <Reveal delay={0.05} y={8}>
           <div className="mx-auto flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] sm:text-[12px] text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-            Coffre 2.0 — Now in general availability
+            AtlasLedger 2.0 — Now in general availability
           </div>
         </Reveal>
 

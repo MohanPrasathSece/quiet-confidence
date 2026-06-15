@@ -25,7 +25,7 @@ const BASE = "/api/auth";
 
 // ─── Token storage ──────────────────────────────────────────────────
 
-const TOKEN_KEY = "coffre_token";
+const TOKEN_KEY = "atlasledger_token";
 
 export function saveToken(token: string) {
   localStorage.setItem(TOKEN_KEY, token);

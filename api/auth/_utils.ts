@@ -10,7 +10,7 @@ import { SignJWT, jwtVerify } from "jose";
 // ─── JWT ───────────────────────────────────────────────────────────
 
 const getSecret = () =>
-  new TextEncoder().encode(process.env.JWT_SECRET || "coffre-dev-secret-change-me-in-prod");
+  new TextEncoder().encode(process.env.JWT_SECRET || "atlasledger-dev-secret-change-me-in-prod");
 
 export async function signToken(payload: Record<string, string>): Promise<string> {
   return new SignJWT(payload)
@@ -51,7 +51,7 @@ export function verifyPassword(password: string, salt: string, hash: string): bo
 /** Deterministic blob path for a given email (base64-url encoded) */
 export function userBlobKey(email: string): string {
   const encoded = Buffer.from(email.trim().toLowerCase()).toString("base64url");
-  return `coffre/users/${encoded}.json`;
+  return `atlasledger/users/${encoded}.json`;
 }
 
 // ─── ID generation ─────────────────────────────────────────────────

@@ -15,9 +15,9 @@ export function Footer() {
             className="flex items-center gap-2 text-[15px] font-medium tracking-tight"
           >
             <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">
-              C
+              A
             </span>
-            <span>Coffre</span>
+            <span>AtlasLedger</span>
           </button>
           <p className="mt-4 max-w-xs text-muted-foreground leading-relaxed">
             Crypto infrastructure for the next generation of finance.
@@ -42,7 +42,7 @@ export function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-muted-foreground">
-          <div>© {new Date().getFullYear()} Coffre · Paris. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} AtlasLedger · Paris. All rights reserved.</div>
           <div className="flex items-center gap-5">
             <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
             <a href="#" className="hover:text-foreground transition-colors">Terms</a>

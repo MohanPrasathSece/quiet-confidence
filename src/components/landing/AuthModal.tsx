@@ -182,7 +182,7 @@ export function AuthModal({
           {/* Dialog */}
           <motion.div
             role="dialog" aria-modal="true"
-            aria-label={mode === "signin" ? "Sign in to Coffre" : "Create your Coffre account"}
+            aria-label={mode === "signin" ? "Sign in to AtlasLedger" : "Create your AtlasLedger account"}
             initial={{ opacity: 0, y: 12, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
@@ -192,8 +192,8 @@ export function AuthModal({
             {/* Header */}
             <div className="flex items-center justify-between px-6 pt-6">
               <div className="flex items-center gap-2 text-[14px] font-medium tracking-tight">
-                <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">C</span>
-                Coffre
+                <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">A</span>
+                AtlasLedger
               </div>
               <button onClick={onClose} aria-label="Close"
                 className="grid h-8 w-8 place-items-center rounded-full text-muted-foreground hover:bg-accent hover:text-foreground transition-colors">
@@ -210,7 +210,7 @@ export function AuthModal({
               </h2>
               <p className="mt-2 text-[14px] text-muted-foreground">
                 {mode === "signin"
-                  ? "Sign in to your Coffre workspace."
+                  ? "Sign in to your AtlasLedger workspace."
                   : "Join thousands of investors growing their crypto portfolio."}
               </p>
             </div>
@@ -293,7 +293,7 @@ export function AuthModal({
             {submitStatus !== "success" && (
               <div className="border-t border-border bg-card/40 px-6 py-4 text-center text-[13px] text-muted-foreground rounded-b-2xl">
                 {mode === "signin" ? (
-                  <>New to Coffre?{" "}<button onClick={() => setMode("signup")} className="text-foreground hover:underline">Create an account</button></>
+                  <>New to AtlasLedger?{" "}<button onClick={() => setMode("signup")} className="text-foreground hover:underline">Create an account</button></>
                 ) : (
                   <>Already have an account?{" "}<button onClick={() => setMode("signin")} className="text-foreground hover:underline">Sign in</button></>
                 )}

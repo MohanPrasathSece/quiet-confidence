@@ -400,8 +400,8 @@ export default function DashboardPage() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-10">
           {/* Logo */}
           <div className="flex items-center gap-2.5">
-            <span className="grid h-7 w-7 place-items-center rounded-[7px] border border-amber-400/30 bg-amber-400/10 text-amber-400 text-[12px] font-bold">C</span>
-            <span className="text-[15px] font-medium tracking-tight">Coffre</span>
+            <span className="grid h-7 w-7 place-items-center rounded-[7px] border border-amber-400/30 bg-amber-400/10 text-amber-400 text-[12px] font-bold">A</span>
+            <span className="text-[15px] font-medium tracking-tight">AtlasLedger</span>
             <span className="ml-1 rounded-full bg-amber-400/10 px-2 py-0.5 text-[10px] font-medium text-amber-400 uppercase tracking-wider">Pro</span>
           </div>
 
@@ -755,7 +755,7 @@ export default function DashboardPage() {
       {/* Footer */}
       <footer className="border-t border-white/[0.06] py-6 mt-4">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-white/25">
-          <div>© {new Date().getFullYear()} Coffre · All rights reserved.</div>
+          <div>© {new Date().getFullYear()} AtlasLedger · All rights reserved.</div>
           <div className="flex items-center gap-5">
             <a href="#" className="hover:text-white/60 transition-colors">Privacy</a>
             <a href="#" className="hover:text-white/60 transition-colors">Terms</a>

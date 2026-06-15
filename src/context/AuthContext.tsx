@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .then((me) => {
         if (me) {
           setUser(me);
-          setToken(localStorage.getItem("coffre_token"));
+          setToken(localStorage.getItem("atlasledger_token"));
         }
       })
       .catch(() => {})

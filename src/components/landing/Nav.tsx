@@ -27,9 +27,9 @@ export function Nav({
           className="flex shrink-0 items-center gap-2 text-[15px] font-medium tracking-tight cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 rounded-md"
         >
           <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">
-            C
+            A
           </span>
-          <span>Coffre</span>
+          <span>AtlasLedger</span>
         </button>
         <nav className="hidden md:flex items-center gap-7 lg:gap-9 text-[14px] text-muted-foreground">
           <a href="#platform" className="hover:text-foreground transition-colors">Platform</a>
