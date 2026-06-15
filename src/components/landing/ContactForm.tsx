@@ -200,7 +200,7 @@ export function ContactForm() {
                     <button
                       type="submit"
                       disabled={status === "loading"}
-                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60"
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60 whitespace-nowrap shrink-0"
                     >
                       {status === "loading" ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -215,19 +215,7 @@ export function ContactForm() {
             </AnimatePresence>
           </div>
 
-          {/* Info strip */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-            {[
-              { label: "Response time", value: "< 24 hours" },
-              { label: "Support", value: "24 / 7 available" },
-              { label: "Global offices", value: "Paris · Singapore · NYC" },
-            ].map((item) => (
-              <div key={item.label} className="space-y-1">
-                <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{item.label}</div>
-                <div className="text-[14px] font-medium">{item.value}</div>
-              </div>
-            ))}
-          </div>
+
         </motion.div>
       </div>
     </section>

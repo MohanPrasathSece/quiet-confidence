@@ -150,7 +150,7 @@ function MacBookCandleMockup() {
           <div className="h-3 w-3 rounded-full bg-[#27C93F]" />
         </div>
         <div className="flex-1 text-center">
-          <div className="mx-auto max-w-xs bg-slate-100/80 border border-slate-200/50 rounded text-[11px] text-muted-foreground/80 py-0.5 px-2 font-mono truncate">
+          <div className="mx-auto max-w-xs bg-slate-100/80 border border-slate-200/50 rounded text-xs text-muted-foreground/80 py-0.5 px-2 font-mono truncate">
             atlasledger.ai/terminal/live-market
           </div>
         </div>
@@ -162,13 +162,13 @@ function MacBookCandleMockup() {
         <div className="flex items-center justify-between border-b border-slate-900 pb-3">
           <div className="flex items-center gap-2.5">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[13px] font-bold text-slate-100 tracking-wider">BTC / USD LIVE</span>
+            <span className="text-xs font-bold text-slate-100 tracking-wider">BTC / USD LIVE</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className={`text-[17px] sm:text-[19px] font-bold tracking-tight ${isUp ? "text-emerald-400" : "text-rose-400"}`}>
+            <span className={`text-lg sm:text-xl font-bold tracking-tight ${isUp ? "text-emerald-400" : "text-rose-400"}`}>
               ${livePrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}
             </span>
-            <span className={`text-[11px] sm:text-[12px] font-semibold ${isUp ? "text-emerald-500" : "text-rose-500"}`}>
+            <span className={`text-xs font-semibold ${isUp ? "text-emerald-500" : "text-rose-500"}`}>
               {isUp ? "▲" : "▼"} 1.48%
             </span>
           </div>
@@ -184,16 +184,16 @@ function MacBookCandleMockup() {
             <line x1="0" y1="190" x2="580" y2="190" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
 
             {/* Grid Price Labels on right */}
-            <text x="590" y="44" className="text-[9px] fill-slate-600 font-sans">
+            <text x="590" y="44" className="text-xs fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.1).toFixed(0)}
             </text>
-            <text x="590" y="94" className="text-[9px] fill-slate-600 font-sans">
+            <text x="590" y="94" className="text-xs fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.35).toFixed(0)}
             </text>
-            <text x="590" y="144" className="text-[9px] fill-slate-600 font-sans">
+            <text x="590" y="144" className="text-xs fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.6).toFixed(0)}
             </text>
-            <text x="590" y="194" className="text-[9px] fill-slate-600 font-sans">
+            <text x="590" y="194" className="text-xs fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.85).toFixed(0)}
             </text>
 
@@ -244,17 +244,17 @@ function MacBookCandleMockup() {
         </div>
 
         {/* Info stats bar */}
-        <div className="grid grid-cols-3 gap-2 text-[10px] sm:text-[11px] text-slate-500 pt-3 border-t border-slate-900">
+        <div className="grid grid-cols-3 gap-2 text-xs text-slate-500 pt-3 border-t border-slate-900">
           <div>
-            <span className="block uppercase text-[8px] sm:text-[9px] tracking-wider">24H High</span>
+            <span className="block uppercase text-xs tracking-wider">24H High</span>
             <span className="font-semibold text-slate-300">$68,140.25</span>
           </div>
           <div>
-            <span className="block uppercase text-[8px] sm:text-[9px] tracking-wider">24H Low</span>
+            <span className="block uppercase text-xs tracking-wider">24H Low</span>
             <span className="font-semibold text-slate-300">$66,950.00</span>
           </div>
           <div>
-            <span className="block uppercase text-[8px] sm:text-[9px] tracking-wider">AI Confidence</span>
+            <span className="block uppercase text-xs tracking-wider">AI Confidence</span>
             <span className="font-semibold text-emerald-400">94.2% BUY</span>
           </div>
         </div>
@@ -348,13 +348,13 @@ function AIEngineAnimation() {
 
       {/* Asset Weights & Confidence Scores */}
       <div className="space-y-3 bg-white rounded-xl border border-slate-100 p-4">
-        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+        <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
           Target Asset Weights
         </div>
         <div className="space-y-2.5">
           {/* BTC */}
           <div className="space-y-0.5">
-            <div className="flex justify-between text-[12px] sm:text-[13px]">
+            <div className="flex justify-between text-base">
               <span className="font-semibold text-slate-700">Bitcoin (BTC)</span>
               <span className="font-mono text-amber-600 font-bold">{btcWeight}%</span>
             </div>
@@ -369,7 +369,7 @@ function AIEngineAnimation() {
 
           {/* ETH */}
           <div className="space-y-0.5">
-            <div className="flex justify-between text-[12px] sm:text-[13px]">
+            <div className="flex justify-between text-base">
               <span className="font-semibold text-slate-700">Ethereum (ETH)</span>
               <span className="font-mono text-blue-600 font-bold">{ethWeight}%</span>
             </div>
@@ -384,7 +384,7 @@ function AIEngineAnimation() {
 
           {/* SOL */}
           <div className="space-y-0.5">
-            <div className="flex justify-between text-[12px] sm:text-[13px]">
+            <div className="flex justify-between text-base">
               <span className="font-semibold text-slate-700">Solana (SOL)</span>
               <span className="font-mono text-emerald-600 font-bold">{solWeight}%</span>
             </div>
@@ -400,9 +400,9 @@ function AIEngineAnimation() {
       </div>
 
       {/* Real-time Decision Log */}
-      <div className="bg-slate-900 rounded-xl p-4 font-mono text-[11px] sm:text-[12px] text-slate-300 space-y-1.5 border border-slate-800 shadow-inner">
+      <div className="bg-slate-900 rounded-xl p-4 font-mono text-base text-slate-300 space-y-1.5 border border-slate-800 shadow-inner">
         <div className="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-1.5">
-          <span className="text-emerald-400 font-semibold flex items-center gap-1.5 text-[10px] uppercase tracking-wider">
+          <span className="text-emerald-400 font-semibold flex items-center gap-1.5 text-xs uppercase tracking-wider">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             AI Logs
           </span>
@@ -469,128 +469,119 @@ function DashboardContactForm() {
   };
 
   const inputClass = (field: keyof DashForm) =>
-    `w-full rounded-xl border ${errors[field] ? "border-red-400" : "border-border"} bg-background/60 px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all duration-200 backdrop-blur-sm`;
+    `w-full rounded-xl border ${errors[field] ? "border-red-400" : "border-border"} bg-background/60 px-4 py-3.5 text-base text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all duration-200 backdrop-blur-sm`;
 
   return (
-    <section className="relative overflow-hidden py-20 border-t border-border/60">
-      <div className="mx-auto max-w-3xl px-5 sm:px-6 lg:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {/* Header */}
-          <div className="text-center mb-10">
-            <div className="mx-auto mb-3 flex w-fit items-center gap-1.5 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] text-muted-foreground font-semibold">
-              <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-              Support Desk
-            </div>
-            <h2 className="text-[28px] sm:text-[36px] font-medium tracking-[-0.02em] leading-[1.1] text-foreground">
-              Speak with our strategy team
-            </h2>
-            <p className="mt-3 text-[14px] sm:text-[15px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
-              Our trading desks can assist in constructing private allocations, API integrations, and customized rebalancing rules.
-            </p>
-          </div>
-
-          {/* Card */}
-          <div className="rounded-2xl border border-border bg-card/50 backdrop-blur-xl p-6 sm:p-10 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.05)]">
-            <AnimatePresence mode="wait">
-              {/* Success */}
-              {status === "success" ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4 }}
-                  className="flex flex-col items-center justify-center gap-3 py-10 text-center"
-                >
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-                  >
-                    <CheckCircle className="h-12 w-12 text-foreground" strokeWidth={1.5} />
-                  </motion.div>
-                  <h3 className="text-[20px] font-medium tracking-tight text-foreground">Request received</h3>
-                  <p className="text-[13px] sm:text-[14px] text-muted-foreground max-w-xs leading-relaxed">
-                    An advisor will contact you within 2 hours during active market sessions.
-                  </p>
-                  <button
-                    onClick={() => { setForm(DASH_EMPTY); setStatus("idle"); setErrors({}); setApiError(""); }}
-                    className="mt-3 inline-flex h-10 items-center rounded-full border border-border bg-background px-5 text-[13px] sm:text-[14px] font-medium text-foreground hover:bg-accent transition-colors"
-                  >
-                    Send another message
-                  </button>
-                </motion.div>
-              ) : (
-                /* Form */
-                <motion.form
-                  key="form"
-                  onSubmit={handleSubmit}
-                  className="space-y-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  {/* Name */}
-                  <div>
-                    <label className="block text-[12px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Name *</label>
-                    <input type="text" placeholder="John Doe" value={form.name} onChange={setF("name")} className={inputClass("name")} />
-                    {errors.name && <p className="mt-1 text-[11px] text-red-500">{errors.name}</p>}
-                  </div>
-
-                  {/* Email + Phone */}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[12px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Email address *</label>
-                      <input type="email" placeholder="you@domain.com" value={form.email} onChange={setF("email")} className={inputClass("email")} />
-                      {errors.email && <p className="mt-1 text-[11px] text-red-500">{errors.email}</p>}
-                    </div>
-                    <div>
-                      <label className="block text-[12px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Phone number *</label>
-                      <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={setF("phone")} className={inputClass("phone")} />
-                      {errors.phone && <p className="mt-1 text-[11px] text-red-500">{errors.phone}</p>}
-                    </div>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label className="block text-[12px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Message (optional)</label>
-                    <textarea
-                      rows={4}
-                      placeholder="Specify your target allocation, underlying portfolio values, or technical questions..."
-                      value={form.message}
-                      onChange={setF("message")}
-                      className={`${inputClass("message")} resize-none`}
-                    />
-                  </div>
-
-                  {/* API error */}
-                  {apiError && (
-                    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-600">
-                      {apiError}
-                    </div>
-                  )}
-
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-1">
-                    <p className="text-[11px] sm:text-[12px] text-muted-foreground font-mono">All metrics and discussions remain strictly confidential.</p>
-                    <button
-                      type="submit"
-                      disabled={status === "loading"}
-                      className="inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-6 text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer"
-                    >
-                      {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                      {status === "loading" ? "Sending..." : "Send message"}
-                    </button>
-                  </div>
-                </motion.form>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
+    <div className="mx-auto max-w-3xl pt-8">
+      {/* Header */}
+      <div className="text-center mb-10">
+        <div className="mx-auto mb-3 flex w-fit items-center gap-1.5 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground font-semibold">
+          <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
+          Support Desk
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
+          Speak with our strategy team
+        </h2>
+        <p className="mt-3 text-base text-muted-foreground leading-relaxed max-w-lg mx-auto">
+          Our trading desks can assist in constructing private allocations, API integrations, and customized rebalancing rules.
+        </p>
       </div>
-    </section>
+
+      {/* Card */}
+      <div className="rounded-2xl border border-border bg-card/50 backdrop-blur-xl p-6 sm:p-10 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.05)]">
+        <AnimatePresence mode="wait">
+          {/* Success */}
+          {status === "success" ? (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="flex flex-col items-center justify-center gap-3 py-10 text-center"
+            >
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+              >
+                <CheckCircle className="h-12 w-12 text-foreground" strokeWidth={1.5} />
+              </motion.div>
+              <h3 className="text-xl font-medium tracking-tight text-foreground">Request received</h3>
+              <p className="text-base text-muted-foreground max-w-xs leading-relaxed">
+                An advisor will contact you within 2 hours during active market sessions.
+              </p>
+              <button
+                onClick={() => { setForm(DASH_EMPTY); setStatus("idle"); setErrors({}); setApiError(""); }}
+                className="mt-3 inline-flex h-10 items-center rounded-full border border-border bg-background px-5 text-base font-medium text-foreground hover:bg-accent transition-colors"
+              >
+                Send another message
+              </button>
+            </motion.div>
+          ) : (
+            /* Form */
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit}
+              className="space-y-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {/* Name */}
+              <div>
+                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Name *</label>
+                <input type="text" placeholder="John Doe" value={form.name} onChange={setF("name")} className={inputClass("name")} />
+                {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+              </div>
+
+              {/* Email + Phone */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Email address *</label>
+                  <input type="email" placeholder="you@domain.com" value={form.email} onChange={setF("email")} className={inputClass("email")} />
+                  {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Phone number *</label>
+                  <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={setF("phone")} className={inputClass("phone")} />
+                  {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
+                </div>
+              </div>
+
+              {/* Message */}
+              <div>
+                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Message (optional)</label>
+                <textarea
+                  rows={4}
+                  placeholder="Specify your target allocation, underlying portfolio values, or technical questions..."
+                  value={form.message}
+                  onChange={setF("message")}
+                  className={`${inputClass("message")} resize-none`}
+                />
+              </div>
+
+              {/* API error */}
+              {apiError && (
+                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-base text-red-600">
+                  {apiError}
+                </div>
+              )}
+
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-1">
+                <p className="text-base text-muted-foreground font-mono">All metrics and discussions remain strictly confidential.</p>
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-base font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer whitespace-nowrap shrink-0"
+                >
+                  {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                  {status === "loading" ? "Sending..." : "Send message"}
+                </button>
+              </div>
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
@@ -628,14 +619,14 @@ export default function DashboardPage() {
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="flex shrink-0 items-center gap-2 text-[15px] font-medium tracking-tight cursor-pointer focus:outline-none"
+            className="flex shrink-0 items-center gap-2 text-base font-medium tracking-tight cursor-pointer focus:outline-none"
           >
             <Logo className="h-5 w-5 text-foreground" />
             <span>AtlasLedger</span>
           </button>
 
           {/* Navigation Links */}
-          <nav className="flex items-center gap-7 text-[14px] text-muted-foreground">
+          <nav className="flex items-center gap-7 text-base text-muted-foreground">
             <button
               onClick={() => {
                 logout();
@@ -650,106 +641,111 @@ export default function DashboardPage() {
         </div>
       </motion.header>
 
-      {/* ── Main Content ───────────────────────────────────────────── */}
-      <main className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-12 space-y-16">
+      {/* ── Main Content (Generous vertical space: space-y-28 sm:space-y-32, py-20 sm:py-24) ── */}
+      <main className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-20 sm:py-24 space-y-28 sm:space-y-32">
         
         {/* Welcome Section */}
         <motion.section
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
           className="relative"
         >
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-3.5 py-1 text-[11px] sm:text-[12px] text-muted-foreground font-semibold">
+          <div className="max-w-4xl space-y-6">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-3.5 py-1 text-xs text-muted-foreground font-semibold">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Authorized Vault Workspace
             </div>
-            <h1 className="mt-4 text-[32px] sm:text-[40px] lg:text-[48px] font-medium tracking-[-0.03em] leading-[1.1] text-foreground">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-foreground leading-[1.08]">
               Hello, {user?.firstName || "Investor"}.
             </h1>
-            <p className="mt-4 text-[15px] sm:text-[17px] lg:text-[18px] text-muted-foreground leading-relaxed max-w-3xl">
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-3xl">
               Welcome to the AtlasLedger institutional platform. We help you invest in the right cryptocurrency opportunities by leveraging our state-of-the-art **Atlas AI-Quantum Engine**. Our automated systems evaluate volume triggers, price spreads, and structural trend indicators in real time to optimize entry, custody allocations, and asset weights.
             </p>
           </div>
         </motion.section>
 
         {/* ── Main AI Bot Section ─────────────────── */}
-        <section className="space-y-6">
-          <div className="border-b border-border/60 pb-5 mb-8">
-            <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+          className="space-y-8"
+        >
+          <div className="border-b border-border/60 pb-6">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
               AI-Powered Crypto Investment Strategy
             </h2>
-            {/* Increased Size by 1: from text-[13px] sm:text-[14px] to text-[15px] sm:text-[16px] */}
-            <p className="text-[15px] sm:text-[16px] text-muted-foreground mt-1.5">
+            <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
               Understand how our proprietary automation platform secures and optimizes your digital asset exposure.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center py-4">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center pt-4">
             {/* Text Specifications */}
-            <div className="lg:col-span-7 space-y-5">
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/30">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/30">
                 <Brain className="h-3.5 w-3.5" />
                 Active Quantitative Engine
               </div>
-              <h3 className="text-[24px] sm:text-[28px] font-semibold text-foreground tracking-tight leading-tight">
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight leading-tight">
                 The Atlas AI-Quantum Engine
               </h3>
-              <p className="text-[14px] sm:text-[15px] text-muted-foreground leading-relaxed">
+              <p className="text-base text-muted-foreground leading-relaxed">
                 Rather than relying on speculative advice or manual execution, AtlasLedger deploys a unified neural network model to navigate liquid cryptocurrency markets. The AI bot continuously tracks price volatility, trade imbalances, and developer activity metrics to allocate funds toward the absolute highest quality assets (BTC, ETH, and select blue-chip protocols).
               </p>
               
-              {/* Bullet Descriptions Increased by 1: from text-[12px] sm:text-[13px] to text-[13px] sm:text-[14px] */}
-              <div className="space-y-3 pt-3 border-t border-border/40">
-                <div className="flex items-start gap-2.5">
-                  <div className="mt-1 h-4 w-4 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center">
-                    <TrendingUp className="h-3 w-3 text-emerald-600" />
+              <div className="space-y-4 pt-4 border-t border-border/40">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center">
+                    <TrendingUp className="h-3.5 w-3.5 text-emerald-600" />
                   </div>
                   <div>
-                    <h4 className="text-[14px] font-bold text-slate-800">Target Selection</h4>
-                    <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-0.5">Scans institutional spreads, network health, and velocity to allocate only to verified tokens with strong fundamental tailwinds.</p>
+                    <h4 className="text-base font-bold text-slate-800">Target Selection</h4>
+                    <p className="text-base text-muted-foreground mt-0.5">Scans institutional spreads, network health, and velocity to allocate only to verified tokens with strong fundamental tailwinds.</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-2.5">
-                  <div className="mt-1 h-4 w-4 shrink-0 rounded-full bg-amber-50 flex items-center justify-center">
-                    <ShieldCheck className="h-3 w-3 text-amber-600" />
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-amber-50 flex items-center justify-center">
+                    <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
                   </div>
                   <div>
-                    <h4 className="text-[14px] font-bold text-slate-800">Risk Allocation</h4>
-                    <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-0.5">Executes delta-neutral hedging and stop-drift rebalancing to defend capital from drawdowns and market slippage.</p>
+                    <h4 className="text-base font-bold text-slate-800">Risk Allocation</h4>
+                    <p className="text-base text-muted-foreground mt-0.5">Executes delta-neutral hedging and stop-drift rebalancing to defend capital from drawdowns and market slippage.</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-2.5">
-                  <div className="mt-1 h-4 w-4 shrink-0 rounded-full bg-blue-50 flex items-center justify-center">
-                    <Activity className="h-3 w-3 text-blue-600" />
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Activity className="h-3.5 w-3.5 text-blue-600" />
                   </div>
                   <div>
-                    <h4 className="text-[14px] font-bold text-slate-800">Yield Compounding</h4>
-                    <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-0.5">Routes stable pool allocations to capital-efficient liquid staking hubs to capture high yields automatically.</p>
+                    <h4 className="text-base font-bold text-slate-800">Yield Compounding</h4>
+                    <p className="text-base text-muted-foreground mt-0.5">Routes stable pool allocations to capital-efficient liquid staking hubs to capture high yields automatically.</p>
                   </div>
                 </div>
               </div>
 
               {/* Stats Row */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-border/40">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-border/40">
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Primary Target</div>
-                  <div className="text-[13px] sm:text-[14px] font-bold text-slate-800 mt-0.5">BTC & ETH Outperformance</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Primary Target</div>
+                  <div className="text-base font-bold text-slate-800 mt-1">BTC & ETH Outperformance</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Risk Rating</div>
-                  <div className="text-[13px] sm:text-[14px] font-bold text-slate-800 mt-0.5">Low / Hedged</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Risk Rating</div>
+                  <div className="text-base font-bold text-slate-800 mt-1">Low / Hedged</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">AI Scan Speed</div>
-                  <div className="text-[13px] sm:text-[14px] font-bold text-slate-800 mt-0.5">&lt;12ms latency</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">AI Scan Speed</div>
+                  <div className="text-base font-bold text-slate-800 mt-1">&lt;12ms latency</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Execution Spec</div>
-                  <div className="text-[13px] sm:text-[14px] font-bold text-slate-800 mt-0.5">Auto-rebalance</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Execution Spec</div>
+                  <div className="text-base font-bold text-slate-800 mt-1">Auto-rebalance</div>
                 </div>
               </div>
             </div>
@@ -759,34 +755,46 @@ export default function DashboardPage() {
               <AIEngineAnimation />
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* ── macOS MacBook Mockup with Taller Candlestick Chart ── */}
-        <section className="space-y-6">
-          <div className="border-b border-border/60 pb-5">
-            <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+          className="space-y-8"
+        >
+          <div className="border-b border-border/60 pb-6">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
               Live Strategy Execution Visualizer
             </h2>
-            <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-1.5">
+            <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
               Real-time candlestick calculations generated directly from our active algorithmic instances.
             </p>
           </div>
           <div className="max-w-4xl mx-auto">
             <MacBookCandleMockup />
           </div>
-        </section>
+        </motion.section>
 
         {/* ── Performance Metrics Section ── */}
-        <section className="space-y-6">
-          <div className="border-b border-border/60 pb-5">
-            <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+          className="space-y-8"
+        >
+          <div className="border-b border-border/60 pb-6">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
               Engine Performance Metrics
             </h2>
-            <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-1.5">
+            <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
               Statistical performance indices generated from historical and backtested active models.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
               { icon: <LineChart className="h-5 w-5 text-amber-500" />, title: "Sharpe Ratio", val: "2.84", desc: "Risk-adjusted returns index" },
               { icon: <Activity className="h-5 w-5 text-emerald-500" />, title: "Win Rate", val: "92.8%", desc: "Trades closed in margin" },
@@ -794,29 +802,33 @@ export default function DashboardPage() {
               { icon: <ShieldCheck className="h-5 w-5 text-slate-700" />, title: "Max Drawdown", val: "-4.15%", desc: "Peak-to-trough drop cap" },
               { icon: <Layers className="h-5 w-5 text-purple-500" />, title: "Total Compounded", val: "+142.4%", desc: "Cumulative multi-year yield" },
             ].map((metric, i) => (
-              <div key={i} className="p-4 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between space-y-2">
+              <div key={i} className="p-5 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">{metric.title}</span>
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{metric.title}</span>
                   {metric.icon}
                 </div>
                 <div>
-                  <div className="text-[22px] sm:text-[26px] font-bold text-slate-800 tracking-tight">{metric.val}</div>
-                  <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">{metric.desc}</p>
+                  <div className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">{metric.val}</div>
+                  <p className="text-xs text-muted-foreground leading-snug mt-1">{metric.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        {/* ── Staking/Investment Pipeline (Font Size Increased by 1) ── */}
-        <section className="space-y-6">
-          <div className="border-b border-border/60 pb-5">
-            {/* Title increased by 1: text-[20px] sm:text-[24px] -> text-[22px] sm:text-[26px] */}
-            <h2 className="text-[22px] sm:text-[26px] font-medium tracking-tight text-foreground">
+        {/* ── Staking/Investment Pipeline ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+          className="space-y-8"
+        >
+          <div className="border-b border-border/60 pb-6">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
               Automated Investment Process
             </h2>
-            {/* Subtext increased by 1: text-[13px] sm:text-[14px] -> text-[14px] sm:text-[15px] */}
-            <p className="text-[14px] sm:text-[15px] text-muted-foreground mt-1.5">
+            <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
               Four systematic phases ensuring your funds align with peak cryptocurrency trends safely.
             </p>
           </div>
@@ -827,32 +839,34 @@ export default function DashboardPage() {
               { num: "03", name: "Delta-Neutral Staking", desc: "Stablecoin liquidity pairs sweep cross-dex yields, generating fee returns while mitigating overall market direction exposure." },
               { num: "04", name: "Automatic Rebalance", desc: "If underlying asset drifting exceeds 1.5% from the model baseline, the bot automatically executes rebalancing orders." },
             ].map((step, i) => (
-              <div key={i} className="relative p-5 rounded-xl border border-border/60 bg-slate-50/20">
-                <div className="absolute top-4 right-4 text-[24px] font-black text-slate-100 font-mono tracking-tight select-none">
+              <div key={i} className="relative p-6 rounded-xl border border-border/60 bg-slate-50/20 space-y-3">
+                <div className="absolute top-4 right-4 text-3xl font-black text-slate-100 font-mono tracking-tight select-none">
                   {step.num}
                 </div>
-                {/* Heading increased to text-[16px] */}
-                <h3 className="text-[16px] font-bold text-slate-800">{step.name}</h3>
-                {/* Description increased by 1 to text-[13px] sm:text-[14px] */}
-                <p className="text-[13px] sm:text-[14px] text-muted-foreground leading-relaxed mt-2">{step.desc}</p>
+                <h3 className="text-base font-bold text-slate-800">{step.name}</h3>
+                <p className="text-base text-muted-foreground leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        {/* ── Supported Verified Asset Pools (Font Size Increased by 1) ── */}
-        <section className="space-y-6">
-          <div className="border-b border-border/60 pb-5">
-            {/* Title increased by 1: text-[20px] sm:text-[24px] -> text-[22px] sm:text-[26px] */}
-            <h2 className="text-[22px] sm:text-[26px] font-medium tracking-tight text-foreground">
+        {/* ── Supported Verified Asset Pools ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+          className="space-y-8"
+        >
+          <div className="border-b border-border/60 pb-6">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
               Verified Crypto Asset Pools
             </h2>
-            {/* Subtext increased by 1: text-[13px] sm:text-[14px] -> text-[14px] sm:text-[15px] */}
-            <p className="text-[14px] sm:text-[15px] text-muted-foreground mt-1.5">
+            <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
               Cryptocurrencies actively tracked and allocated by the Atlas AI model.
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
             {[
               { coin: "Bitcoin", symbol: "BTC", buy: "94.2%", status: "Active Allocation", color: "border-amber-200 bg-amber-50/20 text-amber-700" },
               { coin: "Ethereum", symbol: "ETH", buy: "88.5%", status: "Active Allocation", color: "border-blue-200 bg-blue-50/20 text-blue-700" },
@@ -861,33 +875,35 @@ export default function DashboardPage() {
               { coin: "Polkadot", symbol: "DOT", buy: "71.2%", status: "Monitoring", color: "border-pink-200 bg-pink-50/20 text-pink-700" },
               { coin: "Uniswap", symbol: "UNI", buy: "68.9%", status: "Monitoring", color: "border-purple-200 bg-purple-50/20 text-purple-700" },
             ].map((asset, i) => (
-              <div key={i} className="p-4 rounded-xl border border-border bg-card shadow-sm space-y-2 text-center">
-                {/* Symbol increased from text-[11px] to text-[12px] */}
-                <div className="text-[12px] font-bold text-slate-400 font-mono tracking-wider">{asset.symbol}</div>
-                <div>
-                  {/* Coin name increased from text-[15px] to text-[16px] */}
-                  <div className="text-[16px] font-extrabold text-slate-800">{asset.coin}</div>
-                  {/* Buy strength increased to text-[20px] sm:text-[22px] */}
-                  <div className="text-[20px] sm:text-[22px] font-black text-slate-800 mt-1">{asset.buy}</div>
-                  {/* AI Buy Strength label increased from text-[9px] to text-[10px] sm:text-[11px] */}
-                  <div className="text-[10px] sm:text-[11px] uppercase tracking-wider text-muted-foreground mt-0.5">AI Buy Strength</div>
+              <div key={i} className="p-5 rounded-xl border border-border bg-card shadow-sm space-y-3 text-center flex flex-col justify-between">
+                <div className="text-xs font-bold text-slate-400 font-mono tracking-wider">{asset.symbol}</div>
+                <div className="space-y-1">
+                  <div className="text-base font-extrabold text-slate-800">{asset.coin}</div>
+                  <div className="text-2xl font-black text-slate-800">{asset.buy}</div>
+                  <div className="text-xs text-muted-foreground">AI Buy Strength</div>
                 </div>
-                {/* Status badge text increased from text-[9px] to text-[10px] sm:text-[11px] */}
-                <div className={`mt-2 inline-block rounded-full border px-2 py-0.5 text-[10px] sm:text-[11px] font-bold uppercase ${asset.color}`}>
+                <div className={`mt-2 inline-block rounded-full border px-2 py-0.5 text-xs font-bold uppercase ${asset.color}`}>
                   {asset.status}
                 </div>
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* ── Contact Form ───────────────────────────────────────────── */}
-        <DashboardContactForm />
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+        >
+          <DashboardContactForm />
+        </motion.section>
       </main>
 
       {/* ── Footer ─────────────────────────────────────────────────── */}
       <footer className="border-t border-border py-8 mt-12 relative">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-muted-foreground">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-base text-muted-foreground">
           <div>© {new Date().getFullYear()} AtlasLedger · All rights reserved.</div>
           <div className="flex items-center gap-5">
             <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
