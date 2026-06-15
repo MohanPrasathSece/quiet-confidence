@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { motion, useMotionValue, useTransform, MotionValue } from "motion/react";
+import { useRef, useEffect } from "react";
 import { Reveal } from "./primitives";
 
 const features = [
@@ -35,10 +35,32 @@ const features = [
 
 export function FeatureStack() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
+  const progressVal = useMotionValue(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const elementHeight = rect.height;
+      const viewportHeight = window.innerHeight;
+      
+      const scrolled = -rect.top;
+      const maxScroll = elementHeight - viewportHeight;
+      if (maxScroll <= 0) return;
+      
+      const p = Math.max(0, Math.min(1, scrolled / maxScroll));
+      progressVal.set(p);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    handleScroll(); // initial check
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [progressVal]);
 
   return (
     <section id="features" className="bg-card/40 border-y border-border">
@@ -64,7 +86,7 @@ export function FeatureStack() {
                   key={i}
                   index={i}
                   total={features.length}
-                  progress={scrollYProgress}
+                  progress={progressVal}
                   feature={f}
                 />
               ))}
@@ -84,7 +106,7 @@ function FeatureCard({
 }: {
   index: number;
   total: number;
-  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  progress: MotionValue<number>;
   feature: (typeof features)[number];
 }) {
   const segment = 1 / total;
@@ -198,11 +220,11 @@ function FeatureVisual({ index }: { index: number }) {
           <motion.path
             d="M0,160 C40,150 70,130 110,120 C150,110 180,140 220,100 C260,60 290,80 330,50 C370,30 390,40 400,30"
             fill="none"
-            stroke="oklch(0.18 0 0)"
+            stroke="currentColor"
+            strokeOpacity={0.8}
             strokeWidth="1.5"
             initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
+            animate={{ pathLength: 1 }}
             transition={{ duration: 1.8 }}
           />
         </svg>
@@ -212,7 +234,7 @@ function FeatureVisual({ index }: { index: number }) {
   if (index === 2) {
     return (
       <div className="absolute inset-0 grid place-items-center">
-        <svg viewBox="0 0 240 240" className="h-64 w-64">
+        <svg viewBox="0 0 240 240" className="h-64 w-64 text-foreground">
           {[1, 2, 3].map((r, i) => (
             <motion.circle
               key={r}
@@ -220,11 +242,10 @@ function FeatureVisual({ index }: { index: number }) {
               cy="120"
               r={50 + r * 28}
               fill="none"
-              stroke="oklch(0.18 0 0)"
-              strokeOpacity={0.18 - i * 0.05}
+              stroke="currentColor"
+              strokeOpacity={0.25 - i * 0.06}
               initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.4, delay: i * 0.15 }}
               style={{ transformOrigin: "120px 120px" }}
             />
@@ -232,11 +253,11 @@ function FeatureVisual({ index }: { index: number }) {
           <motion.path
             d="M120 80 L150 92 V120 C150 142 135 156 120 162 C105 156 90 142 90 120 V92 Z"
             fill="none"
-            stroke="oklch(0.18 0 0)"
+            stroke="currentColor"
+            strokeOpacity={0.8}
             strokeWidth="1.5"
             initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
+            animate={{ pathLength: 1 }}
             transition={{ duration: 1.6 }}
           />
         </svg>
