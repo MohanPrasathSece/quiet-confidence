@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Nav } from "./Nav";
 import { Hero } from "./Hero";
 import { Metrics } from "./Metrics";
@@ -11,10 +12,12 @@ import { Testimonials } from "./Testimonials";
 import { Integrations } from "./Integrations";
 import { FinalStatement } from "./FinalStatement";
 import { CTA } from "./CTA";
+import { ContactForm } from "./ContactForm";
 import { Footer } from "./Footer";
 import { AuthModal } from "./AuthModal";
 
 export default function Landing() {
+  const navigate = useNavigate();
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
 
@@ -23,9 +26,14 @@ export default function Landing() {
     setAuthOpen(true);
   };
 
+  const handleSignIn = () => {
+    // Navigate to dashboard (simulated login)
+    navigate("/dashboard");
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground antialiased selection:bg-foreground selection:text-background">
-      <Nav onSignIn={() => openAuth("signin")} onSignUp={() => openAuth("signup")} />
+      <Nav onSignIn={handleSignIn} onSignUp={() => openAuth("signup")} />
       <main>
         <Hero onPrimary={() => openAuth("signup")} />
         <Metrics />
@@ -38,6 +46,7 @@ export default function Landing() {
         <Integrations />
         <FinalStatement />
         <CTA onPrimary={() => openAuth("signup")} />
+        <ContactForm />
       </main>
       <Footer />
       <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
