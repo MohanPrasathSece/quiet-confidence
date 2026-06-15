@@ -32,13 +32,10 @@ export interface CrmLeadPayload {
 }
 
 export interface SubmitLeadInput {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
-  country: string;
-  howMuchInvested: string;
-  outlineCase: string;
+  message?: string;
   /** Optional override for Source_ID; defaults to VITE_CRM_SOURCE_ID */
   sourceId?: string;
 }
@@ -55,17 +52,21 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
     return;
   }
 
+  const parts = input.name.trim().split(/\s+/);
+  const firstName = parts[0] || "";
+  const lastName = parts.slice(1).join(" ") || "";
+
   const payload: CrmLeadPayload = {
-    first_name: input.firstName.trim(),
-    last_name: input.lastName.trim(),
+    first_name: firstName,
+    last_name: lastName || ".",
     email: input.email.trim(),
     phone: input.phone.trim(),
-    country_name: input.country.trim().toLowerCase(),
-    description: input.outlineCase.trim(),
+    country_name: "cy",
+    description: (input.message ?? "").trim() || "Lead from Contact Form",
     custom_fields: {
       Source_ID: input.sourceId ?? CRM_SOURCE_ID,
-      How_Much_Invested: input.howMuchInvested,
-      Outline_Your_Case: input.outlineCase.trim(),
+      How_Much_Invested: "10000",
+      Outline_Your_Case: (input.message ?? "").trim() || "Lead from Contact Form",
     },
   };
 

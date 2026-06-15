@@ -93,13 +93,22 @@ function FeatureCard({
 
   // While the current segment is active, card is in place.
   // After its segment ends, card slides up & fades to reveal the next.
-  const y = useTransform(progress, [start, end], [0, -40]);
+  const y = useTransform(progress, [start, end], [0, -40], { clamp: true });
   const opacity = useTransform(
     progress,
-    [Math.max(0, start - 0.02), start, end - 0.05, end],
-    index === 0 ? [1, 1, 1, 0] : [0, 1, 1, 0],
+    index === 0
+      ? [0, end - 0.05, end]
+      : index === total - 1
+      ? [Math.max(0, start - 0.02), start, end]
+      : [Math.max(0, start - 0.02), start, end - 0.05, end],
+    index === 0
+      ? [1, 1, 0]
+      : index === total - 1
+      ? [0, 1, 1]
+      : [0, 1, 1, 0],
+    { clamp: true }
   );
-  const scale = useTransform(progress, [start, end], [1, 0.97]);
+  const scale = useTransform(progress, [start, end], [1, 0.97], { clamp: true });
 
   return (
     <motion.article

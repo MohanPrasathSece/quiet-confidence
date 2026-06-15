@@ -24,10 +24,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { email, password } = req.body as { email: string; password: string };
+    const { email } = req.body as { email: string };
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
     }
 
     const blobKey = userBlobKey(email);
@@ -41,14 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (!response.ok) throw new Error("Failed to fetch user data");
       user = await response.json() as UserRecord;
     } catch {
-      // Use generic error to avoid email enumeration
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-
-    // ── Verify password ─────────────────────────────────────────────
-    const valid = verifyPassword(password, user.passwordSalt, user.passwordHash);
-    if (!valid) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "No account found with this email" });
     }
 
     // ── Sign JWT & return ────────────────────────────────────────────
@@ -59,9 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       lastName: user.lastName,
     });
 
-    const { passwordHash: _h, passwordSalt: _s, ...safeUser } = user;
-
-    return res.status(200).json({ token, user: safeUser });
+    return res.status(200).json({ token, user });
   } catch (err) {
     console.error("[signin] error:", err);
     return res.status(500).json({ error: "Internal server error" });

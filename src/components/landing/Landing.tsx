@@ -9,7 +9,7 @@ import { Ecosystem } from "./Ecosystem";
 import { ProductDemo } from "./ProductDemo";
 import { Security } from "./Security";
 import { Testimonials } from "./Testimonials";
-import { Integrations } from "./Integrations";
+
 import { FinalStatement } from "./FinalStatement";
 import { CTA } from "./CTA";
 import { ContactForm } from "./ContactForm";
@@ -43,7 +43,7 @@ export default function Landing() {
         <ProductDemo />
         <Security />
         <Testimonials />
-        <Integrations />
+
         <FinalStatement />
         <CTA onPrimary={() => openAuth("signup")} />
         <ContactForm />

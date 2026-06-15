@@ -28,7 +28,7 @@ export function Hero({ onPrimary }: { onPrimary: () => void }) {
           </div>
         </Reveal>
 
-        <h1 className="mx-auto mt-7 sm:mt-8 max-w-5xl text-center text-[36px] sm:text-[58px] lg:text-[72px] leading-[1.04] sm:leading-[1.02] tracking-[-0.035em] font-medium text-balance">
+        <h1 className="mx-auto mt-7 sm:mt-8 max-w-5xl text-center text-[36px] sm:text-[58px] lg:text-[72px] leading-[1.12] sm:leading-[1.10] tracking-[-0.035em] font-medium text-balance">
           <span className="block">
             <SplitLines text="Crypto infrastructure" />
           </span>

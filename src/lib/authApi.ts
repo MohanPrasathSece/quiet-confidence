@@ -42,13 +42,9 @@ export function clearToken() {
 // ─── API calls ──────────────────────────────────────────────────────
 
 export async function apiSignup(data: {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
-  country: string;
-  howMuchInvested: string;
-  password: string;
 }): Promise<AuthResponse> {
   const res = await fetch(`${BASE}/signup`, {
     method: "POST",
@@ -60,11 +56,11 @@ export async function apiSignup(data: {
   return json as AuthResponse;
 }
 
-export async function apiSignin(email: string, password: string): Promise<AuthResponse> {
+export async function apiSignin(email: string): Promise<AuthResponse> {
   const res = await fetch(`${BASE}/signin`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email }),
   });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "Sign in failed");

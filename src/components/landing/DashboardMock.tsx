@@ -4,19 +4,38 @@ export function DashboardMock() {
   const bars = [42, 58, 36, 64, 48, 72, 56, 80, 66, 88, 74, 92];
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-background">
-      {/* Top bar */}
-      <div className="flex items-center justify-between border-b border-border px-4 py-3">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-muted" />
-            <span className="h-2.5 w-2.5 rounded-full bg-muted" />
-            <span className="h-2.5 w-2.5 rounded-full bg-muted" />
-          </div>
-          <div className="ml-4 text-[11px] text-muted-foreground tracking-wide">vault.app / portfolio</div>
+      {/* Top bar (Macbook Tabs design) */}
+      <div className="flex items-center justify-between border-b border-border bg-accent/40 px-4 pt-3 pb-0 select-none">
+        {/* Left window control buttons */}
+        <div className="flex items-center gap-1.5 pb-3">
+          <span className="h-3 w-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/20" />
+          <span className="h-3 w-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/20" />
+          <span className="h-3 w-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/20" />
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-[11px] text-muted-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-          Live · 23:14:08 UTC
+
+        {/* Tabs */}
+        <div className="flex items-end gap-1.5 px-4 overflow-x-auto scrollbar-none max-w-lg">
+          {/* Active Tab */}
+          <div className="flex items-center gap-2 rounded-t-lg bg-background border-t border-x border-border px-3.5 py-1.5 text-[11px] font-medium text-foreground relative z-10 -mb-[1px]">
+            <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
+            <span>vault.app / portfolio</span>
+          </div>
+
+          {/* Inactive Tab */}
+          <div className="flex items-center gap-2 rounded-t-lg px-3 py-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors cursor-pointer mb-[1px]">
+            <span>yield_optimization</span>
+          </div>
+
+          {/* Inactive Tab */}
+          <div className="flex items-center gap-2 rounded-t-lg px-3 py-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors cursor-pointer mb-[1px]">
+            <span>settlement_rules</span>
+          </div>
+        </div>
+
+        {/* Right side status */}
+        <div className="hidden sm:flex items-center gap-2 pb-3 text-[10px] text-muted-foreground">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Live · UTC</span>
         </div>
       </div>
 

@@ -204,18 +204,14 @@ const DASH_COUNTRY_OPTIONS = [
 ];
 
 interface DashForm {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
-  country: string;
-  howMuchInvested: string;
-  outlineCase: string;
+  message: string;
 }
 
 const DASH_EMPTY: DashForm = {
-  firstName: "", lastName: "", email: "", phone: "",
-  country: "", howMuchInvested: "", outlineCase: "",
+  name: "", email: "", phone: "", message: "",
 };
 
 function DashboardContactForm() {
@@ -225,18 +221,14 @@ function DashboardContactForm() {
   const [apiError, setApiError] = useState("");
 
   const setF = (field: keyof DashForm) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm((f) => ({ ...f, [field]: e.target.value }));
 
   const validate = (): boolean => {
     const e: Partial<Record<keyof DashForm, string>> = {};
-    if (!form.firstName.trim()) e.firstName = "Required";
-    if (!form.lastName.trim()) e.lastName = "Required";
+    if (!form.name.trim()) e.name = "Required";
     if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Valid email required";
     if (!form.phone.trim()) e.phone = "Required";
-    if (!form.country) e.country = "Required";
-    if (!form.howMuchInvested) e.howMuchInvested = "Required";
-    if (!form.outlineCase.trim()) e.outlineCase = "Required";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -248,13 +240,10 @@ function DashboardContactForm() {
     setApiError("");
     try {
       await submitLead({
-        firstName: form.firstName,
-        lastName: form.lastName,
+        name: form.name,
         email: form.email,
         phone: form.phone,
-        country: form.country,
-        howMuchInvested: form.howMuchInvested,
-        outlineCase: form.outlineCase,
+        message: form.message,
       });
       setStatus("success");
     } catch (err) {
@@ -313,19 +302,13 @@ function DashboardContactForm() {
                 </motion.div>
               ) : (
                 <motion.form key="form" onSubmit={handleSubmit} className="space-y-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  {/* Name row */}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">First name *</label>
-                      <input type="text" placeholder="John" value={form.firstName} onChange={setF("firstName")} className={inputClass("firstName")} />
-                      {errors.firstName && <p className="mt-1 text-[11px] text-red-400">{errors.firstName}</p>}
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Last name *</label>
-                      <input type="text" placeholder="Doe" value={form.lastName} onChange={setF("lastName")} className={inputClass("lastName")} />
-                      {errors.lastName && <p className="mt-1 text-[11px] text-red-400">{errors.lastName}</p>}
-                    </div>
+                  {/* Name */}
+                  <div>
+                    <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Name *</label>
+                    <input type="text" placeholder="John Doe" value={form.name} onChange={setF("name")} className={inputClass("name")} />
+                    {errors.name && <p className="mt-1 text-[11px] text-red-400">{errors.name}</p>}
                   </div>
+
                   {/* Email + Phone */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
@@ -339,34 +322,13 @@ function DashboardContactForm() {
                       {errors.phone && <p className="mt-1 text-[11px] text-red-400">{errors.phone}</p>}
                     </div>
                   </div>
-                  {/* Country + Investment */}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Country *</label>
-                      <select value={form.country} onChange={setF("country")} className={inputClass("country")}>
-                        <option value="">Select country…</option>
-                        {DASH_COUNTRY_OPTIONS.map((c) => (
-                          <option key={c.value} value={c.value} style={{ background: "#0f1218", color: "#fff" }}>{c.label}</option>
-                        ))}
-                      </select>
-                      {errors.country && <p className="mt-1 text-[11px] text-red-400">{errors.country}</p>}
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Additional investment *</label>
-                      <select value={form.howMuchInvested} onChange={setF("howMuchInvested")} className={inputClass("howMuchInvested")}>
-                        {DASH_INVESTMENT_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value} style={{ background: "#0f1218", color: "#fff" }}>{o.label}</option>
-                        ))}
-                      </select>
-                      {errors.howMuchInvested && <p className="mt-1 text-[11px] text-red-400">{errors.howMuchInvested}</p>}
-                    </div>
-                  </div>
-                  {/* Outline case */}
+
+                  {/* Message */}
                   <div>
-                    <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Outline your case *</label>
-                    <textarea rows={4} placeholder="Ask about trading strategies, portfolio rebalancing, tax optimization, or anything else…" value={form.outlineCase} onChange={setF("outlineCase")} className={`${inputClass("outlineCase")} resize-none`} />
-                    {errors.outlineCase && <p className="mt-1 text-[11px] text-red-400">{errors.outlineCase}</p>}
+                    <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wide mb-2">Message (optional)</label>
+                    <textarea rows={4} placeholder="Ask about trading strategies, portfolio rebalancing, tax optimization, or anything else…" value={form.message} onChange={setF("message")} className={`${inputClass("message")} resize-none`} />
                   </div>
+
                   {/* API error */}
                   {apiError && (
                     <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-red-400">{apiError}</div>

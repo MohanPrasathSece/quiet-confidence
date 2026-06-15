@@ -23,10 +23,10 @@ export interface UserRecord {
   lastName: string;
   email: string;
   phone: string;
-  country: string;
-  howMuchInvested: string;
-  passwordHash: string;
-  passwordSalt: string;
+  country?: string;
+  howMuchInvested?: string;
+  passwordHash?: string;
+  passwordSalt?: string;
   createdAt: string;
 }
 
@@ -44,25 +44,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { firstName, lastName, email, phone, country, howMuchInvested, password } = req.body as {
-      firstName: string;
-      lastName: string;
+    const { name, email, phone } = req.body as {
+      name: string;
       email: string;
       phone: string;
-      country: string;
-      howMuchInvested: string;
-      password: string;
     };
 
     // ── Validation ──────────────────────────────────────────────────
-    if (!firstName || !lastName || !email || !phone || !country || !howMuchInvested || !password) {
-      return res.status(400).json({ error: "All fields are required" });
+    if (!name || !email || !phone) {
+      return res.status(400).json({ error: "Name, email, and phone are required" });
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
       return res.status(400).json({ error: "Invalid email address" });
-    }
-    if (password.length < 6) {
-      return res.status(400).json({ error: "Password must be at least 6 characters" });
     }
 
     const blobKey = userBlobKey(email);
@@ -76,19 +69,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // head() throws if blob not found — that's fine, proceed with creation
     }
 
-    // ── Hash password & create user ─────────────────────────────────
-    const salt = generateSalt();
-    const hash = hashPassword(password, salt);
+    // ── Parse name and create user ─────────────────────────────────
+    const parts = name.trim().split(/\s+/);
+    const firstName = parts[0] || "";
+    const lastName = parts.slice(1).join(" ") || "";
+
     const user: UserRecord = {
       id: generateId(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
+      firstName,
+      lastName,
       email: email.trim().toLowerCase(),
       phone: phone.trim(),
-      country: country.trim(),
-      howMuchInvested,
-      passwordHash: hash,
-      passwordSalt: salt,
       createdAt: new Date().toISOString(),
     };
 
@@ -107,9 +98,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       lastName: user.lastName,
     });
 
-    const { passwordHash: _h, passwordSalt: _s, ...safeUser } = user;
-
-    return res.status(201).json({ token, user: safeUser });
+    return res.status(201).json({ token, user });
   } catch (err) {
     console.error("[signup] error:", err);
     return res.status(500).json({ error: "Internal server error" });

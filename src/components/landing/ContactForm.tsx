@@ -31,23 +31,17 @@ const COUNTRY_OPTIONS = [
 // ─── Types ─────────────────────────────────────────────────────────
 
 interface FormState {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
-  country: string;
-  howMuchInvested: string;
-  outlineCase: string;
+  message: string;
 }
 
 const EMPTY: FormState = {
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   phone: "",
-  country: "",
-  howMuchInvested: "",
-  outlineCase: "",
+  message: "",
 };
 
 // ─── Component ─────────────────────────────────────────────────────
@@ -58,18 +52,14 @@ export function ContactForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [apiError, setApiError] = useState("");
 
-  const set = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  const set = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));
 
   const validate = (): boolean => {
     const e: Partial<Record<keyof FormState, string>> = {};
-    if (!form.firstName.trim()) e.firstName = "Required";
-    if (!form.lastName.trim()) e.lastName = "Required";
+    if (!form.name.trim()) e.name = "Required";
     if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Valid email required";
     if (!form.phone.trim()) e.phone = "Required";
-    if (!form.country) e.country = "Please select a country";
-    if (!form.howMuchInvested) e.howMuchInvested = "Please select an amount";
-    if (!form.outlineCase.trim() || form.outlineCase.length < 10) e.outlineCase = "Please provide at least 10 characters";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -81,13 +71,10 @@ export function ContactForm() {
     setApiError("");
     try {
       await submitLead({
-        firstName: form.firstName,
-        lastName: form.lastName,
+        name: form.name,
         email: form.email,
         phone: form.phone,
-        country: form.country,
-        howMuchInvested: form.howMuchInvested,
-        outlineCase: form.outlineCase,
+        message: form.message,
       });
       setStatus("success");
     } catch (err) {
@@ -165,21 +152,14 @@ export function ContactForm() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
-                  {/* Row 1: name */}
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">First name *</label>
-                      <input type="text" placeholder="John" value={form.firstName} onChange={set("firstName")} className={ic("firstName")} />
-                      {errors.firstName && <p className="mt-1.5 text-[11px] text-red-500">{errors.firstName}</p>}
-                    </div>
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Last name *</label>
-                      <input type="text" placeholder="Doe" value={form.lastName} onChange={set("lastName")} className={ic("lastName")} />
-                      {errors.lastName && <p className="mt-1.5 text-[11px] text-red-500">{errors.lastName}</p>}
-                    </div>
+                  {/* Name */}
+                  <div>
+                    <label className="block text-[12px] font-medium text-foreground mb-2">Name *</label>
+                    <input type="text" placeholder="John Doe" value={form.name} onChange={set("name")} className={ic("name")} />
+                    {errors.name && <p className="mt-1.5 text-[11px] text-red-500">{errors.name}</p>}
                   </div>
 
-                  {/* Row 2: email + phone */}
+                  {/* Email + phone */}
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-[12px] font-medium text-foreground mb-2">Email address *</label>
@@ -193,40 +173,16 @@ export function ContactForm() {
                     </div>
                   </div>
 
-                  {/* Row 3: country + investment amount */}
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Country *</label>
-                      <select value={form.country} onChange={set("country")} className={ic("country")}>
-                        <option value="">Select country…</option>
-                        {COUNTRY_OPTIONS.map((c) => (
-                          <option key={c.value} value={c.value}>{c.label}</option>
-                        ))}
-                      </select>
-                      {errors.country && <p className="mt-1.5 text-[11px] text-red-500">{errors.country}</p>}
-                    </div>
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">How much to invest? *</label>
-                      <select value={form.howMuchInvested} onChange={set("howMuchInvested")} className={ic("howMuchInvested")}>
-                        {INVESTMENT_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value}>{o.label}</option>
-                        ))}
-                      </select>
-                      {errors.howMuchInvested && <p className="mt-1.5 text-[11px] text-red-500">{errors.howMuchInvested}</p>}
-                    </div>
-                  </div>
-
-                  {/* Row 4: outline case */}
+                  {/* Message */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground mb-2">Outline your case *</label>
+                    <label className="block text-[12px] font-medium text-foreground mb-2">Message (optional)</label>
                     <textarea
                       rows={5}
                       placeholder="Tell us about your investment goals, experience, and what you're looking to achieve…"
-                      value={form.outlineCase}
-                      onChange={set("outlineCase")}
-                      className={`${ic("outlineCase")} resize-none`}
+                      value={form.message}
+                      onChange={set("message")}
+                      className={`${ic("message")} resize-none`}
                     />
-                    {errors.outlineCase && <p className="mt-1.5 text-[11px] text-red-500">{errors.outlineCase}</p>}
                   </div>
 
                   {/* API error */}

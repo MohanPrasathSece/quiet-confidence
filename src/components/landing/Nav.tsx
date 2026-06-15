@@ -36,7 +36,7 @@ export function Nav({
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
           <a href="#security" className="hover:text-foreground transition-colors">Security</a>
           <a href="#customers" className="hover:text-foreground transition-colors">Customers</a>
-          <a href="#docs" className="hover:text-foreground transition-colors">Docs</a>
+          <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
         </nav>
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <button

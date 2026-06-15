@@ -53,7 +53,7 @@ export function SplitLines({
   return (
     <span ref={ref} className={className} aria-label={text}>
       {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom mr-[0.25em] last:mr-0">
+        <span key={i} className="inline-block overflow-hidden align-bottom py-2 my-[-8px] mr-[0.25em] last:mr-0">
           <motion.span
             className="inline-block will-change-transform"
             initial={{ y: "100%", opacity: 0 }}

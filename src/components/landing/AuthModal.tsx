@@ -35,25 +35,20 @@ const COUNTRY_OPTIONS = [
 // ─── Form types ────────────────────────────────────────────────────
 
 interface SignupForm {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
-  country: string;
-  howMuchInvested: string;
-  password: string;
 }
 
 interface SigninForm {
   email: string;
-  password: string;
 }
 
 const EMPTY_SIGNUP: SignupForm = {
-  firstName: "", lastName: "", email: "", phone: "", country: "", howMuchInvested: "", password: "",
+  name: "", email: "", phone: "",
 };
 
-const EMPTY_SIGNIN: SigninForm = { email: "", password: "" };
+const EMPTY_SIGNIN: SigninForm = { email: "" };
 
 // ─── Component ─────────────────────────────────────────────────────
 
@@ -76,7 +71,6 @@ export function AuthModal({
   const [signinErrors, setSigninErrors] = useState<Partial<Record<keyof SigninForm, string>>>({});
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success">("idle");
   const [apiError, setApiError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -87,7 +81,6 @@ export function AuthModal({
       setSigninErrors({});
       setSubmitStatus("idle");
       setApiError("");
-      setShowPassword(false);
     }
   }, [open, initialMode]);
 
@@ -106,7 +99,7 @@ export function AuthModal({
   // ── Field helpers ─────────────────────────────────────────────────
 
   const setSignupField = (f: keyof SignupForm) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) =>
       setSignup((s) => ({ ...s, [f]: e.target.value }));
 
   const setSigninField = (f: keyof SigninForm) =>
@@ -117,13 +110,9 @@ export function AuthModal({
 
   const validateSignup = (): boolean => {
     const e: Partial<Record<keyof SignupForm, string>> = {};
-    if (!signup.firstName.trim()) e.firstName = "Required";
-    if (!signup.lastName.trim()) e.lastName = "Required";
+    if (!signup.name.trim()) e.name = "Required";
     if (!signup.email.trim() || !/\S+@\S+\.\S+/.test(signup.email)) e.email = "Valid email required";
     if (!signup.phone.trim()) e.phone = "Required";
-    if (!signup.country) e.country = "Required";
-    if (!signup.howMuchInvested) e.howMuchInvested = "Required";
-    if (!signup.password || signup.password.length < 6) e.password = "Min 6 characters";
     setSignupErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -131,7 +120,6 @@ export function AuthModal({
   const validateSignin = (): boolean => {
     const e: Partial<Record<keyof SigninForm, string>> = {};
     if (!signin.email.trim() || !/\S+@\S+\.\S+/.test(signin.email)) e.email = "Valid email required";
-    if (!signin.password) e.password = "Required";
     setSigninErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -160,7 +148,7 @@ export function AuthModal({
     setSubmitStatus("loading");
     setApiError("");
     try {
-      const { token, user } = await apiSignin(signin.email, signin.password);
+      const { token, user } = await apiSignin(signin.email);
       login(token, user);
       setSubmitStatus("success");
       setTimeout(() => { onClose(); navigate("/dashboard"); }, 600);
@@ -252,24 +240,6 @@ export function AuthModal({
                       value={signin.email} onChange={setSigninField("email")} className={ic(!!signinErrors.email)} />
                     {signinErrors.email && <p className="mt-1 text-[11px] text-red-500">{signinErrors.email}</p>}
                   </div>
-                  <div>
-                    <label className="block text-[12px] font-medium text-foreground">Password</label>
-                    <div className="relative">
-                      <input type={showPassword ? "text" : "password"} placeholder="••••••••"
-                        autoComplete="current-password" value={signin.password} onChange={setSigninField("password")}
-                        className={`${ic(!!signinErrors.password)} pr-10`} />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground mt-1">
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </button>
-                    </div>
-                    {signinErrors.password && <p className="mt-1 text-[11px] text-red-500">{signinErrors.password}</p>}
-                    <div className="mt-1.5 flex justify-end">
-                      <button type="button" className="text-[12px] text-muted-foreground hover:text-foreground transition-colors">
-                        Forgot password?
-                      </button>
-                    </div>
-                  </div>
 
                   {apiError && <div className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-[13px] text-red-600">{apiError}</div>}
 
@@ -287,17 +257,10 @@ export function AuthModal({
                   onSubmit={handleSignup} className="px-6 pt-6 pb-6 space-y-3.5">
 
                   {/* Name */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground">First name *</label>
-                      <input type="text" placeholder="John" value={signup.firstName} onChange={setSignupField("firstName")} className={ic(!!signupErrors.firstName)} />
-                      {signupErrors.firstName && <p className="mt-1 text-[11px] text-red-500">{signupErrors.firstName}</p>}
-                    </div>
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground">Last name *</label>
-                      <input type="text" placeholder="Doe" value={signup.lastName} onChange={setSignupField("lastName")} className={ic(!!signupErrors.lastName)} />
-                      {signupErrors.lastName && <p className="mt-1 text-[11px] text-red-500">{signupErrors.lastName}</p>}
-                    </div>
+                  <div>
+                    <label className="block text-[12px] font-medium text-foreground">Name *</label>
+                    <input type="text" placeholder="John Doe" value={signup.name} onChange={setSignupField("name")} className={ic(!!signupErrors.name)} />
+                    {signupErrors.name && <p className="mt-1 text-[11px] text-red-500">{signupErrors.name}</p>}
                   </div>
 
                   {/* Email */}
@@ -309,42 +272,9 @@ export function AuthModal({
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">Phone *</label>
+                    <label className="block text-[12px] font-medium text-foreground">Phone number *</label>
                     <input type="tel" placeholder="+357 99 261 501" autoComplete="tel" value={signup.phone} onChange={setSignupField("phone")} className={ic(!!signupErrors.phone)} />
                     {signupErrors.phone && <p className="mt-1 text-[11px] text-red-500">{signupErrors.phone}</p>}
-                  </div>
-
-                  {/* Country + investment */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground">Country *</label>
-                      <select value={signup.country} onChange={setSignupField("country")} className={ic(!!signupErrors.country)}>
-                        <option value="">Select…</option>
-                        {COUNTRY_OPTIONS.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
-                      </select>
-                      {signupErrors.country && <p className="mt-1 text-[11px] text-red-500">{signupErrors.country}</p>}
-                    </div>
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground">Invest amount *</label>
-                      <select value={signup.howMuchInvested} onChange={setSignupField("howMuchInvested")} className={ic(!!signupErrors.howMuchInvested)}>
-                        {INVESTMENT_OPTIONS.map((o) => <option key={o.value} value={o.value} disabled={!o.value}>{o.value ? o.label : "Select…"}</option>)}
-                      </select>
-                      {signupErrors.howMuchInvested && <p className="mt-1 text-[11px] text-red-500">{signupErrors.howMuchInvested}</p>}
-                    </div>
-                  </div>
-
-                  {/* Password */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-foreground">Password *</label>
-                    <div className="relative">
-                      <input type={showPassword ? "text" : "password"} placeholder="••••••••" autoComplete="new-password"
-                        value={signup.password} onChange={setSignupField("password")} className={`${ic(!!signupErrors.password)} pr-10`} />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground mt-1">
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </button>
-                    </div>
-                    {signupErrors.password && <p className="mt-1 text-[11px] text-red-500">{signupErrors.password}</p>}
                   </div>
 
                   {apiError && <div className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-[13px] text-red-600">{apiError}</div>}
