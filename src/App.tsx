@@ -3,7 +3,7 @@ import { AuthProvider, useAuth } from "@/context/AuthContext";
 import Landing from "@/components/landing/Landing";
 import DashboardPage from "@/pages/DashboardPage";
 
-/** Route guard — redirects unauthenticated users to /  */
+/** Route guard - redirects unauthenticated users to /  */
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
 

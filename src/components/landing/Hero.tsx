@@ -24,7 +24,7 @@ export function Hero({ onPrimary }: { onPrimary: () => void }) {
         <Reveal delay={0.05} y={8}>
           <div className="mx-auto flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] sm:text-[12px] text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-            AtlasLedger 2.0 — Now in general availability
+            AtlasLedger 2.0 - Now in general availability
           </div>
         </Reveal>
 
@@ -70,7 +70,7 @@ export function Hero({ onPrimary }: { onPrimary: () => void }) {
           transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto mt-14 sm:mt-20 max-w-6xl"
         >
-          <div className="rounded-xl sm:rounded-2xl border border-border bg-card p-1.5 sm:p-2 shadow-[0_30px_80px_-30px_rgba(17,17,17,0.15)]">
+          <div className="rounded-xl sm:rounded-2xl bg-card p-1.5 sm:p-2 shadow-[0_30px_80px_-30px_rgba(17,17,17,0.15)]">
             <DashboardMock />
           </div>
 

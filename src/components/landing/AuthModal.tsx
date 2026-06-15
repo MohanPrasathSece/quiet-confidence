@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { apiSignin, apiSignup } from "@/lib/authApi";
 import { useAuth } from "@/context/AuthContext";
+import { Logo } from "@/components/Logo";
 
 // ─── Constants ─────────────────────────────────────────────────────
 
@@ -192,7 +193,7 @@ export function AuthModal({
             {/* Header */}
             <div className="flex items-center justify-between px-6 pt-6">
               <div className="flex items-center gap-2 text-[14px] font-medium tracking-tight">
-                <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">A</span>
+                <Logo className="h-5 w-5 text-foreground" />
                 AtlasLedger
               </div>
               <button onClick={onClose} aria-label="Close"

@@ -21,8 +21,8 @@ export function ProductOverview() {
           <Reveal delay={0.3}>
             <p className="mt-7 text-[17px] leading-relaxed text-muted-foreground max-w-md">
               Custody, trading, analytics and reporting in a single, precise
-              interface. Built for teams who measure quality in milliseconds —
-              and decades.
+              interface. Built for teams who measure quality in milliseconds and
+              decades.
             </p>
           </Reveal>
           <Reveal delay={0.4}>
@@ -44,7 +44,7 @@ export function ProductOverview() {
         <div className="lg:col-span-7">
           <Parallax intensity={20}>
             <Reveal y={24}>
-              <div className="rounded-2xl border border-border bg-card p-2 shadow-[0_30px_80px_-30px_rgba(17,17,17,0.12)]">
+              <div className="rounded-2xl bg-card p-2 shadow-[0_30px_80px_-30px_rgba(17,17,17,0.12)]">
                 <DashboardMock />
               </div>
             </Reveal>

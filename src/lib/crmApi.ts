@@ -4,9 +4,9 @@
  * Thin wrapper around the affiliate CRM API.
  *
  * Environment variables (set in .env):
- *   VITE_CRM_HOST       — base URL, e.g. https://your-crm.com
- *   VITE_CRM_API_KEY    — affiliate authorization token
- *   VITE_CRM_SOURCE_ID  — lead source tag (default: "website")
+ *   VITE_CRM_HOST       - base URL, e.g. https://your-crm.com
+ *   VITE_CRM_API_KEY    - affiliate authorization token
+ *   VITE_CRM_SOURCE_ID  - lead source tag (default: "website")
  */
 
 const CRM_HOST = import.meta.env.VITE_CRM_HOST as string;
@@ -48,7 +48,7 @@ export interface SubmitLeadInput {
  */
 export async function submitLead(input: SubmitLeadInput): Promise<void> {
   if (!CRM_HOST || !CRM_API_KEY) {
-    console.warn("[CRM] Missing VITE_CRM_HOST or VITE_CRM_API_KEY — skipping lead submission.");
+    console.warn("[CRM] Missing VITE_CRM_HOST or VITE_CRM_API_KEY - skipping lead submission.");
     return;
   }
 

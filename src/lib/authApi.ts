@@ -1,7 +1,7 @@
 /**
  * authApi.ts
  * Client-side wrapper for the auth serverless functions.
- * All calls use relative /api paths — works both with Vercel deployment
+ * All calls use relative /api paths - works both with Vercel deployment
  * and `vercel dev` for local development.
  */
 

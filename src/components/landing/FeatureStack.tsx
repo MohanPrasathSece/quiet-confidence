@@ -4,28 +4,28 @@ import { Reveal } from "./primitives";
 
 const features = [
   {
-    tag: "01 — Trading",
+    tag: "01 - Trading",
     title: "Execution that disappears.",
     body:
       "Smart routing across global venues with deterministic latency. No spread games. No surprises.",
     bullets: ["Multi-venue order book", "Deterministic 12ms routing", "Algorithmic execution"],
   },
   {
-    tag: "02 — Analytics",
+    tag: "02 - Analytics",
     title: "Numbers that hold up.",
     body:
       "Real-time portfolio, risk and attribution analytics. Auditable, reproducible, and yours.",
     bullets: ["Streaming P&L", "Factor attribution", "Custom reporting"],
   },
   {
-    tag: "03 — Security",
+    tag: "03 - Security",
     title: "Engineered to be boring.",
     body:
       "MPC custody, hardware-backed signing, and quorum policies designed by people who used to break them.",
     bullets: ["MPC custody", "Quorum policies", "SOC 2 Type II"],
   },
   {
-    tag: "04 — Automation",
+    tag: "04 - Automation",
     title: "Treasury that runs itself.",
     body:
       "Programmable rules for rebalancing, yield, and settlement. Express intent. We handle the rest.",

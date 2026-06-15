@@ -1,3 +1,5 @@
+import { Logo } from "@/components/Logo";
+
 export function Footer() {
   const scrollTop = () => {
     if (typeof window !== "undefined") {
@@ -14,9 +16,7 @@ export function Footer() {
             aria-label="Back to top"
             className="flex items-center gap-2 text-[15px] font-medium tracking-tight"
           >
-            <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">
-              A
-            </span>
+            <Logo className="h-5 w-5 text-foreground" />
             <span>AtlasLedger</span>
           </button>
           <p className="mt-4 max-w-xs text-muted-foreground leading-relaxed">

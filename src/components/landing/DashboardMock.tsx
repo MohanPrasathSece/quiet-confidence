@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 export function DashboardMock() {
   const bars = [42, 58, 36, 64, 48, 72, 56, 80, 66, 88, 74, 92];
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-background">
+    <div className="overflow-hidden rounded-xl bg-background">
       {/* Top bar (Macbook Tabs design) */}
       <div className="flex items-center justify-between border-b border-border bg-accent/40 px-4 pt-3 pb-0 select-none">
         {/* Left window control buttons */}

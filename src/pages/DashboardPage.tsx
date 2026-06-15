@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
+import { Logo } from "@/components/Logo";
 import { submitLead } from "@/lib/crmApi";
 import {
   LogOut,
@@ -435,9 +436,7 @@ export default function DashboardPage() {
             href="/"
             className="flex shrink-0 items-center gap-2 text-[15px] font-medium tracking-tight cursor-pointer"
           >
-            <span className="grid h-6 w-6 place-items-center rounded-[6px] border border-border bg-foreground text-background text-[11px] font-semibold">
-              A
-            </span>
+            <Logo className="h-5 w-5 text-foreground" />
             <span>AtlasLedger</span>
           </a>
 
