@@ -6,10 +6,8 @@
  * Returns: { token, user }
  */
 
-import { head } from "@vercel/blob";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { corsHeaders, signToken, userBlobKey, verifyPassword } from "./_utils";
-import type { UserRecord } from "./signup";
+import { corsHeaders, signToken, userBlobKey, verifyPassword, getUser, UserRecord } from "./_utils";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === "OPTIONS") {
@@ -30,17 +28,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Email is required" });
     }
 
-    const blobKey = userBlobKey(email);
-
-    // ── Fetch user blob ─────────────────────────────────────────────
-    let user: UserRecord;
-    try {
-      const blobMeta = await head(blobKey);
-      // Fetch the actual JSON content from the blob URL
-      const response = await fetch(blobMeta.url);
-      if (!response.ok) throw new Error("Failed to fetch user data");
-      user = await response.json() as UserRecord;
-    } catch {
+    // ── Fetch user ─────────────────────────────────────────────
+    const user = await getUser(email);
+    if (!user) {
       return res.status(401).json({ error: "No account found with this email" });
     }
 

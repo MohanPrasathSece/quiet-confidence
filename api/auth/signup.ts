@@ -6,7 +6,6 @@
  * Returns: { token, user }
  */
 
-import { put, head } from "@vercel/blob";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import {
   corsHeaders,
@@ -15,20 +14,10 @@ import {
   hashPassword,
   signToken,
   userBlobKey,
+  getUser,
+  saveUser,
+  UserRecord,
 } from "./_utils";
-
-export interface UserRecord {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  country?: string;
-  howMuchInvested?: string;
-  passwordHash?: string;
-  passwordSalt?: string;
-  createdAt: string;
-}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS preflight
@@ -58,15 +47,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Invalid email address" });
     }
 
-    const blobKey = userBlobKey(email);
-
     // ── Check if user already exists ────────────────────────────────
-    try {
-      await head(blobKey);
-      // If head() succeeds, user exists
+    const existingUser = await getUser(email);
+    if (existingUser) {
       return res.status(409).json({ error: "An account with this email already exists" });
-    } catch {
-      // head() throws if blob not found — that's fine, proceed with creation
     }
 
     // ── Parse name and create user ─────────────────────────────────
@@ -83,12 +67,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       createdAt: new Date().toISOString(),
     };
 
-    // ── Store in Vercel Blob ─────────────────────────────────────────
-    await put(blobKey, JSON.stringify(user), {
-      access: "public",           // required by Vercel Blob
-      contentType: "application/json",
-      addRandomSuffix: false,     // deterministic key = can be fetched by email
-    });
+    // ── Store user ─────────────────────────────────────────
+    await saveUser(email, user);
 
     // ── Sign JWT & return ────────────────────────────────────────────
     const token = await signToken({

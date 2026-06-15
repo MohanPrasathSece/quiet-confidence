@@ -5,7 +5,103 @@
  */
 
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 import { SignJWT, jwtVerify } from "jose";
+import { put, head, get } from "@vercel/blob";
+
+export interface UserRecord {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  country?: string;
+  howMuchInvested?: string;
+  passwordHash?: string;
+  passwordSalt?: string;
+  createdAt: string;
+}
+
+const localDbPath = path.resolve(process.cwd(), "api/auth/.local-db.json");
+
+function readLocalDb(): Record<string, UserRecord> {
+  try {
+    if (fs.existsSync(localDbPath)) {
+      return JSON.parse(fs.readFileSync(localDbPath, "utf-8"));
+    }
+  } catch (err) {
+    console.error("Failed to read local DB:", err);
+  }
+  return {};
+}
+
+function writeLocalDb(db: Record<string, UserRecord>) {
+  try {
+    fs.writeFileSync(localDbPath, JSON.stringify(db, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Failed to write local DB:", err);
+  }
+}
+
+export function isDummyToken(): boolean {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  return !token || token.includes("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+}
+
+export async function getUser(email: string): Promise<UserRecord | null> {
+  const cleanEmail = email.trim().toLowerCase();
+  
+  if (isDummyToken()) {
+    const db = readLocalDb();
+    return db[cleanEmail] || null;
+  } else {
+    try {
+      const blobKey = userBlobKey(cleanEmail);
+      const blobMeta = await head(blobKey);
+      
+      // Fetch private blob content using SDK get()
+      const getResult = await get(blobMeta.url, { access: "private" });
+      if (!getResult || !getResult.stream) return null;
+      
+      const response = new Response(getResult.stream);
+      return await response.json() as UserRecord;
+    } catch {
+      return null;
+    }
+  }
+}
+
+export async function saveUser(email: string, user: UserRecord): Promise<void> {
+  const cleanEmail = email.trim().toLowerCase();
+  
+  if (isDummyToken()) {
+    const db = readLocalDb();
+    db[cleanEmail] = user;
+    writeLocalDb(db);
+  } else {
+    const blobKey = userBlobKey(cleanEmail);
+    try {
+      // Try public access first (default)
+      await put(blobKey, JSON.stringify(user), {
+        access: "public",
+        contentType: "application/json",
+        addRandomSuffix: false,
+      });
+    } catch (err: any) {
+      // If store is configured as private, retry with private access
+      if (err?.message?.includes("private store") || err?.message?.includes("private access")) {
+        await put(blobKey, JSON.stringify(user), {
+          access: "private",
+          contentType: "application/json",
+          addRandomSuffix: false,
+        });
+      } else {
+        throw err;
+      }
+    }
+  }
+}
 
 // ─── JWT ───────────────────────────────────────────────────────────
 

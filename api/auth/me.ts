@@ -5,10 +5,8 @@
  * Returns the current user's profile (without password fields).
  */
 
-import { head } from "@vercel/blob";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { userBlobKey, verifyToken } from "./_utils";
-import type { UserRecord } from "./signup";
+import { userBlobKey, verifyToken, getUser, UserRecord } from "./_utils";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === "OPTIONS") {
@@ -36,15 +34,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(401).json({ error: "Invalid or expired token" });
     }
 
-    // ── Fetch latest user data from blob ────────────────────────────
-    const blobKey = userBlobKey(payload.email);
-    let user: UserRecord;
-    try {
-      const blobMeta = await head(blobKey);
-      const response = await fetch(blobMeta.url);
-      if (!response.ok) throw new Error("Blob fetch failed");
-      user = await response.json() as UserRecord;
-    } catch {
+    // ── Fetch latest user data ────────────────────────────
+    const user = await getUser(payload.email);
+    if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 

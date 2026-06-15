@@ -27,18 +27,29 @@ export function Footer() {
           { title: "Platform", links: ["Trading", "Custody", "Analytics", "Automation"] },
           { title: "Company", links: ["About", "Customers", "Careers", "Press"] },
           { title: "Resources", links: ["Status", "Security", "Contact"] },
-        ].map((col) => (
-          <div key={col.title}>
-            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{col.title}</div>
-            <ul className="mt-5 space-y-3">
-              {col.links.map((l) => (
-                <li key={l}>
-                  <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">{l}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        ].map((col) => {
+          const linkMap: Record<string, string> = {
+            "Trading": "#features",
+            "Custody": "#security",
+            "Analytics": "#features",
+            "Automation": "#features",
+            "Customers": "#customers",
+            "Security": "#security",
+            "Contact": "#contact",
+          };
+          return (
+            <div key={col.title}>
+              <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{col.title}</div>
+              <ul className="mt-5 space-y-3">
+                {col.links.map((l) => (
+                  <li key={l}>
+                    <a href={linkMap[l] || "#"} className="text-foreground/80 hover:text-foreground transition-colors">{l}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
       <div className="border-t border-border">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-muted-foreground">

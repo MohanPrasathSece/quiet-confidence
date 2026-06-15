@@ -31,7 +31,7 @@ export function CTA({ onPrimary }: { onPrimary: () => void }) {
               <span className="ml-2 opacity-70">→</span>
             </button>
             <a
-              href="#"
+              href="#contact"
               className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-background px-5 text-[14px] font-medium text-foreground hover:bg-accent transition-colors"
             >
               Talk to us
