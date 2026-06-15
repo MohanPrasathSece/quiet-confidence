@@ -17,7 +17,6 @@ import {
   TrendingUp,
   ShieldCheck,
   LineChart,
-  Grid,
   Layers,
 } from "lucide-react";
 
@@ -67,21 +66,21 @@ function MacBookCandleMockup() {
   const [livePrice, setLivePrice] = useState(67842.5);
   const [prevClose, setPrevClose] = useState(67842.5);
 
-  // Generate initial candles
+  // Generate initial candles (30 candles)
   useEffect(() => {
     const initialCandles: Candle[] = [];
-    let basePrice = 67200;
-    for (let i = 0; i < 15; i++) {
-      const open = basePrice + (Math.random() - 0.5) * 150;
-      const close = open + (Math.random() - 0.5) * 200;
-      const high = Math.max(open, close) + Math.random() * 80;
-      const low = Math.min(open, close) - Math.random() * 80;
+    let basePrice = 67300;
+    for (let i = 0; i < 30; i++) {
+      const open = basePrice + (Math.random() - 0.5) * 120;
+      const close = open + (Math.random() - 0.5) * 180;
+      const high = Math.max(open, close) + Math.random() * 60;
+      const low = Math.min(open, close) - Math.random() * 60;
       initialCandles.push({
         open,
         close,
         high,
         low,
-        time: `${12 + i}:00`,
+        time: `${10 + Math.floor(i / 2)}:${i % 2 === 0 ? "00" : "30"}`,
       });
       basePrice = close;
     }
@@ -94,7 +93,7 @@ function MacBookCandleMockup() {
   useEffect(() => {
     const liveInterval = setInterval(() => {
       setLivePrice((prev) => {
-        const delta = (Math.random() - 0.5) * 45;
+        const delta = (Math.random() - 0.5) * 35;
         return Number((prev + delta).toFixed(2));
       });
     }, 400);
@@ -110,8 +109,8 @@ function MacBookCandleMockup() {
         const lastCandle = prev[prev.length - 1];
         const nextOpen = lastCandle.close;
         const nextClose = livePrice;
-        const nextHigh = Math.max(nextOpen, nextClose) + Math.random() * 60;
-        const nextLow = Math.min(nextOpen, nextClose) - Math.random() * 60;
+        const nextHigh = Math.max(nextOpen, nextClose) + Math.random() * 50;
+        const nextLow = Math.min(nextOpen, nextClose) - Math.random() * 50;
         
         const newCandle: Candle = {
           open: nextOpen,
@@ -129,16 +128,15 @@ function MacBookCandleMockup() {
     return () => clearInterval(candleInterval);
   }, [livePrice]);
 
-  // Map candles to coordinate scales
-  const chartHeight = 120;
-  const chartWidth = 320;
+  // Coordinate scales
+  const chartHeight = 220;
   
-  const minPrice = Math.min(...candles.map((c) => c.low), livePrice) - 50;
-  const maxPrice = Math.max(...candles.map((c) => c.high), livePrice) + 50;
+  const minPrice = Math.min(...candles.map((c) => c.low), livePrice) - 40;
+  const maxPrice = Math.max(...candles.map((c) => c.high), livePrice) + 40;
   const priceRange = maxPrice - minPrice || 1;
 
-  const getX = (index: number) => 15 + index * 20;
-  const getY = (price: number) => chartHeight - ((price - minPrice) / priceRange) * (chartHeight - 20);
+  const getX = (index: number) => 25 + index * 19;
+  const getY = (price: number) => chartHeight - 20 - ((price - minPrice) / priceRange) * (chartHeight - 40);
 
   const isUp = livePrice >= prevClose;
 
@@ -158,7 +156,7 @@ function MacBookCandleMockup() {
         </div>
       </div>
 
-      {/* Candlestick Screen */}
+      {/* Taller Candlestick Screen */}
       <div className="p-5 sm:p-6 bg-slate-950 text-white font-mono space-y-4">
         {/* Live Ticker Header */}
         <div className="flex items-center justify-between border-b border-slate-900 pb-3">
@@ -167,24 +165,39 @@ function MacBookCandleMockup() {
             <span className="text-[13px] font-bold text-slate-100 tracking-wider">BTC / USD LIVE</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className={`text-[16px] font-bold tracking-tight ${isUp ? "text-emerald-400" : "text-rose-400"}`}>
+            <span className={`text-[17px] sm:text-[19px] font-bold tracking-tight ${isUp ? "text-emerald-400" : "text-rose-400"}`}>
               ${livePrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}
             </span>
-            <span className={`text-[11px] font-semibold ${isUp ? "text-emerald-500" : "text-rose-500"}`}>
+            <span className={`text-[11px] sm:text-[12px] font-semibold ${isUp ? "text-emerald-500" : "text-rose-500"}`}>
               {isUp ? "▲" : "▼"} 1.48%
             </span>
           </div>
         </div>
 
-        {/* Dynamic Candlestick Chart SVG */}
-        <div className="relative h-36 w-full">
-          <svg className="w-full h-full" viewBox="0 0 340 130">
+        {/* Dynamic Candlestick Chart SVG - Taller Height h-64 */}
+        <div className="relative h-64 w-full">
+          <svg className="w-full h-full" viewBox="0 0 620 240" preserveAspectRatio="none">
             {/* Grid Lines */}
-            <line x1="0" y1="30" x2="340" y2="30" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
-            <line x1="0" y1="70" x2="340" y2="70" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
-            <line x1="0" y1="110" x2="340" y2="110" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
+            <line x1="0" y1="40" x2="580" y2="40" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
+            <line x1="0" y1="90" x2="580" y2="90" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
+            <line x1="0" y1="140" x2="580" y2="140" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
+            <line x1="0" y1="190" x2="580" y2="190" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
 
-            {/* Render Static/Moving Candlesticks */}
+            {/* Grid Price Labels on right */}
+            <text x="590" y="44" className="text-[9px] fill-slate-600 font-sans">
+              ${(maxPrice - priceRange * 0.1).toFixed(0)}
+            </text>
+            <text x="590" y="94" className="text-[9px] fill-slate-600 font-sans">
+              ${(maxPrice - priceRange * 0.35).toFixed(0)}
+            </text>
+            <text x="590" y="144" className="text-[9px] fill-slate-600 font-sans">
+              ${(maxPrice - priceRange * 0.6).toFixed(0)}
+            </text>
+            <text x="590" y="194" className="text-[9px] fill-slate-600 font-sans">
+              ${(maxPrice - priceRange * 0.85).toFixed(0)}
+            </text>
+
+            {/* Render 30 Candlesticks */}
             {candles.map((candle, idx) => {
               const x = getX(idx);
               const yOpen = getY(candle.open);
@@ -196,14 +209,16 @@ function MacBookCandleMockup() {
               return (
                 <g key={idx}>
                   {/* Wick */}
-                  <line x1={x} y1={yHigh} x2={x} y2={yLow} stroke={cUp ? "#10b981" : "#ef4444"} strokeWidth="1.2" />
-                  {/* Body */}
+                  <line x1={x} y1={yHigh} x2={x} y2={yLow} stroke={cUp ? "#10b981" : "#f43f5e"} strokeWidth="1.5" />
+                  {/* Real market size body (width 12) */}
                   <rect
-                    x={x - 4}
+                    x={x - 6}
                     y={Math.min(yOpen, yClose)}
-                    width="8"
+                    width="12"
                     height={Math.max(2, Math.abs(yOpen - yClose))}
-                    fill={cUp ? "#10b981" : "#ef4444"}
+                    fill={cUp ? "#10b981" : "#f43f5e"}
+                    stroke={cUp ? "#059669" : "#e11d48"}
+                    strokeWidth="1"
                     rx="1"
                   />
                 </g>
@@ -216,30 +231,30 @@ function MacBookCandleMockup() {
                 <line
                   x1="0"
                   y1={getY(livePrice)}
-                  x2="320"
+                  x2="580"
                   y2={getY(livePrice)}
-                  stroke="rgba(16, 185, 129, 0.25)"
-                  strokeWidth="1"
-                  strokeDasharray="3 3"
+                  stroke="rgba(16, 185, 129, 0.3)"
+                  strokeWidth="1.2"
+                  strokeDasharray="4 3"
                 />
-                <circle cx={getX(candles.length - 1)} cy={getY(livePrice)} r="3" fill="#10b981" />
+                <circle cx={getX(candles.length - 1)} cy={getY(livePrice)} r="3.5" fill="#10b981" />
               </g>
             )}
           </svg>
         </div>
 
         {/* Info stats bar */}
-        <div className="grid grid-cols-3 gap-2 text-[10px] text-slate-500 pt-3 border-t border-slate-900">
+        <div className="grid grid-cols-3 gap-2 text-[10px] sm:text-[11px] text-slate-500 pt-3 border-t border-slate-900">
           <div>
-            <span className="block uppercase text-[8px] tracking-wider">24H High</span>
+            <span className="block uppercase text-[8px] sm:text-[9px] tracking-wider">24H High</span>
             <span className="font-semibold text-slate-300">$68,140.25</span>
           </div>
           <div>
-            <span className="block uppercase text-[8px] tracking-wider">24H Low</span>
+            <span className="block uppercase text-[8px] sm:text-[9px] tracking-wider">24H Low</span>
             <span className="font-semibold text-slate-300">$66,950.00</span>
           </div>
           <div>
-            <span className="block uppercase text-[8px] tracking-wider">AI Confidence</span>
+            <span className="block uppercase text-[8px] sm:text-[9px] tracking-wider">AI Confidence</span>
             <span className="font-semibold text-emerald-400">94.2% BUY</span>
           </div>
         </div>
@@ -585,6 +600,11 @@ export default function DashboardPage() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
+  // Scroll to top on mount (e.g. after login redirect)
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground font-['Inter_Tight',sans-serif] antialiased selection:bg-foreground selection:text-background relative">
       
@@ -603,14 +623,16 @@ export default function DashboardPage() {
         className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl"
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-10">
-          {/* Logo */}
-          <a
-            href="/"
-            className="flex shrink-0 items-center gap-2 text-[15px] font-medium tracking-tight cursor-pointer"
+          {/* Logo - clicking scrolls to top smoothly */}
+          <button
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="flex shrink-0 items-center gap-2 text-[15px] font-medium tracking-tight cursor-pointer focus:outline-none"
           >
             <Logo className="h-5 w-5 text-foreground" />
             <span>AtlasLedger</span>
-          </a>
+          </button>
 
           {/* Navigation Links */}
           <nav className="flex items-center gap-7 text-[14px] text-muted-foreground">
@@ -658,7 +680,8 @@ export default function DashboardPage() {
             <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
               AI-Powered Crypto Investment Strategy
             </h2>
-            <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-1.5">
+            {/* Increased Size by 1: from text-[13px] sm:text-[14px] to text-[15px] sm:text-[16px] */}
+            <p className="text-[15px] sm:text-[16px] text-muted-foreground mt-1.5">
               Understand how our proprietary automation platform secures and optimizes your digital asset exposure.
             </p>
           </div>
@@ -677,6 +700,7 @@ export default function DashboardPage() {
                 Rather than relying on speculative advice or manual execution, AtlasLedger deploys a unified neural network model to navigate liquid cryptocurrency markets. The AI bot continuously tracks price volatility, trade imbalances, and developer activity metrics to allocate funds toward the absolute highest quality assets (BTC, ETH, and select blue-chip protocols).
               </p>
               
+              {/* Bullet Descriptions Increased by 1: from text-[12px] sm:text-[13px] to text-[13px] sm:text-[14px] */}
               <div className="space-y-3 pt-3 border-t border-border/40">
                 <div className="flex items-start gap-2.5">
                   <div className="mt-1 h-4 w-4 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center">
@@ -684,7 +708,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h4 className="text-[14px] font-bold text-slate-800">Target Selection</h4>
-                    <p className="text-[12px] sm:text-[13px] text-muted-foreground mt-0.5">Scans institutional spreads, network health, and velocity to allocate only to verified tokens with strong fundamental tailwinds.</p>
+                    <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-0.5">Scans institutional spreads, network health, and velocity to allocate only to verified tokens with strong fundamental tailwinds.</p>
                   </div>
                 </div>
 
@@ -694,7 +718,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h4 className="text-[14px] font-bold text-slate-800">Risk Allocation</h4>
-                    <p className="text-[12px] sm:text-[13px] text-muted-foreground mt-0.5">Executes delta-neutral hedging and stop-drift rebalancing to defend capital from drawdowns and market slippage.</p>
+                    <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-0.5">Executes delta-neutral hedging and stop-drift rebalancing to defend capital from drawdowns and market slippage.</p>
                   </div>
                 </div>
 
@@ -704,7 +728,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h4 className="text-[14px] font-bold text-slate-800">Yield Compounding</h4>
-                    <p className="text-[12px] sm:text-[13px] text-muted-foreground mt-0.5">Routes stable pool allocations to capital-efficient liquid staking hubs to capture high yields automatically.</p>
+                    <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-0.5">Routes stable pool allocations to capital-efficient liquid staking hubs to capture high yields automatically.</p>
                   </div>
                 </div>
               </div>
@@ -737,7 +761,7 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* ── NEW: macOS MacBook Mockup with Candlestick Chart ── */}
+        {/* ── macOS MacBook Mockup with Taller Candlestick Chart ── */}
         <section className="space-y-6">
           <div className="border-b border-border/60 pb-5">
             <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
@@ -752,7 +776,7 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* ── NEW: Performance Metrics Section ── */}
+        {/* ── Performance Metrics Section ── */}
         <section className="space-y-6">
           <div className="border-b border-border/60 pb-5">
             <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
@@ -784,13 +808,15 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* ── NEW: Staking/Investment Pipeline ── */}
+        {/* ── Staking/Investment Pipeline (Font Size Increased by 1) ── */}
         <section className="space-y-6">
           <div className="border-b border-border/60 pb-5">
-            <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
+            {/* Title increased by 1: text-[20px] sm:text-[24px] -> text-[22px] sm:text-[26px] */}
+            <h2 className="text-[22px] sm:text-[26px] font-medium tracking-tight text-foreground">
               Automated Investment Process
             </h2>
-            <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-1.5">
+            {/* Subtext increased by 1: text-[13px] sm:text-[14px] -> text-[14px] sm:text-[15px] */}
+            <p className="text-[14px] sm:text-[15px] text-muted-foreground mt-1.5">
               Four systematic phases ensuring your funds align with peak cryptocurrency trends safely.
             </p>
           </div>
@@ -805,20 +831,24 @@ export default function DashboardPage() {
                 <div className="absolute top-4 right-4 text-[24px] font-black text-slate-100 font-mono tracking-tight select-none">
                   {step.num}
                 </div>
-                <h3 className="text-[15px] font-bold text-slate-800">{step.name}</h3>
-                <p className="text-[12px] sm:text-[13px] text-muted-foreground leading-relaxed mt-2">{step.desc}</p>
+                {/* Heading increased to text-[16px] */}
+                <h3 className="text-[16px] font-bold text-slate-800">{step.name}</h3>
+                {/* Description increased by 1 to text-[13px] sm:text-[14px] */}
+                <p className="text-[13px] sm:text-[14px] text-muted-foreground leading-relaxed mt-2">{step.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── NEW: Supported Verified Asset Pools ── */}
+        {/* ── Supported Verified Asset Pools (Font Size Increased by 1) ── */}
         <section className="space-y-6">
           <div className="border-b border-border/60 pb-5">
-            <h2 className="text-[20px] sm:text-[24px] font-medium tracking-tight text-foreground">
+            {/* Title increased by 1: text-[20px] sm:text-[24px] -> text-[22px] sm:text-[26px] */}
+            <h2 className="text-[22px] sm:text-[26px] font-medium tracking-tight text-foreground">
               Verified Crypto Asset Pools
             </h2>
-            <p className="text-[13px] sm:text-[14px] text-muted-foreground mt-1.5">
+            {/* Subtext increased by 1: text-[13px] sm:text-[14px] -> text-[14px] sm:text-[15px] */}
+            <p className="text-[14px] sm:text-[15px] text-muted-foreground mt-1.5">
               Cryptocurrencies actively tracked and allocated by the Atlas AI model.
             </p>
           </div>
@@ -832,13 +862,18 @@ export default function DashboardPage() {
               { coin: "Uniswap", symbol: "UNI", buy: "68.9%", status: "Monitoring", color: "border-purple-200 bg-purple-50/20 text-purple-700" },
             ].map((asset, i) => (
               <div key={i} className="p-4 rounded-xl border border-border bg-card shadow-sm space-y-2 text-center">
-                <div className="text-[11px] font-bold text-slate-400 font-mono tracking-wider">{asset.symbol}</div>
+                {/* Symbol increased from text-[11px] to text-[12px] */}
+                <div className="text-[12px] font-bold text-slate-400 font-mono tracking-wider">{asset.symbol}</div>
                 <div>
-                  <div className="text-[15px] font-bold text-slate-800">{asset.coin}</div>
-                  <div className="text-[18px] font-extrabold text-slate-800 mt-1">{asset.buy}</div>
-                  <div className="text-[9px] uppercase tracking-wider text-muted-foreground mt-0.5">AI Buy Strength</div>
+                  {/* Coin name increased from text-[15px] to text-[16px] */}
+                  <div className="text-[16px] font-extrabold text-slate-800">{asset.coin}</div>
+                  {/* Buy strength increased to text-[20px] sm:text-[22px] */}
+                  <div className="text-[20px] sm:text-[22px] font-black text-slate-800 mt-1">{asset.buy}</div>
+                  {/* AI Buy Strength label increased from text-[9px] to text-[10px] sm:text-[11px] */}
+                  <div className="text-[10px] sm:text-[11px] uppercase tracking-wider text-muted-foreground mt-0.5">AI Buy Strength</div>
                 </div>
-                <div className={`mt-2 inline-block rounded-full border px-2 py-0.5 text-[9px] font-bold uppercase ${asset.color}`}>
+                {/* Status badge text increased from text-[9px] to text-[10px] sm:text-[11px] */}
+                <div className={`mt-2 inline-block rounded-full border px-2 py-0.5 text-[10px] sm:text-[11px] font-bold uppercase ${asset.color}`}>
                   {asset.status}
                 </div>
               </div>
