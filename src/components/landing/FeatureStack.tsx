@@ -57,8 +57,8 @@ export function FeatureStack() {
 
       <div ref={ref} className="relative" style={{ height: `${features.length * 100}vh` }}>
         <div className="sticky top-0 h-screen flex items-center">
-          <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-            <div className="relative h-[460px] lg:h-[500px]">
+          <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-10">
+            <div className="relative h-[520px] sm:h-[480px] lg:h-[500px]">
               {features.map((f, i) => (
                 <FeatureCard
                   key={i}
@@ -104,21 +104,21 @@ function FeatureCard({
   return (
     <motion.article
       style={{ y, opacity, scale, zIndex: total - index }}
-      className="absolute inset-0 rounded-2xl border border-border bg-background p-8 lg:p-14 shadow-[0_30px_80px_-30px_rgba(17,17,17,0.12)] grid lg:grid-cols-2 gap-10 lg:gap-16"
+      className="absolute inset-0 rounded-2xl border border-border bg-background p-6 sm:p-8 lg:p-14 shadow-[0_30px_80px_-30px_rgba(17,17,17,0.12)] grid lg:grid-cols-2 gap-6 lg:gap-16 overflow-hidden"
     >
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between min-w-0">
         <div>
-          <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] sm:text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
             {feature.tag}
           </div>
-          <h3 className="mt-5 text-[32px] lg:text-[44px] leading-[1.05] tracking-[-0.03em] font-medium max-w-md">
+          <h3 className="mt-4 sm:mt-5 text-[26px] sm:text-[32px] lg:text-[44px] leading-[1.05] tracking-[-0.03em] font-medium max-w-md">
             {feature.title}
           </h3>
-          <p className="mt-5 text-[16px] lg:text-[17px] leading-relaxed text-muted-foreground max-w-md">
+          <p className="mt-4 sm:mt-5 text-[14px] sm:text-[16px] lg:text-[17px] leading-relaxed text-muted-foreground max-w-md">
             {feature.body}
           </p>
         </div>
-        <ul className="mt-10 space-y-3 text-[14px]">
+        <ul className="mt-6 sm:mt-10 space-y-2.5 sm:space-y-3 text-[13px] sm:text-[14px]">
           {feature.bullets.map((b) => (
             <li key={b} className="flex items-center gap-3 text-muted-foreground">
               <span className="h-px w-5 bg-foreground" />
@@ -128,7 +128,7 @@ function FeatureCard({
         </ul>
       </div>
 
-      <div className="relative rounded-xl border border-border bg-card/60 overflow-hidden">
+      <div className="relative hidden lg:block rounded-xl border border-border bg-card/60 overflow-hidden">
         <FeatureVisual index={index} />
       </div>
     </motion.article>

@@ -11,9 +11,9 @@ const nodes = [
 
 export function Ecosystem() {
   return (
-    <section className="py-32 lg:py-40">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
+    <section className="py-24 sm:py-32 lg:py-40">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 items-start">
           <div className="lg:col-span-4">
             <Reveal>
               <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -21,7 +21,7 @@ export function Ecosystem() {
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 className="mt-5 text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
+              <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
                 A platform that <span className="text-muted-foreground">composes.</span>
               </h2>
             </Reveal>

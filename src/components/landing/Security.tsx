@@ -3,15 +3,15 @@ import { Reveal, SplitLines } from "./primitives";
 
 export function Security() {
   return (
-    <section id="security" className="py-32 lg:py-44">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-center">
+    <section id="security" className="py-24 sm:py-32 lg:py-44">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
         <div>
           <Reveal>
             <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
               Security
             </div>
           </Reveal>
-          <h2 className="mt-5 text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium max-w-md">
+          <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium max-w-md">
             <SplitLines text="Built to be" />
             <br />
             <span className="text-muted-foreground">
@@ -41,8 +41,8 @@ export function Security() {
           </Reveal>
         </div>
 
-        <div className="relative grid place-items-center min-h-[420px]">
-          <svg viewBox="0 0 400 400" className="h-[380px] w-[380px]">
+        <div className="relative grid place-items-center min-h-[320px] sm:min-h-[420px]">
+          <svg viewBox="0 0 400 400" className="h-[280px] w-[280px] sm:h-[380px] sm:w-[380px]">
             {[1, 2, 3, 4].map((i) => (
               <motion.circle
                 key={i}

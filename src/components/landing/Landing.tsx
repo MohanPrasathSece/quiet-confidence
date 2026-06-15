@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Nav } from "./Nav";
 import { Hero } from "./Hero";
 import { Metrics } from "./Metrics";
@@ -11,13 +12,22 @@ import { Integrations } from "./Integrations";
 import { FinalStatement } from "./FinalStatement";
 import { CTA } from "./CTA";
 import { Footer } from "./Footer";
+import { AuthModal } from "./AuthModal";
 
 export default function Landing() {
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
+
+  const openAuth = (mode: "signin" | "signup") => {
+    setAuthMode(mode);
+    setAuthOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground antialiased selection:bg-foreground selection:text-background">
-      <Nav />
+      <Nav onSignIn={() => openAuth("signin")} onSignUp={() => openAuth("signup")} />
       <main>
-        <Hero />
+        <Hero onPrimary={() => openAuth("signup")} />
         <Metrics />
         <ProductOverview />
         <FeatureStack />
@@ -27,9 +37,10 @@ export default function Landing() {
         <Testimonials />
         <Integrations />
         <FinalStatement />
-        <CTA />
+        <CTA onPrimary={() => openAuth("signup")} />
       </main>
       <Footer />
+      <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
     </div>
   );
 }

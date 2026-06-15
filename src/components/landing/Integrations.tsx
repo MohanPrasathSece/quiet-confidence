@@ -8,9 +8,9 @@ const logos = [
 
 export function Integrations() {
   return (
-    <section className="py-32 lg:py-40">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-end">
+    <section className="py-24 sm:py-32 lg:py-40">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 items-end">
           <div className="lg:col-span-5">
             <Reveal>
               <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -18,7 +18,7 @@ export function Integrations() {
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 className="mt-5 text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
+              <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
                 Connected to where <span className="text-muted-foreground">money already lives.</span>
               </h2>
             </Reveal>
@@ -33,7 +33,7 @@ export function Integrations() {
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-border rounded-2xl overflow-hidden border border-border">
+        <div className="mt-12 sm:mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-border rounded-2xl overflow-hidden border border-border">
           {logos.map((name, i) => (
             <motion.div
               key={name}
@@ -41,7 +41,7 @@ export function Integrations() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.9, delay: (i % 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-background h-24 grid place-items-center text-[15px] tracking-tight text-muted-foreground hover:text-foreground transition-colors"
+              className="bg-background h-20 sm:h-24 grid place-items-center text-[13px] sm:text-[15px] tracking-tight text-muted-foreground hover:text-foreground transition-colors"
             >
               {name}
             </motion.div>
