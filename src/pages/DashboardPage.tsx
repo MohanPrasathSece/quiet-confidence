@@ -442,9 +442,9 @@ function DashboardContactForm() {
 
   const validate = (): boolean => {
     const e: Partial<Record<keyof DashForm, string>> = {};
-    if (!form.name.trim()) e.name = "Required";
-    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Valid email required";
-    if (!form.phone.trim()) e.phone = "Required";
+    if (!form.name.trim()) e.name = "Requis";
+    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "E-mail valide requis";
+    if (!form.phone.trim()) e.phone = "Requis";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -464,7 +464,7 @@ function DashboardContactForm() {
       setStatus("success");
     } catch (err) {
       console.error(err);
-      setApiError("Something went wrong. Please try again.");
+      setApiError("Un problème est survenu. Veuillez réessayer.");
       setStatus("error");
     }
   };
@@ -478,13 +478,13 @@ function DashboardContactForm() {
       <div className="text-center mb-10">
         <div className="mx-auto mb-3 flex w-fit items-center gap-1.5 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground font-semibold">
           <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-          Support Desk
+          Service d'assistance
         </div>
         <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
-          Speak with our strategy team
+          Parlez à notre équipe de stratégie
         </h2>
         <p className="mt-3 text-base text-muted-foreground leading-relaxed max-w-lg mx-auto">
-          Our trading desks can assist in constructing private allocations, API integrations, and customized rebalancing rules.
+          Nos bureaux de négociation peuvent vous aider à construire des allocations privées, des intégrations d'API et des règles de rééquilibrage personnalisées.
         </p>
       </div>
 
@@ -507,15 +507,15 @@ function DashboardContactForm() {
               >
                 <CheckCircle className="h-12 w-12 text-foreground" strokeWidth={1.5} />
               </motion.div>
-              <h3 className="text-xl font-medium tracking-tight text-foreground">Request received</h3>
+              <h3 className="text-xl font-medium tracking-tight text-foreground">Demande reçue</h3>
               <p className="text-base text-muted-foreground max-w-xs leading-relaxed">
-                An advisor will contact you within 2 hours during active market sessions.
+                Un conseiller vous contactera dans les 2 heures pendant les sessions de marché actives.
               </p>
               <button
                 onClick={() => { setForm(DASH_EMPTY); setStatus("idle"); setErrors({}); setApiError(""); }}
                 className="mt-3 inline-flex h-10 items-center rounded-full border border-border bg-background px-5 text-base font-medium text-foreground hover:bg-accent transition-colors"
               >
-                Send another message
+                Envoyer un autre message
               </button>
             </motion.div>
           ) : (
@@ -529,7 +529,7 @@ function DashboardContactForm() {
             >
               {/* Name */}
               <div>
-                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Name *</label>
+                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Nom *</label>
                 <input type="text" placeholder="John Doe" value={form.name} onChange={setF("name")} className={inputClass("name")} />
                 {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
               </div>
@@ -537,12 +537,12 @@ function DashboardContactForm() {
               {/* Email + Phone */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Email address *</label>
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Adresse e-mail *</label>
                   <input type="email" placeholder="you@domain.com" value={form.email} onChange={setF("email")} className={inputClass("email")} />
                   {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Phone number *</label>
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Numéro de téléphone *</label>
                   <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={setF("phone")} className={inputClass("phone")} />
                   {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
                 </div>
@@ -550,10 +550,10 @@ function DashboardContactForm() {
 
               {/* Message */}
               <div>
-                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Message (optional)</label>
+                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Message (facultatif)</label>
                 <textarea
                   rows={4}
-                  placeholder="Specify your target allocation, underlying portfolio values, or technical questions..."
+                  placeholder="Précisez votre allocation cible, les valeurs du portefeuille sous-jacent ou vos questions techniques..."
                   value={form.message}
                   onChange={setF("message")}
                   className={`${inputClass("message")} resize-none`}
@@ -568,14 +568,14 @@ function DashboardContactForm() {
               )}
 
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-1">
-                <p className="text-base text-muted-foreground font-mono">All metrics and discussions remain strictly confidential.</p>
+                <p className="text-base text-muted-foreground font-mono">Toutes les métriques et discussions restent strictement confidentielles.</p>
                 <button
                   type="submit"
                   disabled={status === "loading"}
                   className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-base font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer whitespace-nowrap shrink-0"
                 >
                   {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                  {status === "loading" ? "Sending..." : "Send message"}
+                  {status === "loading" ? "Envoi..." : "Envoyer le message"}
                 </button>
               </div>
             </motion.form>
@@ -636,7 +636,7 @@ export default function DashboardPage() {
               className="hover:text-foreground transition-colors flex items-center gap-1.5 font-medium focus:outline-none cursor-pointer"
             >
               <LogOut className="h-4 w-4" />
-              Logout
+              Déconnexion
             </button>
           </nav>
         </div>
@@ -656,14 +656,10 @@ export default function DashboardPage() {
           <div className="max-w-4xl space-y-6">
             <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-3.5 py-1 text-xs text-muted-foreground font-semibold">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Authorized Vault Workspace
+              Espace de travail sécurisé autorisé
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-foreground leading-[1.08]">
-              Hello, {user?.firstName || "Investor"}.
-            </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-              Welcome to the AtlasLedger institutional platform. We help you invest in the right cryptocurrency opportunities by leveraging our state-of-the-art **Atlas AI-Quantum Engine**. Our automated systems evaluate volume triggers, price spreads, and structural trend indicators in real time to optimize entry, custody allocations, and asset weights.
-            </p>
+              Bonjour, {user?.firstName || "Investisseur"}.
+              Bienvenue sur la plateforme institutionnelle AtlasLedger. Nous vous aidons à investir dans les bonnes opportunités de crypto-monnaie en tirant parti de notre **Moteur IA-Quantique Atlas** de pointe. Nos systèmes automatisés évaluent les déclencheurs de volume, les écarts de prix et les indicateurs de tendance structurelle en temps réel pour optimiser l'entrée, les allocations de garde et les pondérations d'actifs.
           </div>
         </motion.section>
 
@@ -677,10 +673,10 @@ export default function DashboardPage() {
         >
           <div className="border-b border-border/60 pb-6">
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
-              Your Personal Profit Simulator
+              Votre simulateur de profit personnel
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
-              Run a live AI projection on any investment amount and see your personalised return forecast.
+              Exécutez une projection IA en direct sur n'importe quel montant d'investissement et consultez vos prévisions de rendement personnalisées.
             </p>
           </div>
           <DashboardCalculator />
@@ -696,10 +692,10 @@ export default function DashboardPage() {
         >
           <div className="border-b border-border/60 pb-6">
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
-              AI-Powered Crypto Investment Strategy
+              Stratégie d'investissement crypto propulsée par l'IA
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
-              Understand how our proprietary automation platform secures and optimizes your digital asset exposure.
+              Comprenez comment notre plateforme d'automatisation propriétaire sécurise et optimise votre exposition aux actifs numériques.
             </p>
           </div>
 
@@ -708,13 +704,13 @@ export default function DashboardPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/30">
                 <Brain className="h-3.5 w-3.5" />
-                Active Quantitative Engine
+                Moteur quantitatif actif
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight leading-tight">
-                The Atlas AI-Quantum Engine
+                Le moteur IA-quantique Atlas
               </h3>
               <p className="text-base text-muted-foreground leading-relaxed">
-                Rather than relying on speculative advice or manual execution, AtlasLedger deploys a unified neural network model to navigate liquid cryptocurrency markets. The AI bot continuously tracks price volatility, trade imbalances, and developer activity metrics to allocate funds toward the absolute highest quality assets (BTC, ETH, and select blue-chip protocols).
+                Plutôt que de s'appuyer sur des conseils spéculatifs ou une exécution manuelle, AtlasLedger déploie un modèle de réseau neuronal unifié pour naviguer sur les marchés liquides des crypto-monnaies. Le bot IA suit en permanence la volatilité des prix, les déséquilibres des transactions et les métriques d'activité des développeurs pour allouer les fonds vers les actifs de la plus haute qualité (BTC, ETH et certains protocoles blue-chip).
               </p>
               
               <div className="space-y-4 pt-4 border-t border-border/40">
@@ -723,8 +719,8 @@ export default function DashboardPage() {
                     <TrendingUp className="h-3.5 w-3.5 text-emerald-600" />
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-slate-800">Target Selection</h4>
-                    <p className="text-base text-muted-foreground mt-0.5">Scans institutional spreads, network health, and velocity to allocate only to verified tokens with strong fundamental tailwinds.</p>
+                    <h4 className="text-base font-bold text-slate-800">Sélection de cible</h4>
+                    <p className="text-base text-muted-foreground mt-0.5">Analyse les spreads institutionnels, la santé du réseau et la vélocité pour allouer uniquement aux jetons vérifiés avec de solides vents favorables fondamentaux.</p>
                   </div>
                 </div>
 
@@ -733,8 +729,8 @@ export default function DashboardPage() {
                     <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-slate-800">Risk Allocation</h4>
-                    <p className="text-base text-muted-foreground mt-0.5">Executes delta-neutral hedging and stop-drift rebalancing to defend capital from drawdowns and market slippage.</p>
+                    <h4 className="text-base font-bold text-slate-800">Allocation des risques</h4>
+                    <p className="text-base text-muted-foreground mt-0.5">Exécute une couverture neutre en delta et un rééquilibrage stop-drift pour défendre le capital contre les baisses et les glissements du marché.</p>
                   </div>
                 </div>
 
@@ -743,8 +739,8 @@ export default function DashboardPage() {
                     <Activity className="h-3.5 w-3.5 text-blue-600" />
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-slate-800">Yield Compounding</h4>
-                    <p className="text-base text-muted-foreground mt-0.5">Routes stable pool allocations to capital-efficient liquid staking hubs to capture high yields automatically.</p>
+                    <h4 className="text-base font-bold text-slate-800">Composition des rendements</h4>
+                    <p className="text-base text-muted-foreground mt-0.5">Achemine les allocations de pools stables vers des hubs de staking liquide efficaces en capital pour capturer automatiquement des rendements élevés.</p>
                   </div>
                 </div>
               </div>
@@ -752,20 +748,20 @@ export default function DashboardPage() {
               {/* Stats Row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-border/40">
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Primary Target</div>
-                  <div className="text-base font-bold text-slate-800 mt-1">BTC & ETH Outperformance</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Cible principale</div>
+                  <div className="text-base font-bold text-slate-800 mt-1">Surperformance BTC & ETH</div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Risk Rating</div>
-                  <div className="text-base font-bold text-slate-800 mt-1">Low / Hedged</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Évaluation des risques</div>
+                  <div className="text-base font-bold text-slate-800 mt-1">Faible / Couvert</div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">AI Scan Speed</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Vitesse de scan IA</div>
                   <div className="text-base font-bold text-slate-800 mt-1">&lt;12ms latency</div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Execution Spec</div>
-                  <div className="text-base font-bold text-slate-800 mt-1">Auto-rebalance</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Spécification d'exécution</div>
+                  <div className="text-base font-bold text-slate-800 mt-1">Rééquilibrage automatique</div>
                 </div>
               </div>
             </div>
@@ -787,10 +783,10 @@ export default function DashboardPage() {
         >
           <div className="border-b border-border/60 pb-6">
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
-              Live Strategy Execution Visualizer
+              Visualiseur d'exécution de stratégie en direct
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
-              Real-time candlestick calculations generated directly from our active algorithmic instances.
+              Calculs de chandeliers en temps réel générés directement à partir de nos instances algorithmiques actives.
             </p>
           </div>
           <div className="max-w-4xl mx-auto">
@@ -808,19 +804,19 @@ export default function DashboardPage() {
         >
           <div className="border-b border-border/60 pb-6">
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
-              Engine Performance Metrics
+              Mesures de performance du moteur
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
-              Statistical performance indices generated from historical and backtested active models.
+              Indices de performance statistiques générés à partir de modèles actifs historiques et backtestés.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
-              { icon: <LineChart className="h-5 w-5 text-amber-500" />, title: "Sharpe Ratio", val: "2.84", desc: "Risk-adjusted returns index" },
-              { icon: <Activity className="h-5 w-5 text-emerald-500" />, title: "Win Rate", val: "92.8%", desc: "Trades closed in margin" },
-              { icon: <TrendingUp className="h-5 w-5 text-blue-500" />, title: "Sortino Ratio", val: "3.12", desc: "Downside risk modifier" },
-              { icon: <ShieldCheck className="h-5 w-5 text-slate-700" />, title: "Max Drawdown", val: "-4.15%", desc: "Peak-to-trough drop cap" },
-              { icon: <Layers className="h-5 w-5 text-purple-500" />, title: "Total Compounded", val: "+142.4%", desc: "Cumulative multi-year yield" },
+              { icon: <LineChart className="h-5 w-5 text-amber-500" />, title: "Ratio de Sharpe", val: "2.84", desc: "Indice de rendement ajusté au risque" },
+              { icon: <Activity className="h-5 w-5 text-emerald-500" />, title: "Taux de réussite", val: "92.8%", desc: "Transactions clôturées avec marge" },
+              { icon: <TrendingUp className="h-5 w-5 text-blue-500" />, title: "Ratio de Sortino", val: "3.12", desc: "Modificateur de risque de baisse" },
+              { icon: <ShieldCheck className="h-5 w-5 text-slate-700" />, title: "Baisse maximale", val: "-4.15%", desc: "Limite de baisse du sommet au creux" },
+              { icon: <Layers className="h-5 w-5 text-purple-500" />, title: "Total composé", val: "+142.4%", desc: "Rendement cumulatif pluriannuel" },
             ].map((metric, i) => (
               <div key={i} className="p-5 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between space-y-3">
                 <div className="flex items-center justify-between">
@@ -846,18 +842,18 @@ export default function DashboardPage() {
         >
           <div className="border-b border-border/60 pb-6">
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
-              Automated Investment Process
+              Processus d'investissement automatisé
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
-              Four systematic phases ensuring your funds align with peak cryptocurrency trends safely.
+              Quatre phases systématiques garantissant que vos fonds s'alignent en toute sécurité sur les tendances maximales de la crypto-monnaie.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
             {[
-              { num: "01", name: "Market Scanning", desc: "The engine runs sub-second scans on social indicators, L1 block transactions, and centralized exchange spreads." },
-              { num: "02", name: "Weight Calibration", desc: "Allocations dynamically adjust across selected crypto assets, tilting weight to tokens with confirmed buy signals." },
-              { num: "03", name: "Delta-Neutral Staking", desc: "Stablecoin liquidity pairs sweep cross-dex yields, generating fee returns while mitigating overall market direction exposure." },
-              { num: "04", name: "Automatic Rebalance", desc: "If underlying asset drifting exceeds 1.5% from the model baseline, the bot automatically executes rebalancing orders." },
+              { num: "01", name: "Analyse du marché", desc: "Le moteur exécute des analyses inférieures à la seconde sur les indicateurs sociaux, les transactions de blocs L1 et les spreads d'échanges centralisés." },
+              { num: "02", name: "Étalonnage du poids", desc: "Les allocations s'ajustent dynamiquement sur les actifs cryptographiques sélectionnés, en inclinant le poids vers les jetons avec des signaux d'achat confirmés." },
+              { num: "03", name: "Jalonnement neutre en delta", desc: "Les paires de liquidités de stablecoins balaient les rendements cross-dex, générant des retours sur les frais tout en atténuant l'exposition globale à la direction du marché." },
+              { num: "04", name: "Rééquilibrage automatique", desc: "Si la dérive de l'actif sous-jacent dépasse 1,5 % par rapport à la ligne de base du modèle, le bot exécute automatiquement les ordres de rééquilibrage." },
             ].map((step, i) => (
               <div key={i} className="relative p-6 rounded-xl border border-border/60 bg-slate-50/20 space-y-3">
                 <div className="absolute top-4 right-4 text-3xl font-black text-slate-100 font-mono tracking-tight select-none">
@@ -880,27 +876,27 @@ export default function DashboardPage() {
         >
           <div className="border-b border-border/60 pb-6">
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
-              Verified Crypto Asset Pools
+              Pools d'actifs cryptographiques vérifiés
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
-              Cryptocurrencies actively tracked and allocated by the Atlas AI model.
+              Cryptomonnaies activement suivies et allouées par le modèle Atlas AI.
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
             {[
-              { coin: "Bitcoin", symbol: "BTC", buy: "94.2%", status: "Active Allocation", color: "border-amber-200 bg-amber-50/20 text-amber-700" },
-              { coin: "Ethereum", symbol: "ETH", buy: "88.5%", status: "Active Allocation", color: "border-blue-200 bg-blue-50/20 text-blue-700" },
-              { coin: "Solana", symbol: "SOL", buy: "82.1%", status: "Active Allocation", color: "border-emerald-200 bg-emerald-50/20 text-emerald-700" },
-              { coin: "Chainlink", symbol: "LINK", buy: "76.4%", status: "Hedged Pool", color: "border-indigo-200 bg-indigo-50/20 text-indigo-700" },
-              { coin: "Polkadot", symbol: "DOT", buy: "71.2%", status: "Monitoring", color: "border-pink-200 bg-pink-50/20 text-pink-700" },
-              { coin: "Uniswap", symbol: "UNI", buy: "68.9%", status: "Monitoring", color: "border-purple-200 bg-purple-50/20 text-purple-700" },
+              { coin: "Bitcoin", symbol: "BTC", buy: "94.2%", status: "Allocation active", color: "border-amber-200 bg-amber-50/20 text-amber-700" },
+              { coin: "Ethereum", symbol: "ETH", buy: "88.5%", status: "Allocation active", color: "border-blue-200 bg-blue-50/20 text-blue-700" },
+              { coin: "Solana", symbol: "SOL", buy: "82.1%", status: "Allocation active", color: "border-emerald-200 bg-emerald-50/20 text-emerald-700" },
+              { coin: "Chainlink", symbol: "LINK", buy: "76.4%", status: "Pool couvert", color: "border-indigo-200 bg-indigo-50/20 text-indigo-700" },
+              { coin: "Polkadot", symbol: "DOT", buy: "71.2%", status: "Surveillance", color: "border-pink-200 bg-pink-50/20 text-pink-700" },
+              { coin: "Uniswap", symbol: "UNI", buy: "68.9%", status: "Surveillance", color: "border-purple-200 bg-purple-50/20 text-purple-700" },
             ].map((asset, i) => (
               <div key={i} className="p-5 rounded-xl border border-border bg-card shadow-sm space-y-3 text-center flex flex-col justify-between">
                 <div className="text-xs font-bold text-slate-400 font-mono tracking-wider">{asset.symbol}</div>
                 <div className="space-y-1">
                   <div className="text-base font-extrabold text-slate-800">{asset.coin}</div>
                   <div className="text-2xl font-black text-slate-800">{asset.buy}</div>
-                  <div className="text-xs text-muted-foreground">AI Buy Strength</div>
+                  <div className="text-xs text-muted-foreground">Force d'achat IA</div>
                 </div>
                 <div className={`mt-2 inline-block rounded-full border px-2 py-0.5 text-xs font-bold uppercase ${asset.color}`}>
                   {asset.status}
@@ -924,10 +920,10 @@ export default function DashboardPage() {
       {/* ── Footer ─────────────────────────────────────────────────── */}
       <footer className="border-t border-border py-8 mt-12 relative">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-base text-muted-foreground">
-          <div>© {new Date().getFullYear()} AtlasLedger · All rights reserved.</div>
+          <div>© {new Date().getFullYear()} AtlasLedger · Tous droits réservés.</div>
           <div className="flex items-center gap-5">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+            <a href="#" className="hover:text-foreground transition-colors">Confidentialité</a>
+            <a href="#" className="hover:text-foreground transition-colors">Conditions</a>
             <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
           </div>
         </div>

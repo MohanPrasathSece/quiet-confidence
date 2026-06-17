@@ -7,7 +7,7 @@
  */
 
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { corsHeaders, signToken, userBlobKey, verifyPassword, getUser, UserRecord } from "./_utils";
+import { corsHeaders, signToken, userBlobKey, verifyPassword, getUser, UserRecord } from "./_utils.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === "OPTIONS") {
@@ -18,20 +18,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: "Méthode non autorisée" });
   }
 
   try {
     const { email } = req.body as { email: string };
 
     if (!email) {
-      return res.status(400).json({ error: "Email is required" });
+      return res.status(400).json({ error: "L'e-mail est requis" });
     }
 
     // ── Fetch user ─────────────────────────────────────────────
     const user = await getUser(email);
     if (!user) {
-      return res.status(401).json({ error: "No account found with this email" });
+      return res.status(401).json({ error: "Aucun compte trouvé avec cet e-mail" });
     }
 
     // ── Sign JWT & return ────────────────────────────────────────────
@@ -45,6 +45,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ token, user });
   } catch (err) {
     console.error("[signin] error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Erreur interne du serveur" });
   }
 }

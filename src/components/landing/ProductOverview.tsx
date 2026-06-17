@@ -8,29 +8,27 @@ export function ProductOverview() {
         <div className="lg:col-span-5">
           <Reveal>
             <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-              The platform
+              La plateforme
             </div>
           </Reveal>
           <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
-            <SplitLines text="One quiet surface" />
+            <SplitLines text="Une surface silencieuse" />
             <br />
             <span className="text-muted-foreground">
-              <SplitLines text="for every asset." delay={0.1} />
+              <SplitLines text="pour chaque actif." delay={0.1} />
             </span>
           </h2>
           <Reveal delay={0.3}>
             <p className="mt-7 text-[17px] leading-relaxed text-muted-foreground max-w-md">
-              Custody, trading, analytics and reporting in a single, precise
-              interface. Built for teams who measure quality in milliseconds and
-              decades.
+              Garde, trading, analyse et reporting dans une interface unique et précise. Conçu pour les équipes qui mesurent la qualité en millisecondes et en décennies.
             </p>
           </Reveal>
           <Reveal delay={0.4}>
             <ul className="mt-10 space-y-4 text-[15px]">
               {[
-                "Institutional-grade custody, by default.",
-                "Real-time multi-venue execution.",
-                "Programmable settlement and treasury.",
+                "Garde de niveau institutionnel, par défaut.",
+                "Exécution multi-lieux en temps réel.",
+                "Règlement et trésorerie programmables.",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-3">
                   <span className="mt-2 h-px w-5 bg-foreground" />

@@ -5,31 +5,31 @@ import { Reveal } from "./primitives";
 const features = [
   {
     tag: "01 - Trading",
-    title: "Execution that disappears.",
+    title: "Une exécution qui disparaît.",
     body:
-      "Smart routing across global venues with deterministic latency. No spread games. No surprises.",
-    bullets: ["Multi-venue order book", "Deterministic 12ms routing", "Algorithmic execution"],
+      "Routage intelligent sur les places mondiales avec une latence déterministe. Pas de jeux sur les spreads. Pas de surprises.",
+    bullets: ["Carnet d'ordres multi-lieux", "Routage déterministe à 12 ms", "Exécution algorithmique"],
   },
   {
-    tag: "02 - Analytics",
-    title: "Numbers that hold up.",
+    tag: "02 - Analytique",
+    title: "Des chiffres qui tiennent la route.",
     body:
-      "Real-time portfolio, risk and attribution analytics. Auditable, reproducible, and yours.",
-    bullets: ["Streaming P&L", "Factor attribution", "Custom reporting"],
+      "Analyses de portefeuille, de risque et d'attribution en temps réel. Auditables, reproductibles et à vous.",
+    bullets: ["P&L en continu", "Attribution factorielle", "Reporting personnalisé"],
   },
   {
-    tag: "03 - Security",
-    title: "Engineered to be boring.",
+    tag: "03 - Sécurité",
+    title: "Conçu pour être ennuyeux.",
     body:
-      "MPC custody, hardware-backed signing, and quorum policies designed by people who used to break them.",
-    bullets: ["MPC custody", "Quorum policies", "SOC 2 Type II"],
+      "Garde MPC, signature matérielle et politiques de quorum conçues par des personnes qui les cassaient auparavant.",
+    bullets: ["Garde MPC", "Politiques de quorum", "SOC 2 Type II"],
   },
   {
-    tag: "04 - Automation",
-    title: "Treasury that runs itself.",
+    tag: "04 - Automatisation",
+    title: "Une trésorerie qui fonctionne toute seule.",
     body:
-      "Programmable rules for rebalancing, yield, and settlement. Express intent. We handle the rest.",
-    bullets: ["Policy engine", "Webhooks & SDKs", "Scheduled flows"],
+      "Règles programmables pour le rééquilibrage, le rendement et le règlement. Exprimez votre intention. Nous gérons le reste.",
+    bullets: ["Moteur de règles", "Webhooks & SDK", "Flux programmés"],
   },
 ];
 
@@ -67,12 +67,12 @@ export function FeatureStack() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-24">
         <Reveal>
           <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-            Four primitives
+            Quatre primitives
           </div>
         </Reveal>
         <Reveal delay={0.1}>
           <h2 className="mt-5 max-w-3xl text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
-            Every layer of the stack, considered.
+            Chaque couche de la pile, prise en compte.
           </h2>
         </Reveal>
       </div>
@@ -171,7 +171,7 @@ function FeatureVisual({ index }: { index: number }) {
     return (
       <div className="absolute inset-0 p-8">
         <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-muted-foreground">
-          <span>Order Book</span>
+          <span>Carnet d'ordres</span>
           <span>BTC / USD</span>
         </div>
         <div className="mt-6 grid grid-cols-2 gap-6 text-[12px] tabular-nums">
@@ -266,7 +266,7 @@ function FeatureVisual({ index }: { index: number }) {
   }
   return (
     <div className="absolute inset-0 p-8 font-mono text-[12px] leading-6 text-muted-foreground">
-      <div className="text-[11px] uppercase tracking-wider">Policy</div>
+      <div className="text-[11px] uppercase tracking-wider">Règle</div>
       <pre className="mt-4 whitespace-pre-wrap">
 {`rule "rebalance" {
   when  drift > 2%

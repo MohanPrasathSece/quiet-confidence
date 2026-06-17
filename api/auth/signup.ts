@@ -17,7 +17,7 @@ import {
   getUser,
   saveUser,
   UserRecord,
-} from "./_utils";
+} from "./_utils.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS preflight
@@ -29,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: "Méthode non autorisée" });
   }
 
   try {
@@ -41,16 +41,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // ── Validation ──────────────────────────────────────────────────
     if (!name || !email || !phone) {
-      return res.status(400).json({ error: "Name, email, and phone are required" });
+      return res.status(400).json({ error: "Le nom, l'e-mail et le téléphone sont requis" });
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
-      return res.status(400).json({ error: "Invalid email address" });
+      return res.status(400).json({ error: "Adresse e-mail invalide" });
     }
 
     // ── Check if user already exists ────────────────────────────────
     const existingUser = await getUser(email);
     if (existingUser) {
-      return res.status(409).json({ error: "An account with this email already exists" });
+      return res.status(409).json({ error: "Un compte avec cet e-mail existe déjà" });
     }
 
     // ── Parse name and create user ─────────────────────────────────
@@ -81,6 +81,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(201).json({ token, user });
   } catch (err) {
     console.error("[signup] error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Erreur interne du serveur" });
   }
 }

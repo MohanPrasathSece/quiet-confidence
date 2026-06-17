@@ -52,7 +52,7 @@ export async function apiSignup(data: {
     body: JSON.stringify(data),
   });
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Signup failed");
+  if (!res.ok) throw new Error(json.error || "Échec de l'inscription");
   return json as AuthResponse;
 }
 
@@ -63,7 +63,7 @@ export async function apiSignin(email: string): Promise<AuthResponse> {
     body: JSON.stringify({ email }),
   });
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Sign in failed");
+  if (!res.ok) throw new Error(json.error || "Échec de la connexion");
   return json as AuthResponse;
 }
 

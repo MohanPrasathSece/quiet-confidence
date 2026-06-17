@@ -111,16 +111,16 @@ export function AuthModal({
 
   const validateSignup = (): boolean => {
     const e: Partial<Record<keyof SignupForm, string>> = {};
-    if (!signup.name.trim()) e.name = "Required";
-    if (!signup.email.trim() || !/\S+@\S+\.\S+/.test(signup.email)) e.email = "Valid email required";
-    if (!signup.phone.trim()) e.phone = "Required";
+    if (!signup.name.trim()) e.name = "Requis";
+    if (!signup.email.trim() || !/\S+@\S+\.\S+/.test(signup.email)) e.email = "E-mail valide requis";
+    if (!signup.phone.trim()) e.phone = "Requis";
     setSignupErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const validateSignin = (): boolean => {
     const e: Partial<Record<keyof SigninForm, string>> = {};
-    if (!signin.email.trim() || !/\S+@\S+\.\S+/.test(signin.email)) e.email = "Valid email required";
+    if (!signin.email.trim() || !/\S+@\S+\.\S+/.test(signin.email)) e.email = "E-mail valide requis";
     setSigninErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -138,7 +138,7 @@ export function AuthModal({
       setSubmitStatus("success");
       setTimeout(() => { onClose(); navigate("/dashboard"); }, 800);
     } catch (err) {
-      setApiError(err instanceof Error ? err.message : "Registration failed. Please try again.");
+      setApiError(err instanceof Error ? err.message : "Échec de l'inscription. Veuillez réessayer.");
       setSubmitStatus("idle");
     }
   };
@@ -154,7 +154,7 @@ export function AuthModal({
       setSubmitStatus("success");
       setTimeout(() => { onClose(); navigate("/dashboard"); }, 600);
     } catch (err) {
-      setApiError(err instanceof Error ? err.message : "Sign in failed. Please try again.");
+      setApiError(err instanceof Error ? err.message : "Échec de la connexion. Veuillez réessayer.");
       setSubmitStatus("idle");
     }
   };
@@ -183,7 +183,7 @@ export function AuthModal({
           {/* Dialog */}
           <motion.div
             role="dialog" aria-modal="true"
-            aria-label={mode === "signin" ? "Sign in to AtlasLedger" : "Create your AtlasLedger account"}
+            aria-label={mode === "signin" ? "Connectez-vous à AtlasLedger" : "Créez votre compte AtlasLedger"}
             initial={{ opacity: 0, y: 12, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
@@ -207,12 +207,12 @@ export function AuthModal({
             {/* Title */}
             <div className="px-6 pt-6">
               <h2 className="text-[24px] sm:text-[28px] leading-[1.1] tracking-[-0.02em] font-medium">
-                {mode === "signin" ? "Welcome back." : "Create your account."}
+                {mode === "signin" ? "Bon retour." : "Créez votre compte."}
               </h2>
               <p className="mt-2 text-[14px] text-muted-foreground">
                 {mode === "signin"
-                  ? "Sign in to your AtlasLedger workspace."
-                  : "Join thousands of investors growing their crypto portfolio."}
+                  ? "Connectez-vous à votre espace de travail AtlasLedger."
+                  : "Rejoignez des milliers d'investisseurs qui développent leur portefeuille crypto."}
               </p>
             </div>
 
@@ -226,8 +226,8 @@ export function AuthModal({
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <h3 className="text-[18px] font-medium">{mode === "signin" ? "Signed in!" : "Account created!"}</h3>
-                  <p className="mt-1 text-[13px] text-muted-foreground">Redirecting to your dashboard…</p>
+                  <h3 className="text-[18px] font-medium">{mode === "signin" ? "Connecté !" : "Compte créé !"}</h3>
+                  <p className="mt-1 text-[13px] text-muted-foreground">Redirection vers votre tableau de bord…</p>
                 </motion.div>
               ) : mode === "signin" ? (
                 /* ── Sign-in ── */
@@ -236,7 +236,7 @@ export function AuthModal({
                   className="px-6 pt-7 pb-6 space-y-4" onSubmit={handleSignin}>
 
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">Email</label>
+                    <label className="block text-[12px] font-medium text-foreground">E-mail</label>
                     <input type="email" placeholder="you@company.com" autoComplete="email"
                       value={signin.email} onChange={setSigninField("email")} className={ic(!!signinErrors.email)} />
                     {signinErrors.email && <p className="mt-1 text-[11px] text-red-500">{signinErrors.email}</p>}
@@ -246,7 +246,7 @@ export function AuthModal({
 
                   <button type="submit" disabled={submitStatus === "loading"}
                     className="mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60">
-                    {submitStatus === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in…</> : "Sign in"}
+                    {submitStatus === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Connexion en cours…</> : "Se connecter"}
                   </button>
                 </motion.form>
               ) : (
@@ -257,21 +257,21 @@ export function AuthModal({
 
                   {/* Name */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">Name *</label>
+                    <label className="block text-[12px] font-medium text-foreground">Nom *</label>
                     <input type="text" placeholder="John Doe" value={signup.name} onChange={setSignupField("name")} className={ic(!!signupErrors.name)} />
                     {signupErrors.name && <p className="mt-1 text-[11px] text-red-500">{signupErrors.name}</p>}
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">Email *</label>
+                    <label className="block text-[12px] font-medium text-foreground">E-mail *</label>
                     <input type="email" placeholder="you@company.com" autoComplete="email" value={signup.email} onChange={setSignupField("email")} className={ic(!!signupErrors.email)} />
                     {signupErrors.email && <p className="mt-1 text-[11px] text-red-500">{signupErrors.email}</p>}
                   </div>
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">Phone number *</label>
+                    <label className="block text-[12px] font-medium text-foreground">Numéro de téléphone *</label>
                     <input type="tel" placeholder="+357 99 261 501" autoComplete="tel" value={signup.phone} onChange={setSignupField("phone")} className={ic(!!signupErrors.phone)} />
                     {signupErrors.phone && <p className="mt-1 text-[11px] text-red-500">{signupErrors.phone}</p>}
                   </div>
@@ -280,7 +280,7 @@ export function AuthModal({
 
                   <button type="submit" disabled={submitStatus === "loading"}
                     className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60">
-                    {submitStatus === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create account"}
+                    {submitStatus === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Création du compte…</> : "Créer un compte"}
                   </button>
                 </motion.form>
               )}
@@ -290,9 +290,9 @@ export function AuthModal({
             {submitStatus !== "success" && (
               <div className="border-t border-border bg-card/40 px-6 py-4 text-center text-[13px] text-muted-foreground rounded-b-2xl">
                 {mode === "signin" ? (
-                  <>New to AtlasLedger?{" "}<button onClick={() => { setMode("signup"); setApiError(""); setSignupErrors({}); setSigninErrors({}); }} className="text-foreground hover:underline">Create an account</button></>
+                  <>Nouveau sur AtlasLedger ?{" "}<button onClick={() => { setMode("signup"); setApiError(""); setSignupErrors({}); setSigninErrors({}); }} className="text-foreground hover:underline">Créer un compte</button></>
                 ) : (
-                  <>Already have an account?{" "}<button onClick={() => { setMode("signin"); setApiError(""); setSignupErrors({}); setSigninErrors({}); }} className="text-foreground hover:underline">Sign in</button></>
+                  <>Vous avez déjà un compte ?{" "}<button onClick={() => { setMode("signin"); setApiError(""); setSignupErrors({}); setSigninErrors({}); }} className="text-foreground hover:underline">Se connecter</button></>
                 )}
               </div>
             )}

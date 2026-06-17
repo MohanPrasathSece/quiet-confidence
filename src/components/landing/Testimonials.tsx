@@ -2,12 +2,12 @@ import { motion } from "motion/react";
 import { Reveal } from "./primitives";
 
 const items = [
-  { quote: "Quietly the most considered tool we've added to the desk in years.", name: "Helena Park", role: "Head of Treasury, Northwind Capital" },
-  { quote: "Settlement that just works. We stopped thinking about infrastructure.", name: "Marco Bianchi", role: "CTO, Atlas Markets" },
-  { quote: "It feels like software made by people who care about software.", name: "Aisha Rahman", role: "PM, Cedar Digital" },
-  { quote: "The risk surface alone replaced three vendors. Everything else is bonus.", name: "Daniel Voss", role: "Director of Risk, Lumen" },
-  { quote: "Calm tooling for a noisy market. Exactly what we wanted.", name: "Sofia Lindgren", role: "Founder, Norden Labs" },
-  { quote: "Audit-ready by default. Our compliance team is unusually happy.", name: "Jonas Weber", role: "Compliance, Pier 27" },
+  { quote: "Secrètement l'outil le plus réfléchi que nous ayons ajouté au bureau depuis des années.", name: "Helena Park", role: "Chef de la trésorerie, Northwind Capital" },
+  { quote: "Un règlement qui fonctionne tout simplement. Nous avons arrêté de penser à l'infrastructure.", name: "Marco Bianchi", role: "CTO, Atlas Markets" },
+  { quote: "On a l'impression d'un logiciel créé par des gens qui se soucient des logiciels.", name: "Aisha Rahman", role: "PM, Cedar Digital" },
+  { quote: "La surface de risque à elle seule a remplacé trois fournisseurs. Tout le reste est un bonus.", name: "Daniel Voss", role: "Directeur des risques, Lumen" },
+  { quote: "Des outils calmes pour un marché bruyant. Exactement ce que nous voulions.", name: "Sofia Lindgren", role: "Fondateur, Norden Labs" },
+  { quote: "Prêt pour l'audit par défaut. Notre équipe de conformité est exceptionnellement heureuse.", name: "Jonas Weber", role: "Conformité, Pier 27" },
 ];
 
 export function Testimonials() {
@@ -17,7 +17,7 @@ export function Testimonials() {
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
         <Reveal>
           <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-            From the people who use it
+            Par ceux qui l'utilisent
           </div>
         </Reveal>
       </div>

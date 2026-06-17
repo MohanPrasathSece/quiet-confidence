@@ -17,25 +17,21 @@ export function DashboardMock() {
         <div className="flex items-end gap-1.5 px-4 overflow-x-auto scrollbar-none max-w-lg">
           {/* Active Tab */}
           <div className="flex items-center gap-2 rounded-t-lg bg-background border-t border-x border-border px-3.5 py-1.5 text-[11px] font-medium text-foreground relative z-10 -mb-[1px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-            <span>vault.app / portfolio</span>
+            <span>vault.app / portefeuille</span>
           </div>
 
           {/* Inactive Tab */}
-          <div className="flex items-center gap-2 rounded-t-lg px-3 py-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors cursor-pointer mb-[1px]">
-            <span>yield_optimization</span>
+            <span>optimisation_rendement</span>
           </div>
 
           {/* Inactive Tab */}
-          <div className="flex items-center gap-2 rounded-t-lg px-3 py-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors cursor-pointer mb-[1px]">
-            <span>settlement_rules</span>
+            <span>règles_règlement</span>
           </div>
         </div>
 
         {/* Right side status */}
         <div className="hidden sm:flex items-center gap-2 pb-3 text-[10px] text-muted-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Live · UTC</span>
+          <span>En direct · UTC</span>
         </div>
       </div>
 
@@ -43,15 +39,14 @@ export function DashboardMock() {
         {/* Main chart */}
         <div className="lg:col-span-2 bg-background p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Total assets</div>
+              <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Actifs totaux</div>
               <div className="mt-1 flex items-baseline gap-2">
                 <span className="text-[28px] font-medium tracking-tight tabular-nums">$1,284,902.41</span>
                 <span className="text-[12px] text-muted-foreground tabular-nums">+2.41%</span>
               </div>
             </div>
             <div className="hidden sm:flex items-center gap-1 rounded-full border border-border p-0.5 text-[11px]">
-              {["1D", "1W", "1M", "1Y", "ALL"].map((p, i) => (
+              {["1J", "1S", "1M", "1A", "TOUT"].map((p, i) => (
                 <span
                   key={p}
                   className={`px-2.5 py-1 rounded-full ${i === 2 ? "bg-foreground text-background" : "text-muted-foreground"}`}

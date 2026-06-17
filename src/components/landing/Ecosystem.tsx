@@ -2,11 +2,11 @@ import { motion } from "motion/react";
 import { Reveal } from "./primitives";
 
 const nodes = [
-  { id: "wallet", label: "Wallet", x: 50, y: 50 },
-  { id: "exchange", label: "Exchange", x: 18, y: 22 },
-  { id: "analytics", label: "Analytics", x: 82, y: 22 },
+  { id: "wallet", label: "Portefeuille", x: 50, y: 50 },
+  { id: "exchange", label: "Bourse", x: 18, y: 22 },
+  { id: "analytics", label: "Analytique", x: 82, y: 22 },
   { id: "api", label: "API", x: 18, y: 78 },
-  { id: "auto", label: "Automation", x: 82, y: 78 },
+  { id: "auto", label: "Automatisation", x: 82, y: 78 },
 ];
 
 export function Ecosystem() {
@@ -17,18 +17,17 @@ export function Ecosystem() {
           <div className="lg:col-span-4">
             <Reveal>
               <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-                Ecosystem
+                Écosystème
               </div>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
-                A platform that <span className="text-muted-foreground">composes.</span>
+                Une plateforme qui <span className="text-muted-foreground">se compose.</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-6 text-[16px] leading-relaxed text-muted-foreground max-w-sm">
-                Every product is a primitive. Compose what you need. Replace
-                what you don't. Nothing is locked in.
+                Chaque produit est une primitive. Composez ce dont vous avez besoin. Remplacez ce dont vous n'avez pas besoin. Rien n'est verrouillé.
               </p>
             </Reveal>
           </div>

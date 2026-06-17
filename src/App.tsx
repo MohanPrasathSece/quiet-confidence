@@ -12,7 +12,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
       <div className="flex min-h-screen items-center justify-center bg-[#080b10]">
         <div className="flex flex-col items-center gap-4">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-400 border-t-transparent" />
-          <span className="text-[13px] text-white/40">Loading session…</span>
+          <span className="text-[13px] text-white/40">Chargement de la session…</span>
         </div>
       </div>
     );

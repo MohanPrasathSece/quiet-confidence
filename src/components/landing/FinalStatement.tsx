@@ -9,7 +9,7 @@ export function FinalStatement() {
   });
   const opacityCtx = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0, 1, 1, 0]);
 
-  const text = "Build the future of finance.";
+  const text = "Construisez l'avenir de la finance.";
   const words = text.split(" ");
 
   return (

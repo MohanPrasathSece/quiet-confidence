@@ -7,21 +7,17 @@ export function ProductDemo() {
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
-            <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-              In motion
-            </div>
+              En mouvement
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
-              A surface that responds <span className="text-muted-foreground">in real time.</span>
-            </h2>
+              Une surface qui répond <span className="text-muted-foreground">en temps réel.</span>
           </Reveal>
         </div>
 
         <Parallax intensity={24}>
           <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <Reveal delay={0.05}>
-              <Card title="Spot price" sub="BTC · USD">
+              <Card title="Prix au comptant" sub="BTC · USD">
                 <div className="mt-4 text-[34px] tracking-tight tabular-nums">$64,201.50</div>
                 <div className="mt-1 text-[12px] text-muted-foreground tabular-nums">+1.84% · 24h</div>
                 <svg viewBox="0 0 240 60" className="mt-5 h-14 w-full">
@@ -39,13 +35,13 @@ export function ProductDemo() {
               </Card>
             </Reveal>
             <Reveal delay={0.15}>
-              <Card title="Active orders" sub="Live · 23:14 UTC">
+              <Card title="Ordres actifs" sub="En direct · 23:14 UTC">
                 <ul className="mt-4 space-y-3 text-[13px]">
                   {[
-                    ["Limit buy", "BTC", "0.412"],
-                    ["Limit sell", "ETH", "12.50"],
+                    ["Achat limité", "BTC", "0.412"],
+                    ["Vente limitée", "ETH", "12.50"],
                     ["TWAP", "SOL", "1,200"],
-                    ["Limit buy", "USDC", "50,000"],
+                    ["Achat limité", "USDC", "50,000"],
                   ].map((r, i) => (
                     <li key={i} className="flex items-center justify-between border-b border-border pb-2 last:border-0">
                       <div className="flex items-center gap-3">
@@ -65,9 +61,9 @@ export function ProductDemo() {
               </Card>
             </Reveal>
             <Reveal delay={0.25}>
-              <Card title="Yield" sub="Allocation">
+              <Card title="Rendement" sub="Allocation">
                 <div className="mt-4 text-[34px] tracking-tight tabular-nums">4.82%</div>
-                <div className="mt-1 text-[12px] text-muted-foreground">Target 4.50% – 5.25%</div>
+                <div className="mt-1 text-[12px] text-muted-foreground">Cible 4.50% – 5.25%</div>
                 <div className="mt-5 space-y-3">
                   {[
                     ["T-Bills", 45],

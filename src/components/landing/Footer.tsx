@@ -13,28 +13,28 @@ export function Footer() {
           <button
             type="button"
             onClick={scrollTop}
-            aria-label="Back to top"
+            aria-label="Retour en haut"
             className="flex items-center gap-2 text-[15px] font-medium tracking-tight"
           >
             <Logo className="h-5 w-5 text-foreground" />
             <span>AtlasLedger</span>
           </button>
           <p className="mt-4 max-w-xs text-muted-foreground leading-relaxed">
-            Crypto infrastructure for the next generation of finance.
+            Infrastructure crypto pour la prochaine génération de la finance.
           </p>
         </div>
         {[
-          { title: "Platform", links: ["Trading", "Custody", "Analytics", "Automation"] },
-          { title: "Company", links: ["About", "Customers", "Careers", "Press"] },
-          { title: "Resources", links: ["Status", "Security", "Contact"] },
+          { title: "Plateforme", links: ["Trading", "Garde", "Analytique", "Automatisation"] },
+          { title: "Entreprise", links: ["À propos", "Clients", "Carrières", "Presse"] },
+          { title: "Ressources", links: ["Statut", "Sécurité", "Contact"] },
         ].map((col) => {
           const linkMap: Record<string, string> = {
             "Trading": "#features",
-            "Custody": "#security",
-            "Analytics": "#features",
-            "Automation": "#features",
-            "Customers": "#customers",
-            "Security": "#security",
+            "Garde": "#security",
+            "Analytique": "#features",
+            "Automatisation": "#features",
+            "Clients": "#customers",
+            "Sécurité": "#security",
             "Contact": "#contact",
           };
           return (
@@ -53,10 +53,10 @@ export function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-muted-foreground">
-          <div>© {new Date().getFullYear()} AtlasLedger · Paris. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} AtlasLedger · Paris. Tous droits réservés.</div>
           <div className="flex items-center gap-5">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+            <a href="#" className="hover:text-foreground transition-colors">Confidentialité</a>
+            <a href="#" className="hover:text-foreground transition-colors">Conditions</a>
             <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
           </div>
         </div>

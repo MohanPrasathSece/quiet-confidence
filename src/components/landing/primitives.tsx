@@ -105,7 +105,7 @@ export function Counter({
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [inView, to, duration]);
-  const formatted = val.toLocaleString("en-US", {
+  const formatted = val.toLocaleString("fr-FR", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   });

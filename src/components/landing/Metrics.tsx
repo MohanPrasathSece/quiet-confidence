@@ -1,10 +1,10 @@
 import { Counter, Reveal } from "./primitives";
 
 const items = [
-  { value: 12, suffix: "B", prefix: "$", label: "Volume processed", decimals: 0 },
-  { value: 180, suffix: "", prefix: "", label: "Countries served" },
-  { value: 1, suffix: "M+", prefix: "", label: "Active users" },
-  { value: 99.99, suffix: "%", prefix: "", label: "Uptime guarantee", decimals: 2 },
+  { value: 12, suffix: "B", prefix: "$", label: "Volume traité", decimals: 0 },
+  { value: 180, suffix: "", prefix: "", label: "Pays desservis" },
+  { value: 1, suffix: "M+", prefix: "", label: "Utilisateurs actifs" },
+  { value: 99.99, suffix: "%", prefix: "", label: "Garantie de disponibilité", decimals: 2 },
 ];
 
 export function Metrics() {
@@ -13,7 +13,7 @@ export function Metrics() {
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10 py-20 sm:py-24">
         <Reveal>
           <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-            Trusted at scale
+            Une confiance à grande échelle
           </div>
         </Reveal>
         <div className="mt-12 sm:mt-14 grid grid-cols-2 lg:grid-cols-4 gap-px bg-border overflow-hidden rounded-2xl">

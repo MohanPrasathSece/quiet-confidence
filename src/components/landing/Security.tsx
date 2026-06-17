@@ -8,29 +8,29 @@ export function Security() {
         <div>
           <Reveal>
             <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-              Security
+              Sécurité
             </div>
           </Reveal>
           <h2 className="mt-5 text-[28px] sm:text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium max-w-md">
-            <SplitLines text="Built to be" />
+            <SplitLines text="Conçu pour être" />
             <br />
             <span className="text-muted-foreground">
-              <SplitLines text="quietly unbreakable." delay={0.1} />
+              <SplitLines text="secrètement incassable." delay={0.1} />
             </span>
           </h2>
           <Reveal delay={0.3}>
             <p className="mt-7 text-[17px] leading-relaxed text-muted-foreground max-w-md">
-              MPC custody, hardware-backed signing, and policy-based approvals.
-              Independently audited. Continuously monitored. Privately operated.
+              Garde MPC, signature matérielle et approbations basées sur des règles.
+              Audité de manière indépendante. Surveillé en continu. Opéré de manière privée.
             </p>
           </Reveal>
           <Reveal delay={0.4}>
             <div className="mt-10 grid grid-cols-2 gap-px bg-border rounded-xl overflow-hidden max-w-md">
               {[
-                ["SOC 2 Type II", "Audited annually"],
-                ["ISO 27001", "Certified"],
-                ["MPC custody", "Threshold signing"],
-                ["24/7 SOC", "Human + machine"],
+                ["SOC 2 Type II", "Audité annuellement"],
+                ["ISO 27001", "Certifié"],
+                ["Garde MPC", "Signature à seuil"],
+                ["SOC 24/7", "Humain + machine"],
               ].map(([t, s]) => (
                 <div key={t} className="bg-background p-5">
                   <div className="text-[13px] font-medium">{t}</div>

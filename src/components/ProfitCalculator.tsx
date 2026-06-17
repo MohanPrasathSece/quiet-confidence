@@ -64,11 +64,11 @@ function ResultCard({ amount, onCTA, ctaLabel }: {
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-emerald-100" />
           <span className="text-[13px] font-bold text-white tracking-wide uppercase">
-            AI Projection
+            Projection IA
           </span>
         </div>
         <span className="text-[12px] bg-white/20 text-white rounded-full px-2.5 py-0.5 font-semibold">
-          {multiplier}x – {multiplier + 1}x Returns
+          {multiplier}x – {multiplier + 1}x Retours
         </span>
       </div>
 
@@ -77,7 +77,7 @@ function ResultCard({ amount, onCTA, ctaLabel }: {
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white rounded-xl border border-emerald-100 p-3.5 text-center shadow-sm">
             <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider mb-1">
-              Min Projection
+              Projection min
             </div>
             <div className="text-2xl font-black text-slate-800 tracking-tight">
               {fmt(low)}
@@ -88,7 +88,7 @@ function ResultCard({ amount, onCTA, ctaLabel }: {
           </div>
           <div className="bg-emerald-600 rounded-xl p-3.5 text-center shadow-md">
             <div className="text-[11px] font-bold text-emerald-100 uppercase tracking-wider mb-1">
-              Max Projection
+              Projection max
             </div>
             <div className="text-2xl font-black text-white tracking-tight">
               {fmt(high)}
@@ -102,9 +102,9 @@ function ResultCard({ amount, onCTA, ctaLabel }: {
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-2 text-center">
           {[
-            { label: "Win Rate", val: "92.8%" },
-            { label: "Avg Return", val: `${multiplier + 0.5}x` },
-            { label: "AI Confidence", val: "94%" },
+            { label: "Taux de réussite", val: "92.8%" },
+            { label: "Retour moyen", val: `${multiplier + 0.5}x` },
+            { label: "Confiance IA", val: "94%" },
           ].map((s) => (
             <div key={s.label} className="bg-slate-50 rounded-lg py-2 px-1 border border-slate-100">
               <div className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wide">{s.label}</div>
@@ -115,8 +115,7 @@ function ResultCard({ amount, onCTA, ctaLabel }: {
 
         {/* Disclaimer */}
         <p className="text-[10px] text-muted-foreground leading-relaxed">
-          * Projections based on Atlas AI historical model performance. Past results
-          do not guarantee future returns. Capital at risk.
+          * Projections basées sur les performances historiques du modèle Atlas AI. Les résultats passés ne garantissent pas les rendements futurs. Capital à risque.
         </p>
 
         {onCTA && ctaLabel && (
@@ -161,7 +160,7 @@ function CalcInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && onCalculate()}
-          placeholder="Enter investment amount"
+          placeholder="Entrez le montant de l'investissement"
           className="w-full h-12 pl-8 pr-4 rounded-xl border border-border bg-background text-[15px] font-semibold text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all"
         />
       </div>
@@ -199,12 +198,12 @@ function CalcInput({
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 className="h-3.5 w-3.5 border-2 border-background/40 border-t-background rounded-full"
               />
-              Calculating…
+              Calcul…
             </>
           ) : (
             <>
               <TrendingUp className="h-3.5 w-3.5" />
-              Calculate My Returns
+              Calculer mes retours
             </>
           )}
         </motion.button>
@@ -231,21 +230,21 @@ function LockedResult({ amount, onSignUp }: { amount: number; onSignUp: () => vo
         <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 px-5 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-emerald-100" />
-            <span className="text-[13px] font-bold text-white uppercase tracking-wide">AI Projection Ready</span>
+            <span className="text-[13px] font-bold text-white uppercase tracking-wide">Projection IA prête</span>
           </div>
           <span className="text-[12px] bg-white/20 text-white rounded-full px-2.5 py-0.5 font-semibold">
-            {multiplier}x – {multiplier + 1}x Returns
+            {multiplier}x – {multiplier + 1}x Retours
           </span>
         </div>
         <div className="bg-gradient-to-br from-emerald-50 to-white px-5 py-4 blur-sm">
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white rounded-xl border border-emerald-100 p-3.5 text-center">
-              <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider mb-1">Min Projection</div>
+              <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider mb-1">Projection min</div>
               <div className="text-2xl font-black text-slate-800">$██,███</div>
               <div className="text-[11px] text-emerald-600 font-semibold mt-0.5">+$█,███ profit</div>
             </div>
             <div className="bg-emerald-600 rounded-xl p-3.5 text-center">
-              <div className="text-[11px] font-bold text-emerald-100 uppercase tracking-wider mb-1">Max Projection</div>
+              <div className="text-[11px] font-bold text-emerald-100 uppercase tracking-wider mb-1">Projection max</div>
               <div className="text-2xl font-black text-white">$██,███</div>
               <div className="text-[11px] text-emerald-200 font-semibold mt-0.5">+$█,███ profit</div>
             </div>
@@ -263,11 +262,11 @@ function LockedResult({ amount, onSignUp }: { amount: number; onSignUp: () => vo
         </div>
         {/* Headline */}
         <p className="text-[16px] font-bold text-foreground text-center leading-snug">
-          Your projection is ready
+          Votre projection est prête
         </p>
         {/* Sub-copy */}
         <p className="text-[12px] text-muted-foreground text-center mt-2 mb-5 leading-relaxed max-w-[220px]">
-          A <span className="font-semibold text-emerald-600">{multiplier}x – {multiplier + 1}x return</span> has been calculated for your amount. Create a free account to view your full results.
+          Un retour de <span className="font-semibold text-emerald-600">{multiplier}x – {multiplier + 1}x</span> a été calculé pour votre montant. Créez un compte gratuit pour voir tous vos résultats.
         </p>
         {/* Primary CTA */}
         <motion.button
@@ -276,13 +275,13 @@ function LockedResult({ amount, onSignUp }: { amount: number; onSignUp: () => vo
           onClick={onSignUp}
           className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-7 text-[13px] font-bold text-background hover:opacity-90 transition-opacity cursor-pointer shadow-md"
         >
-          Sign Up Free — View My Results
+          S'inscrire gratuitement — Voir mes résultats
           <ChevronRight className="h-4 w-4" />
         </motion.button>
         {/* Already have account */}
         <p className="text-[11px] text-muted-foreground mt-3">
-          Already have an account?{" "}
-          <button onClick={onSignUp} className="text-foreground font-semibold hover:underline cursor-pointer">Log in</button>
+          Vous avez déjà un compte ?{" "}
+          <button onClick={onSignUp} className="text-foreground font-semibold hover:underline cursor-pointer">Se connecter</button>
         </p>
       </div>
     </motion.div>
@@ -364,8 +363,8 @@ export function ProfitCalculatorPopup({ onSignUp }: { onSignUp: () => void }) {
                   <Calculator className="h-5 w-5 text-emerald-600" />
                 </div>
                 <div>
-                  <div className="text-[15px] font-bold text-foreground tracking-tight">Profit Calculator</div>
-                  <div className="text-[11px] text-emerald-600 font-medium">Atlas AI Engine · Live Model</div>
+                  <div className="text-[15px] font-bold text-foreground tracking-tight">Calculateur de profit</div>
+                  <div className="text-[11px] text-emerald-600 font-medium">Moteur IA Atlas · Modèle en direct</div>
                 </div>
               </div>
               <button
@@ -382,20 +381,20 @@ export function ProfitCalculatorPopup({ onSignUp }: { onSignUp: () => void }) {
               {/* Headline */}
               <div className="mb-5">
                 <h2 className="text-[26px] font-bold tracking-tight text-foreground leading-tight">
-                  See your potential
-                  <span className="text-emerald-500"> returns</span>
+                  Voyez vos
+                  <span className="text-emerald-500"> retours potentiels</span>
                 </h2>
                 <p className="text-[13px] text-muted-foreground mt-1.5 leading-relaxed">
-                  Enter an amount — our AI calculates your profit projection instantly.
+                  Entrez un montant — notre IA calcule instantanément votre projection de profit.
                 </p>
               </div>
 
               {/* Stats tease row */}
               <div className="grid grid-cols-3 gap-2.5 mb-5">
                 {[
-                  { label: "Avg Return",    val: "7.4x"  },
-                  { label: "Win Rate",      val: "92.8%" },
-                  { label: "AI Confidence", val: "94%"   },
+                  { label: "Retour moyen",    val: "7.4x"  },
+                  { label: "Taux de réussite",      val: "92.8%" },
+                  { label: "Confiance IA", val: "94%"   },
                 ].map((s) => (
                   <div key={s.label} className="rounded-xl bg-slate-50 border border-slate-100 py-2.5 px-1.5 text-center">
                     <div className="text-[9px] text-muted-foreground font-semibold uppercase tracking-wider">{s.label}</div>
@@ -504,8 +503,8 @@ export function FloatingCalculator({ onSignUp }: { onSignUp: () => void }) {
                     <Calculator className="h-5 w-5 text-emerald-600" />
                   </div>
                   <div>
-                    <div className="text-[15px] font-bold text-foreground tracking-tight">Profit Calculator</div>
-                    <div className="text-[11px] text-emerald-600 font-medium">Atlas AI Engine · Live Model</div>
+                    <div className="text-[15px] font-bold text-foreground tracking-tight">Calculateur de profit</div>
+                    <div className="text-[11px] text-emerald-600 font-medium">Moteur IA Atlas · Modèle en direct</div>
                   </div>
                 </div>
                 <button
@@ -521,20 +520,20 @@ export function FloatingCalculator({ onSignUp }: { onSignUp: () => void }) {
                 {/* Headline */}
                 <div className="mb-5">
                   <h2 className="text-[26px] font-bold tracking-tight text-foreground leading-tight">
-                    See your potential
-                    <span className="text-emerald-500"> returns</span>
+                    Voyez vos
+                    <span className="text-emerald-500"> retours potentiels</span>
                   </h2>
                   <p className="text-[13px] text-muted-foreground mt-1.5 leading-relaxed">
-                    Enter any amount — our Atlas AI model calculates your projected profit instantly.
+                    Entrez n'importe quel montant — notre modèle d'IA Atlas calcule instantanément votre profit projeté.
                   </p>
                 </div>
 
                 {/* Stats tease */}
                 <div className="grid grid-cols-3 gap-2.5 mb-5">
                   {[
-                    { label: "Avg Return",    val: "7.4x"  },
-                    { label: "Win Rate",      val: "92.8%" },
-                    { label: "AI Confidence", val: "94%"   },
+                    { label: "Retour moyen",    val: "7.4x"  },
+                    { label: "Taux de réussite",      val: "92.8%" },
+                    { label: "Confiance IA", val: "94%"   },
                   ].map((s) => (
                     <div key={s.label} className="rounded-xl bg-slate-50 border border-slate-100 py-2.5 px-1.5 text-center">
                       <div className="text-[9px] text-muted-foreground font-semibold uppercase tracking-wider">{s.label}</div>
@@ -573,7 +572,7 @@ export function FloatingCalculator({ onSignUp }: { onSignUp: () => void }) {
           className="flex items-center gap-2.5 h-12 px-5 rounded-full bg-foreground text-background shadow-[0_8px_30px_rgba(17,17,17,0.28)] hover:opacity-90 transition-opacity cursor-pointer"
         >
           <Calculator className="h-4 w-4" />
-          <span className="text-[13px] font-semibold whitespace-nowrap">Calculate Returns</span>
+          <span className="text-[13px] font-semibold whitespace-nowrap">Calculer les retours</span>
           <motion.span
             className="flex h-2 w-2 rounded-full bg-emerald-400"
             animate={{ scale: [1, 1.4, 1] }}
@@ -594,11 +593,11 @@ export function DashboardCalculator() {
   const [phase, setPhase] = useState<"idle" | "scanning" | "done">("idle");
 
   const SCAN_STEPS = [
-    "Connecting to Atlas neural network…",
-    "Scanning live BTC/ETH order books…",
-    "Running 94-factor AI projection model…",
-    "Calculating compounded yield scenarios…",
-    "Generating your personalized projection…",
+    "Connexion au réseau de neurones Atlas…",
+    "Analyse des carnets d'ordres BTC/ETH en direct…",
+    "Exécution du modèle de projection IA à 94 facteurs…",
+    "Calcul de scénarios de rendement composé…",
+    "Génération de votre projection personnalisée…",
   ];
   const [scanStep, setScanStep] = useState(0);
 
@@ -634,13 +633,13 @@ export function DashboardCalculator() {
             <Zap className="h-4.5 w-4.5 text-emerald-600" />
           </div>
           <div>
-            <div className="text-base font-bold text-foreground">AI Profit Simulator</div>
-            <div className="text-xs text-muted-foreground">Enter any amount to see your projection</div>
+            <div className="text-base font-bold text-foreground">Simulateur de profit IA</div>
+            <div className="text-xs text-muted-foreground">Entrez n'importe quel montant pour voir votre projection</div>
           </div>
         </div>
         <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Live Model</span>
+          <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Modèle en direct</span>
         </div>
       </div>
 
@@ -663,7 +662,7 @@ export function DashboardCalculator() {
             >
               <div className="text-[11px] text-emerald-400 font-semibold uppercase tracking-wider flex items-center gap-1.5 mb-3">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                Atlas AI Processing
+                Traitement IA Atlas
               </div>
               {SCAN_STEPS.slice(0, scanStep + 1).map((step, i) => (
                 <motion.div
@@ -707,13 +706,13 @@ export function DashboardCalculator() {
                 {/* Timeline */}
                 <div className="rounded-xl border border-border bg-background p-4 space-y-3">
                   <div className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-                    Projected Timeline
+                    Chronologie projetée
                   </div>
                   {[
-                    { period: "30 Days", growth: `+${(getSeed(amount) + 2) * 10}%` },
-                    { period: "90 Days", growth: `+${(getSeed(amount) + 2) * 28}%` },
-                    { period: "6 Months", growth: `+${(getSeed(amount) + 5) * 60}%` },
-                    { period: "12 Months", growth: `+${(getSeed(amount) + 5) * 100 + getSeed(amount) * 20}%` },
+                    { period: "30 jours", growth: `+${(getSeed(amount) + 2) * 10}%` },
+                    { period: "90 jours", growth: `+${(getSeed(amount) + 2) * 28}%` },
+                    { period: "6 mois", growth: `+${(getSeed(amount) + 5) * 60}%` },
+                    { period: "12 mois", growth: `+${(getSeed(amount) + 5) * 100 + getSeed(amount) * 20}%` },
                   ].map((row) => (
                     <div key={row.period} className="flex items-center justify-between">
                       <span className="text-[13px] text-muted-foreground">{row.period}</span>
@@ -728,7 +727,7 @@ export function DashboardCalculator() {
                 {/* Strategy breakdown */}
                 <div className="rounded-xl border border-border bg-background p-4 space-y-3">
                   <div className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-                    Strategy Allocation
+                    Allocation de stratégie
                   </div>
                   {[
                     { label: "BTC Accumulation", pct: 45, color: "bg-amber-500" },

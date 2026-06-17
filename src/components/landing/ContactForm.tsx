@@ -57,9 +57,9 @@ export function ContactForm() {
 
   const validate = (): boolean => {
     const e: Partial<Record<keyof FormState, string>> = {};
-    if (!form.name.trim()) e.name = "Required";
-    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Valid email required";
-    if (!form.phone.trim()) e.phone = "Required";
+    if (!form.name.trim()) e.name = "Requis";
+    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "E-mail valide requis";
+    if (!form.phone.trim()) e.phone = "Requis";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -79,7 +79,7 @@ export function ContactForm() {
       setStatus("success");
     } catch (err) {
       console.error(err);
-      setApiError("Something went wrong. Please try again or email us directly.");
+      setApiError("Un problème est survenu. Veuillez réessayer ou nous envoyer un e-mail directement.");
       setStatus("error");
     }
   };
@@ -103,13 +103,13 @@ export function ContactForm() {
           <div className="text-center mb-12">
             <div className="mx-auto mb-5 flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-              Get in touch
+              Entrer en contact
             </div>
             <h2 className="text-[30px] sm:text-[42px] font-medium tracking-[-0.03em] leading-[1.08]">
-              Start your investment journey
+              Commencez votre parcours d'investissement
             </h2>
             <p className="mt-4 text-[15px] sm:text-[17px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
-              Tell us about your goals and our advisors will craft a personalised crypto strategy for you.
+              Parlez-nous de vos objectifs et nos conseillers élaboreront pour vous une stratégie crypto personnalisée.
             </p>
           </div>
 
@@ -132,15 +132,15 @@ export function ContactForm() {
                   >
                     <CheckCircle className="h-14 w-14 text-foreground" strokeWidth={1.5} />
                   </motion.div>
-                  <h3 className="text-[22px] font-medium tracking-tight">Message sent!</h3>
+                  <h3 className="text-[22px] font-medium tracking-tight">Message envoyé !</h3>
                   <p className="text-[14px] text-muted-foreground max-w-xs leading-relaxed">
-                    Thank you for reaching out. An advisor will contact you within 24 hours.
+                    Merci de nous avoir contactés. Un conseiller vous contactera dans les 24 heures.
                   </p>
                   <button
                     onClick={() => { setForm(EMPTY); setStatus("idle"); setErrors({}); setApiError(""); }}
                     className="mt-2 inline-flex h-10 items-center rounded-full border border-border bg-background px-5 text-[13px] font-medium text-foreground hover:bg-accent transition-colors"
                   >
-                    Send another message
+                    Envoyer un autre message
                   </button>
                 </motion.div>
               ) : (
@@ -154,7 +154,7 @@ export function ContactForm() {
                 >
                   {/* Name */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground mb-2">Name *</label>
+                    <label className="block text-[12px] font-medium text-foreground mb-2">Nom *</label>
                     <input type="text" placeholder="John Doe" value={form.name} onChange={set("name")} className={ic("name")} />
                     {errors.name && <p className="mt-1.5 text-[11px] text-red-500">{errors.name}</p>}
                   </div>
@@ -162,12 +162,12 @@ export function ContactForm() {
                   {/* Email + phone */}
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Email address *</label>
+                      <label className="block text-[12px] font-medium text-foreground mb-2">Adresse e-mail *</label>
                       <input type="email" placeholder="you@company.com" value={form.email} onChange={set("email")} className={ic("email")} />
                       {errors.email && <p className="mt-1.5 text-[11px] text-red-500">{errors.email}</p>}
                     </div>
                     <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Phone number *</label>
+                      <label className="block text-[12px] font-medium text-foreground mb-2">Numéro de téléphone *</label>
                       <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={set("phone")} className={ic("phone")} />
                       {errors.phone && <p className="mt-1.5 text-[11px] text-red-500">{errors.phone}</p>}
                     </div>
@@ -175,10 +175,10 @@ export function ContactForm() {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground mb-2">Message (optional)</label>
+                    <label className="block text-[12px] font-medium text-foreground mb-2">Message (facultatif)</label>
                     <textarea
                       rows={5}
-                      placeholder="Tell us about your investment goals, experience, and what you're looking to achieve…"
+                      placeholder="Parlez-nous de vos objectifs d'investissement, de votre expérience et de ce que vous cherchez à accomplir…"
                       value={form.message}
                       onChange={set("message")}
                       className={`${ic("message")} resize-none`}
@@ -195,7 +195,7 @@ export function ContactForm() {
                   {/* Submit */}
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
                     <p className="text-[12px] text-muted-foreground">
-                      Your information is encrypted and never shared.
+                      Vos informations sont cryptées et ne sont jamais partagées.
                     </p>
                     <button
                       type="submit"
@@ -207,7 +207,7 @@ export function ContactForm() {
                       ) : (
                         <Send className="h-4 w-4" />
                       )}
-                      {status === "loading" ? "Submitting…" : "Submit enquiry"}
+                      {status === "loading" ? "Envoi…" : "Envoyer la demande"}
                     </button>
                   </div>
                 </motion.form>
