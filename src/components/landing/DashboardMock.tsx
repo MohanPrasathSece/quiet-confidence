@@ -21,10 +21,12 @@ export function DashboardMock() {
           </div>
 
           {/* Inactive Tab */}
+          <div className="flex items-center gap-2 px-3.5 py-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
             <span>optimisation_rendement</span>
           </div>
 
           {/* Inactive Tab */}
+          <div className="flex items-center gap-2 px-3.5 py-1.5 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
             <span>règles_règlement</span>
           </div>
         </div>
@@ -39,6 +41,7 @@ export function DashboardMock() {
         {/* Main chart */}
         <div className="lg:col-span-2 bg-background p-6">
           <div className="flex items-center justify-between">
+            <div>
               <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Actifs totaux</div>
               <div className="mt-1 flex items-baseline gap-2">
                 <span className="text-[28px] font-medium tracking-tight tabular-nums">$1,284,902.41</span>
