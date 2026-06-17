@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
 import { Logo } from "@/components/Logo";
 import { submitLead } from "@/lib/crmApi";
+import { DashboardCalculator } from "@/components/ProfitCalculator";
 import {
   LogOut,
   Send,
@@ -664,6 +665,25 @@ export default function DashboardPage() {
               Welcome to the AtlasLedger institutional platform. We help you invest in the right cryptocurrency opportunities by leveraging our state-of-the-art **Atlas AI-Quantum Engine**. Our automated systems evaluate volume triggers, price spreads, and structural trend indicators in real time to optimize entry, custody allocations, and asset weights.
             </p>
           </div>
+        </motion.section>
+
+        {/* ── Profit Calculator Section ─────────────────── */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+          className="space-y-8"
+        >
+          <div className="border-b border-border/60 pb-6">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
+              Your Personal Profit Simulator
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed">
+              Run a live AI projection on any investment amount and see your personalised return forecast.
+            </p>
+          </div>
+          <DashboardCalculator />
         </motion.section>
 
         {/* ── Main AI Bot Section ─────────────────── */}

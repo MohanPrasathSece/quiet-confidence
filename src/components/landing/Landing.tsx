@@ -15,6 +15,7 @@ import { CTA } from "./CTA";
 import { ContactForm } from "./ContactForm";
 import { Footer } from "./Footer";
 import { AuthModal } from "./AuthModal";
+import { ProfitCalculatorPopup, FloatingCalculator } from "@/components/ProfitCalculator";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -49,7 +50,15 @@ export default function Landing() {
         <ContactForm />
       </main>
       <Footer />
+
+      {/* Auth modal */}
       <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
+
+      {/* Auto-popup calculator on first visit */}
+      <ProfitCalculatorPopup onSignUp={() => openAuth("signup")} />
+
+      {/* Floating bottom-right calculator widget */}
+      <FloatingCalculator onSignUp={() => openAuth("signup")} />
     </div>
   );
 }
