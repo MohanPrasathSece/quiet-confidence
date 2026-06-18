@@ -151,7 +151,7 @@ function MacBookCandleMockup() {
           <div className="h-3 w-3 rounded-full bg-[#27C93F]" />
         </div>
         <div className="flex-1 text-center">
-          <div className="mx-auto max-w-xs bg-slate-100/80 border border-slate-200/50 rounded text-xs text-muted-foreground/80 py-0.5 px-2 font-mono truncate">
+          <div className="mx-auto max-w-xs bg-slate-100/80 border border-slate-200/50 rounded text-[15px] text-muted-foreground/80 py-0.5 px-2 font-mono truncate">
             atlasledger.ai/terminal/live-market
           </div>
         </div>
@@ -163,13 +163,13 @@ function MacBookCandleMockup() {
         <div className="flex items-center justify-between border-b border-slate-900 pb-3">
           <div className="flex items-center gap-2.5">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-slate-100 tracking-wider">BTC / USD LIVE</span>
+            <span className="text-[15px] font-bold text-slate-100 tracking-wider">BTC / USD LIVE</span>
           </div>
           <div className="flex items-baseline gap-2">
             <span className={`text-lg sm:text-xl font-bold tracking-tight ${isUp ? "text-emerald-400" : "text-rose-400"}`}>
               ${livePrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}
             </span>
-            <span className={`text-xs font-semibold ${isUp ? "text-emerald-500" : "text-rose-500"}`}>
+            <span className={`text-[15px] font-semibold ${isUp ? "text-emerald-500" : "text-rose-500"}`}>
               {isUp ? "▲" : "▼"} 1.48%
             </span>
           </div>
@@ -185,16 +185,16 @@ function MacBookCandleMockup() {
             <line x1="0" y1="190" x2="580" y2="190" stroke="rgba(255,255,255,0.03)" strokeDasharray="2 2" />
 
             {/* Grid Price Labels on right */}
-            <text x="590" y="44" className="text-xs fill-slate-600 font-sans">
+            <text x="590" y="44" className="text-[15px] fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.1).toFixed(0)}
             </text>
-            <text x="590" y="94" className="text-xs fill-slate-600 font-sans">
+            <text x="590" y="94" className="text-[15px] fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.35).toFixed(0)}
             </text>
-            <text x="590" y="144" className="text-xs fill-slate-600 font-sans">
+            <text x="590" y="144" className="text-[15px] fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.6).toFixed(0)}
             </text>
-            <text x="590" y="194" className="text-xs fill-slate-600 font-sans">
+            <text x="590" y="194" className="text-[15px] fill-slate-600 font-sans">
               ${(maxPrice - priceRange * 0.85).toFixed(0)}
             </text>
 
@@ -245,17 +245,17 @@ function MacBookCandleMockup() {
         </div>
 
         {/* Info stats bar */}
-        <div className="grid grid-cols-3 gap-2 text-xs text-slate-500 pt-3 border-t border-slate-900">
+        <div className="grid grid-cols-3 gap-2 text-[15px] text-slate-500 pt-3 border-t border-slate-900">
           <div>
-            <span className="block uppercase text-xs tracking-wider">24H High</span>
+            <span className="block uppercase text-[15px] tracking-wider">24H High</span>
             <span className="font-semibold text-slate-300">$68,140.25</span>
           </div>
           <div>
-            <span className="block uppercase text-xs tracking-wider">24H Low</span>
+            <span className="block uppercase text-[15px] tracking-wider">24H Low</span>
             <span className="font-semibold text-slate-300">$66,950.00</span>
           </div>
           <div>
-            <span className="block uppercase text-xs tracking-wider">AI Confidence</span>
+            <span className="block uppercase text-[15px] tracking-wider">AI Confidence</span>
             <span className="font-semibold text-emerald-400">94.2% BUY</span>
           </div>
         </div>
@@ -349,7 +349,7 @@ function AIEngineAnimation() {
 
       {/* Asset Weights & Confidence Scores */}
       <div className="space-y-3 bg-white rounded-xl border border-slate-100 p-4">
-        <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <div className="text-[15px] font-bold uppercase tracking-wider text-slate-400">
           Target Asset Weights
         </div>
         <div className="space-y-2.5">
@@ -403,7 +403,7 @@ function AIEngineAnimation() {
       {/* Real-time Decision Log */}
       <div className="bg-slate-900 rounded-xl p-4 font-mono text-base text-slate-300 space-y-1.5 border border-slate-800 shadow-inner">
         <div className="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-1.5">
-          <span className="text-emerald-400 font-semibold flex items-center gap-1.5 text-xs uppercase tracking-wider">
+          <span className="text-emerald-400 font-semibold flex items-center gap-1.5 text-[15px] uppercase tracking-wider">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             AI Logs
           </span>
@@ -476,7 +476,7 @@ function DashboardContactForm() {
     <div className="mx-auto max-w-3xl pt-8">
       {/* Header */}
       <div className="text-center mb-10">
-        <div className="mx-auto mb-3 flex w-fit items-center gap-1.5 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground font-semibold">
+        <div className="mx-auto mb-3 flex w-fit items-center gap-1.5 rounded-full border border-border bg-card/60 px-3 py-1 text-[15px] text-muted-foreground font-semibold">
           <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
           Service d'assistance
         </div>
@@ -529,28 +529,28 @@ function DashboardContactForm() {
             >
               {/* Name */}
               <div>
-                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Nom *</label>
+                <label className="block text-[15px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Nom *</label>
                 <input type="text" placeholder="John Doe" value={form.name} onChange={setF("name")} className={inputClass("name")} />
-                {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+                {errors.name && <p className="mt-1 text-[15px] text-red-500">{errors.name}</p>}
               </div>
 
               {/* Email + Phone */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Adresse e-mail *</label>
+                  <label className="block text-[15px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Adresse e-mail *</label>
                   <input type="email" placeholder="you@domain.com" value={form.email} onChange={setF("email")} className={inputClass("email")} />
-                  {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+                  {errors.email && <p className="mt-1 text-[15px] text-red-500">{errors.email}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Numéro de téléphone *</label>
+                  <label className="block text-[15px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Numéro de téléphone *</label>
                   <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={setF("phone")} className={inputClass("phone")} />
-                  {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
+                  {errors.phone && <p className="mt-1 text-[15px] text-red-500">{errors.phone}</p>}
                 </div>
               </div>
 
               {/* Message */}
               <div>
-                <label className="block text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">Message (facultatif)</label>
+                <label className="block text-[15px] font-semibold text-foreground uppercase tracking-wide mb-1.5">Message (facultatif)</label>
                 <textarea
                   rows={4}
                   placeholder="Précisez votre allocation cible, les valeurs du portefeuille sous-jacent ou vos questions techniques..."
@@ -654,7 +654,7 @@ export default function DashboardPage() {
           className="relative"
         >
           <div className="max-w-4xl space-y-6">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-3.5 py-1 text-xs text-muted-foreground font-semibold">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-3.5 py-1 text-[15px] text-muted-foreground font-semibold">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Espace de travail sécurisé autorisé
             </div>
@@ -702,7 +702,7 @@ export default function DashboardPage() {
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center pt-4">
             {/* Text Specifications */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/30">
+              <div className="inline-flex items-center gap-1.5 text-[15px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/30">
                 <Brain className="h-3.5 w-3.5" />
                 Moteur quantitatif actif
               </div>
@@ -748,19 +748,19 @@ export default function DashboardPage() {
               {/* Stats Row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-border/40">
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Cible principale</div>
+                  <div className="text-[15px] font-semibold uppercase tracking-wider text-muted-foreground">Cible principale</div>
                   <div className="text-base font-bold text-slate-800 mt-1">Surperformance BTC & ETH</div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Évaluation des risques</div>
+                  <div className="text-[15px] font-semibold uppercase tracking-wider text-muted-foreground">Évaluation des risques</div>
                   <div className="text-base font-bold text-slate-800 mt-1">Faible / Couvert</div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Vitesse de scan IA</div>
+                  <div className="text-[15px] font-semibold uppercase tracking-wider text-muted-foreground">Vitesse de scan IA</div>
                   <div className="text-base font-bold text-slate-800 mt-1">&lt;12ms latency</div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Spécification d'exécution</div>
+                  <div className="text-[15px] font-semibold uppercase tracking-wider text-muted-foreground">Spécification d'exécution</div>
                   <div className="text-base font-bold text-slate-800 mt-1">Rééquilibrage automatique</div>
                 </div>
               </div>
@@ -820,12 +820,12 @@ export default function DashboardPage() {
             ].map((metric, i) => (
               <div key={i} className="p-5 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{metric.title}</span>
+                  <span className="text-[15px] font-bold text-muted-foreground uppercase tracking-wider">{metric.title}</span>
                   {metric.icon}
                 </div>
                 <div>
                   <div className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">{metric.val}</div>
-                  <p className="text-xs text-muted-foreground leading-snug mt-1">{metric.desc}</p>
+                  <p className="text-[15px] text-muted-foreground leading-snug mt-1">{metric.desc}</p>
                 </div>
               </div>
             ))}
@@ -892,13 +892,13 @@ export default function DashboardPage() {
               { coin: "Uniswap", symbol: "UNI", buy: "68.9%", status: "Surveillance", color: "border-purple-200 bg-purple-50/20 text-purple-700" },
             ].map((asset, i) => (
               <div key={i} className="p-5 rounded-xl border border-border bg-card shadow-sm space-y-3 text-center flex flex-col justify-between">
-                <div className="text-xs font-bold text-slate-400 font-mono tracking-wider">{asset.symbol}</div>
+                <div className="text-[15px] font-bold text-slate-400 font-mono tracking-wider">{asset.symbol}</div>
                 <div className="space-y-1">
                   <div className="text-base font-extrabold text-slate-800">{asset.coin}</div>
                   <div className="text-2xl font-black text-slate-800">{asset.buy}</div>
-                  <div className="text-xs text-muted-foreground">Force d'achat IA</div>
+                  <div className="text-[15px] text-muted-foreground">Force d'achat IA</div>
                 </div>
-                <div className={`mt-2 inline-block rounded-full border px-2 py-0.5 text-xs font-bold uppercase ${asset.color}`}>
+                <div className={`mt-2 inline-block rounded-full border px-2 py-0.5 text-[15px] font-bold uppercase ${asset.color}`}>
                   {asset.status}
                 </div>
               </div>

@@ -162,7 +162,7 @@ export function AuthModal({
   // ── Style helpers ─────────────────────────────────────────────────
 
   const ic = (hasError: boolean) =>
-    `mt-2 h-11 w-full rounded-lg border ${hasError ? "border-red-400" : "border-border"} bg-background px-3.5 text-[14px] text-foreground placeholder:text-muted-foreground/70 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all`;
+    `mt-2 h-11 w-full rounded-lg border ${hasError ? "border-red-400" : "border-border"} bg-background px-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all`;
 
   // ── Render ────────────────────────────────────────────────────────
 
@@ -192,7 +192,7 @@ export function AuthModal({
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 pt-6">
-              <div className="flex items-center gap-2 text-[14px] font-medium tracking-tight">
+              <div className="flex items-center gap-2 text-[15px] font-medium tracking-tight">
                 <Logo className="h-5 w-5 text-foreground" />
                 AtlasLedger
               </div>
@@ -209,7 +209,7 @@ export function AuthModal({
               <h2 className="text-[24px] sm:text-[28px] leading-[1.1] tracking-[-0.02em] font-medium">
                 {mode === "signin" ? "Bon retour." : "Créez votre compte."}
               </h2>
-              <p className="mt-2 text-[14px] text-muted-foreground">
+              <p className="mt-2 text-[15px] text-muted-foreground">
                 {mode === "signin"
                   ? "Connectez-vous à votre espace de travail AtlasLedger."
                   : "Rejoignez des milliers d'investisseurs qui développent leur portefeuille crypto."}
@@ -227,7 +227,7 @@ export function AuthModal({
                     </svg>
                   </div>
                   <h3 className="text-[18px] font-medium">{mode === "signin" ? "Connecté !" : "Compte créé !"}</h3>
-                  <p className="mt-1 text-[13px] text-muted-foreground">Redirection vers votre tableau de bord…</p>
+                  <p className="mt-1 text-[15px] text-muted-foreground">Redirection vers votre tableau de bord…</p>
                 </motion.div>
               ) : mode === "signin" ? (
                 /* ── Sign-in ── */
@@ -236,16 +236,16 @@ export function AuthModal({
                   className="px-6 pt-7 pb-6 space-y-4" onSubmit={handleSignin}>
 
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">E-mail</label>
+                    <label className="block text-[15px] font-medium text-foreground">E-mail</label>
                     <input type="email" placeholder="you@company.com" autoComplete="email"
                       value={signin.email} onChange={setSigninField("email")} className={ic(!!signinErrors.email)} />
-                    {signinErrors.email && <p className="mt-1 text-[11px] text-red-500">{signinErrors.email}</p>}
+                    {signinErrors.email && <p className="mt-1 text-[15px] text-red-500">{signinErrors.email}</p>}
                   </div>
 
-                  {apiError && <div className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-[13px] text-red-600">{apiError}</div>}
+                  {apiError && <div className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-[15px] text-red-600">{apiError}</div>}
 
                   <button type="submit" disabled={submitStatus === "loading"}
-                    className="mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60">
+                    className="mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground text-[15px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60">
                     {submitStatus === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Connexion en cours…</> : "Se connecter"}
                   </button>
                 </motion.form>
@@ -257,29 +257,29 @@ export function AuthModal({
 
                   {/* Name */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">Nom *</label>
+                    <label className="block text-[15px] font-medium text-foreground">Nom *</label>
                     <input type="text" placeholder="John Doe" value={signup.name} onChange={setSignupField("name")} className={ic(!!signupErrors.name)} />
-                    {signupErrors.name && <p className="mt-1 text-[11px] text-red-500">{signupErrors.name}</p>}
+                    {signupErrors.name && <p className="mt-1 text-[15px] text-red-500">{signupErrors.name}</p>}
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">E-mail *</label>
+                    <label className="block text-[15px] font-medium text-foreground">E-mail *</label>
                     <input type="email" placeholder="you@company.com" autoComplete="email" value={signup.email} onChange={setSignupField("email")} className={ic(!!signupErrors.email)} />
-                    {signupErrors.email && <p className="mt-1 text-[11px] text-red-500">{signupErrors.email}</p>}
+                    {signupErrors.email && <p className="mt-1 text-[15px] text-red-500">{signupErrors.email}</p>}
                   </div>
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-[12px] font-medium text-foreground">Numéro de téléphone *</label>
+                    <label className="block text-[15px] font-medium text-foreground">Numéro de téléphone *</label>
                     <input type="tel" placeholder="+357 99 261 501" autoComplete="tel" value={signup.phone} onChange={setSignupField("phone")} className={ic(!!signupErrors.phone)} />
-                    {signupErrors.phone && <p className="mt-1 text-[11px] text-red-500">{signupErrors.phone}</p>}
+                    {signupErrors.phone && <p className="mt-1 text-[15px] text-red-500">{signupErrors.phone}</p>}
                   </div>
 
-                  {apiError && <div className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-[13px] text-red-600">{apiError}</div>}
+                  {apiError && <div className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-[15px] text-red-600">{apiError}</div>}
 
                   <button type="submit" disabled={submitStatus === "loading"}
-                    className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60">
+                    className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground text-[15px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60">
                     {submitStatus === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Création du compte…</> : "Créer un compte"}
                   </button>
                 </motion.form>
@@ -288,7 +288,7 @@ export function AuthModal({
 
             {/* Footer toggle */}
             {submitStatus !== "success" && (
-              <div className="border-t border-border bg-card/40 px-6 py-4 text-center text-[13px] text-muted-foreground rounded-b-2xl">
+              <div className="border-t border-border bg-card/40 px-6 py-4 text-center text-[15px] text-muted-foreground rounded-b-2xl">
                 {mode === "signin" ? (
                   <>Nouveau sur AtlasLedger ?{" "}<button onClick={() => { setMode("signup"); setApiError(""); setSignupErrors({}); setSigninErrors({}); }} className="text-foreground hover:underline">Créer un compte</button></>
                 ) : (
