@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { CheckCircle, Loader2, Send } from "lucide-react";
+import { CheckCircle, Loader2, Send, Zap } from "lucide-react";
 import { useState } from "react";
 import { submitLead } from "@/lib/crmApi";
 
@@ -85,14 +85,18 @@ export function ContactForm() {
   };
 
   const ic = (field: keyof FormState) =>
-    `w-full rounded-xl border ${errors[field] ? "border-red-400" : "border-border"} bg-card/60 px-4 py-3 text-[14px] text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all duration-200 backdrop-blur-sm`;
+    `w-full rounded-xl border ${errors[field] ? "border-red-500 shadow-[0_0_10px_rgba(239,68,68,0.2)]" : "border-gray-800 focus:border-amber-500 focus:shadow-[0_0_15px_rgba(251,191,36,0.2)]"} bg-black/60 px-4 py-3 text-[14px] text-white placeholder:text-gray-600 outline-none transition-all duration-300 backdrop-blur-md`;
 
   return (
-    <section id="contact" className="relative overflow-hidden py-24 sm:py-32">
+    <section id="contact" className="relative overflow-hidden py-24 sm:py-32 bg-[#050505]">
       {/* Ambient glow */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,oklch(0.18_0_0_/_0.04)_0%,transparent_70%)]" />
+      <motion.div 
+        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(251,191,36,0.15)_0%,transparent_70%)]" 
+      />
 
-      <div className="relative mx-auto max-w-3xl px-5 sm:px-6 lg:px-10">
+      <div className="relative mx-auto max-w-3xl px-5 sm:px-6 lg:px-10 z-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -101,20 +105,21 @@ export function ContactForm() {
         >
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="mx-auto mb-5 flex w-fit items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] text-muted-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-              Entrer en contact
+            <div className="mx-auto mb-5 flex w-fit items-center gap-2 rounded-full border border-amber-500/30 bg-black/60 px-4 py-1.5 text-[12px] text-amber-500 font-bold neon-border-amber">
+              <span className="live-dot h-1.5 w-1.5 rounded-full bg-amber-500" />
+              Initialiser la connexion
             </div>
-            <h2 className="text-[30px] sm:text-[42px] font-medium tracking-[-0.03em] leading-[1.08]">
-              Commencez votre parcours d'investissement
+            <h2 className="text-[30px] sm:text-[42px] font-bold tracking-[-0.03em] leading-[1.08] text-white">
+              Connectez-vous au réseau
             </h2>
-            <p className="mt-4 text-[15px] sm:text-[17px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
-              Parlez-nous de vos objectifs et nos conseillers élaboreront pour vous une stratégie crypto personnalisée.
+            <p className="mt-4 text-[15px] sm:text-[17px] text-gray-400 leading-relaxed max-w-lg mx-auto">
+              Partagez vos paramètres d'investissement et nos protocoles généreront une stratégie crypto sur mesure pour vous.
             </p>
           </div>
 
           {/* Card */}
-          <div className="rounded-2xl border border-border bg-card/50 backdrop-blur-xl p-6 sm:p-8 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.1)]">
+          <div className="relative rounded-2xl border border-gray-800 bg-black/80 backdrop-blur-xl p-6 sm:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+            <div className="absolute inset-0 rounded-2xl border border-amber-500/10 pointer-events-none" />
             <AnimatePresence mode="wait">
               {/* ── Success ── */}
               {status === "success" ? (
@@ -129,18 +134,20 @@ export function ContactForm() {
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+                    className="relative"
                   >
-                    <CheckCircle className="h-14 w-14 text-foreground" strokeWidth={1.5} />
+                    <div className="absolute inset-0 bg-green-500/20 blur-xl rounded-full" />
+                    <CheckCircle className="h-16 w-16 text-green-500 relative z-10 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]" strokeWidth={2} />
                   </motion.div>
-                  <h3 className="text-[22px] font-medium tracking-tight">Message envoyé !</h3>
-                  <p className="text-[14px] text-muted-foreground max-w-xs leading-relaxed">
-                    Merci de nous avoir contactés. Un conseiller vous contactera dans les 24 heures.
+                  <h3 className="text-[24px] font-bold tracking-tight text-white mt-4">Transaction Confirmée</h3>
+                  <p className="text-[15px] text-gray-400 max-w-xs leading-relaxed">
+                    Votre message a été haché et transmis. Un opérateur réseau vous contactera sous peu.
                   </p>
                   <button
                     onClick={() => { setForm(EMPTY); setStatus("idle"); setErrors({}); setApiError(""); }}
-                    className="mt-2 inline-flex h-10 items-center rounded-full border border-border bg-background px-5 text-[13px] font-medium text-foreground hover:bg-accent transition-colors"
+                    className="mt-6 inline-flex h-11 items-center rounded-full border border-gray-700 bg-black px-6 text-[14px] font-bold text-white hover:border-amber-500 hover:text-amber-500 hover:shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all"
                   >
-                    Envoyer un autre message
+                    Nouvelle Transmission
                   </button>
                 </motion.div>
               ) : (
@@ -148,37 +155,37 @@ export function ContactForm() {
                 <motion.form
                   key="form"
                   onSubmit={handleSubmit}
-                  className="space-y-5"
+                  className="space-y-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   {/* Name */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-foreground mb-2">Nom *</label>
-                    <input type="text" placeholder="John Doe" value={form.name} onChange={set("name")} className={ic("name")} />
-                    {errors.name && <p className="mt-1.5 text-[11px] text-red-500">{errors.name}</p>}
+                  <div className="group">
+                    <label className="block text-[12px] font-bold text-gray-400 mb-2 group-focus-within:text-amber-500 transition-colors">Identifiant (Nom) *</label>
+                    <input type="text" placeholder="Satoshi Nakamoto" value={form.name} onChange={set("name")} className={ic("name")} />
+                    {errors.name && <p className="mt-1.5 text-[11px] text-red-500 font-medium">{errors.name}</p>}
                   </div>
 
                   {/* Email + phone */}
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Adresse e-mail *</label>
-                      <input type="email" placeholder="you@company.com" value={form.email} onChange={set("email")} className={ic("email")} />
-                      {errors.email && <p className="mt-1.5 text-[11px] text-red-500">{errors.email}</p>}
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="group">
+                      <label className="block text-[12px] font-bold text-gray-400 mb-2 group-focus-within:text-amber-500 transition-colors">Clé Publique (Email) *</label>
+                      <input type="email" placeholder="satoshi@bitcoin.org" value={form.email} onChange={set("email")} className={ic("email")} />
+                      {errors.email && <p className="mt-1.5 text-[11px] text-red-500 font-medium">{errors.email}</p>}
                     </div>
-                    <div>
-                      <label className="block text-[12px] font-medium text-foreground mb-2">Numéro de téléphone *</label>
+                    <div className="group">
+                      <label className="block text-[12px] font-bold text-gray-400 mb-2 group-focus-within:text-amber-500 transition-colors">Canal de Com. (Téléphone) *</label>
                       <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={set("phone")} className={ic("phone")} />
-                      {errors.phone && <p className="mt-1.5 text-[11px] text-red-500">{errors.phone}</p>}
+                      {errors.phone && <p className="mt-1.5 text-[11px] text-red-500 font-medium">{errors.phone}</p>}
                     </div>
                   </div>
 
                   {/* Message */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-foreground mb-2">Message (facultatif)</label>
+                  <div className="group">
+                    <label className="block text-[12px] font-bold text-gray-400 mb-2 group-focus-within:text-amber-500 transition-colors">Payload (Message)</label>
                     <textarea
                       rows={5}
-                      placeholder="Parlez-nous de vos objectifs d'investissement, de votre expérience et de ce que vous cherchez à accomplir…"
+                      placeholder="Décrivez vos objectifs de yield, votre tolérance au risque et les actifs ciblés..."
                       value={form.message}
                       onChange={set("message")}
                       className={`${ic("message")} resize-none`}
@@ -187,34 +194,35 @@ export function ContactForm() {
 
                   {/* API error */}
                   {apiError && (
-                    <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-600">
+                    <div className="rounded-xl border border-red-500/50 bg-red-500/10 px-4 py-3 text-[13px] text-red-400 font-medium shadow-[0_0_10px_rgba(239,68,68,0.2)]">
                       {apiError}
                     </div>
                   )}
 
                   {/* Submit */}
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
-                    <p className="text-[12px] text-muted-foreground">
-                      Vos informations sont cryptées et ne sont jamais partagées.
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-gray-800">
+                    <p className="text-[12px] text-gray-500 flex items-center gap-2">
+                      <Zap size={14} className="text-amber-500" />
+                      Chiffré de bout en bout. Zéro conservation.
                     </p>
                     <button
                       type="submit"
                       disabled={status === "loading"}
-                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-[14px] font-medium text-background hover:opacity-90 transition-opacity disabled:opacity-60 whitespace-nowrap shrink-0"
+                      className="group relative inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-8 text-[14px] font-bold text-black hover:opacity-90 transition-all shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)] disabled:opacity-60 whitespace-nowrap shrink-0 overflow-hidden"
                     >
+                      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                       {status === "loading" ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Loader2 className="h-4 w-4 animate-spin relative z-10" />
                       ) : (
-                        <Send className="h-4 w-4" />
+                        <Send className="h-4 w-4 relative z-10" />
                       )}
-                      {status === "loading" ? "Envoi…" : "Envoyer la demande"}
+                      <span className="relative z-10">{status === "loading" ? "Transmission..." : "Exécuter la Transaction"}</span>
                     </button>
                   </div>
                 </motion.form>
               )}
             </AnimatePresence>
           </div>
-
 
         </motion.div>
       </div>

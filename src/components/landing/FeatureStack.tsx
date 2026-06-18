@@ -4,32 +4,32 @@ import { Reveal } from "./primitives";
 
 const features = [
   {
-    tag: "01 - Trading",
-    title: "Une exécution qui disparaît.",
+    tag: "01 - Trading Web3",
+    title: "Une exécution à la vitesse de la lumière.",
     body:
-      "Routage intelligent sur les places mondiales avec une latence déterministe. Pas de jeux sur les spreads. Pas de surprises.",
-    bullets: ["Carnet d'ordres multi-lieux", "Routage déterministe à 12 ms", "Exécution algorithmique"],
+      "Routage intelligent sur les exchanges décentralisés (DEX) et centralisés (CEX) avec une latence quasi nulle. Exécution parfaite.",
+    bullets: ["Carnet d'ordres multi-DEX", "Routage déterministe à 12 ms", "Exécution algorithmique on-chain"],
   },
   {
-    tag: "02 - Analytique",
-    title: "Des chiffres qui tiennent la route.",
+    tag: "02 - Analytique Crypto",
+    title: "Des métriques qui comptent.",
     body:
-      "Analyses de portefeuille, de risque et d'attribution en temps réel. Auditables, reproductibles et à vous.",
-    bullets: ["P&L en continu", "Attribution factorielle", "Reporting personnalisé"],
+      "Analyses de portefeuille DeFi, de risque et d'attribution en temps réel. Suivi complet des wallets et des contrats intelligents.",
+    bullets: ["P&L en continu (Live)", "Analyse des Gas Fees", "Reporting automatisé"],
   },
   {
-    tag: "03 - Sécurité",
-    title: "Conçu pour être ennuyeux.",
+    tag: "03 - Sécurité On-chain",
+    title: "Une forteresse numérique.",
     body:
-      "Garde MPC, signature matérielle et politiques de quorum conçues par des personnes qui les cassaient auparavant.",
-    bullets: ["Garde MPC", "Politiques de quorum", "SOC 2 Type II"],
+      "Garde MPC, intégration hardware wallet et politiques de multisig conçues par les meilleurs experts en sécurité crypto.",
+    bullets: ["Garde MPC avancée", "Politiques Multisig (Quorum)", "Audits Smart Contracts"],
   },
   {
-    tag: "04 - Automatisation",
-    title: "Une trésorerie qui fonctionne toute seule.",
+    tag: "04 - Smart Automation",
+    title: "Un portefeuille autonome.",
     body:
-      "Règles programmables pour le rééquilibrage, le rendement et le règlement. Exprimez votre intention. Nous gérons le reste.",
-    bullets: ["Moteur de règles", "Webhooks & SDK", "Flux programmés"],
+      "Règles programmables pour le yield farming, le staking et le rééquilibrage. Écrivez le code, le réseau fait le reste.",
+    bullets: ["Moteur de règles (Smart Contracts)", "Webhooks & API Web3", "Auto-Compound intégré"],
   },
 ];
 
@@ -63,21 +63,28 @@ export function FeatureStack() {
   }, [progressVal]);
 
   return (
-    <section id="features" className="bg-card/40 border-y border-border">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-24">
+    <section id="features" className="bg-[#050505] border-y border-gray-900 relative">
+      {/* Abstract Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-amber-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-24 relative z-10">
         <Reveal>
-          <div className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-            Quatre primitives
+          <div className="text-[12px] uppercase tracking-[0.18em] text-amber-500 font-bold flex items-center gap-2">
+            <span className="live-dot h-1.5 w-1.5 rounded-full bg-amber-500" />
+            L'Écosystème
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <h2 className="mt-5 max-w-3xl text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-medium">
-            Chaque couche de la pile, prise en compte.
+          <h2 className="mt-5 max-w-3xl text-[34px] lg:text-[48px] leading-[1.05] tracking-[-0.03em] font-bold text-white">
+            Chaque couche de la blockchain, <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-600">maîtrisée.</span>
           </h2>
         </Reveal>
       </div>
 
-      <div ref={ref} className="relative" style={{ height: `${features.length * 100}vh` }}>
+      <div ref={ref} className="relative z-10" style={{ height: `${features.length * 100}vh` }}>
         <div className="sticky top-0 h-screen flex items-center">
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-10">
             <div className="relative h-[520px] sm:h-[480px] lg:h-[500px]">
@@ -113,8 +120,6 @@ function FeatureCard({
   const start = index * segment;
   const end = start + segment;
 
-  // While the current segment is active, card is in place.
-  // After its segment ends, card slides up & fades to reveal the next.
   const y = useTransform(progress, [start, end], [0, -40], { clamp: true });
   const opacity = useTransform(
     progress,
@@ -130,36 +135,50 @@ function FeatureCard({
       : [0, 1, 1, 0],
     { clamp: true }
   );
-  const scale = useTransform(progress, [start, end], [1, 0.97], { clamp: true });
+  const scale = useTransform(progress, [start, end], [1, 0.95], { clamp: true });
+
+  const colors = [
+    "from-amber-500/20 to-orange-600/5 border-amber-500/30",
+    "from-blue-500/20 to-cyan-500/5 border-blue-500/30",
+    "from-purple-500/20 to-pink-500/5 border-purple-500/30",
+    "from-green-500/20 to-emerald-500/5 border-green-500/30"
+  ];
+  
+  const shadowColors = [
+    "rgba(251,191,36,0.15)",
+    "rgba(59,130,246,0.15)",
+    "rgba(168,85,247,0.15)",
+    "rgba(34,197,94,0.15)"
+  ];
 
   return (
     <motion.article
-      style={{ y, opacity, scale, zIndex: total - index }}
-      className="absolute inset-0 rounded-2xl border border-border bg-background p-6 sm:p-8 lg:p-14 shadow-[0_30px_80px_-30px_rgba(17,17,17,0.12)] grid lg:grid-cols-2 gap-6 lg:gap-16 overflow-hidden"
+      style={{ y, opacity, scale, zIndex: total - index, boxShadow: `0 20px 80px -20px ${shadowColors[index]}` }}
+      className={`absolute inset-0 rounded-2xl border bg-black/80 backdrop-blur-xl p-6 sm:p-8 lg:p-14 grid lg:grid-cols-2 gap-6 lg:gap-16 overflow-hidden bg-gradient-to-br ${colors[index]}`}
     >
-      <div className="flex flex-col justify-between min-w-0">
+      <div className="flex flex-col justify-between min-w-0 z-10 relative">
         <div>
-          <div className="text-[11px] sm:text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] sm:text-[12px] uppercase tracking-[0.18em] text-gray-400 font-bold">
             {feature.tag}
           </div>
-          <h3 className="mt-4 sm:mt-5 text-[26px] sm:text-[32px] lg:text-[44px] leading-[1.05] tracking-[-0.03em] font-medium max-w-md">
+          <h3 className="mt-4 sm:mt-5 text-[26px] sm:text-[32px] lg:text-[44px] leading-[1.05] tracking-[-0.03em] font-bold max-w-md text-white">
             {feature.title}
           </h3>
-          <p className="mt-4 sm:mt-5 text-[14px] sm:text-[16px] lg:text-[17px] leading-relaxed text-muted-foreground max-w-md">
+          <p className="mt-4 sm:mt-5 text-[14px] sm:text-[16px] lg:text-[17px] leading-relaxed text-gray-300 max-w-md">
             {feature.body}
           </p>
         </div>
         <ul className="mt-6 sm:mt-10 space-y-2.5 sm:space-y-3 text-[13px] sm:text-[14px]">
           {feature.bullets.map((b) => (
-            <li key={b} className="flex items-center gap-3 text-muted-foreground">
-              <span className="h-px w-5 bg-foreground" />
-              <span className="text-foreground">{b}</span>
+            <li key={b} className="flex items-center gap-3 text-gray-300 font-medium">
+              <span className={`h-px w-5 ${index === 0 ? 'bg-amber-500' : index === 1 ? 'bg-blue-500' : index === 2 ? 'bg-purple-500' : 'bg-green-500'}`} />
+              <span>{b}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="relative hidden lg:block rounded-xl border border-border bg-card/60 overflow-hidden">
+      <div className="relative hidden lg:block rounded-xl border border-gray-800 bg-black/50 overflow-hidden shadow-inner">
         <FeatureVisual index={index} />
       </div>
     </motion.article>
@@ -170,11 +189,11 @@ function FeatureVisual({ index }: { index: number }) {
   if (index === 0) {
     return (
       <div className="absolute inset-0 p-8">
-        <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-muted-foreground">
-          <span>Carnet d'ordres</span>
-          <span>BTC / USD</span>
+        <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-gray-500 font-bold">
+          <span>Order Book Live</span>
+          <span className="text-amber-500 flex items-center gap-2"><span className="live-dot h-1.5 w-1.5 bg-amber-500 rounded-full"></span> BTC / USDT</span>
         </div>
-        <div className="mt-6 grid grid-cols-2 gap-6 text-[12px] tabular-nums">
+        <div className="mt-6 grid grid-cols-2 gap-6 text-[12px] tabular-nums font-mono">
           <div className="space-y-1.5">
             {[
               ["64,201.50", "0.42"],
@@ -183,11 +202,22 @@ function FeatureVisual({ index }: { index: number }) {
               ["64,200.10", "2.41"],
               ["64,199.90", "0.92"],
             ].map(([p, q], i) => (
-              <div key={i} className="relative flex justify-between rounded-sm px-2 py-1">
-                <span className="absolute inset-y-0 left-0 bg-foreground/[0.05]" style={{ width: `${30 + i * 10}%` }} />
-                <span className="relative text-foreground">{p}</span>
-                <span className="relative text-muted-foreground">{q}</span>
-              </div>
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="relative flex justify-between rounded-sm px-2 py-1"
+              >
+                <motion.span 
+                  className="absolute inset-y-0 left-0 bg-green-500/10 border-l-2 border-green-500" 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${30 + i * 10}%` }}
+                  transition={{ duration: 1 }}
+                />
+                <span className="relative text-green-400 font-bold">{p}</span>
+                <span className="relative text-gray-400">{q}</span>
+              </motion.div>
             ))}
           </div>
           <div className="space-y-1.5">
@@ -198,11 +228,22 @@ function FeatureVisual({ index }: { index: number }) {
               ["64,203.20", "0.74"],
               ["64,203.80", "2.02"],
             ].map(([p, q], i) => (
-              <div key={i} className="relative flex justify-between rounded-sm px-2 py-1">
-                <span className="absolute inset-y-0 right-0 bg-foreground/[0.05]" style={{ width: `${30 + i * 10}%` }} />
-                <span className="relative text-foreground">{p}</span>
-                <span className="relative text-muted-foreground">{q}</span>
-              </div>
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, x: 10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="relative flex justify-between rounded-sm px-2 py-1"
+              >
+                <motion.span 
+                  className="absolute inset-y-0 right-0 bg-red-500/10 border-r-2 border-red-500" 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${30 + i * 10}%` }}
+                  transition={{ duration: 1 }}
+                />
+                <span className="relative text-red-400 font-bold">{p}</span>
+                <span className="relative text-gray-400">{q}</span>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -212,20 +253,34 @@ function FeatureVisual({ index }: { index: number }) {
   if (index === 1) {
     return (
       <div className="absolute inset-0 p-8">
-        <div className="text-[11px] uppercase tracking-wider text-muted-foreground">P&L · 30D</div>
+        <div className="text-[11px] uppercase tracking-wider text-blue-400 font-bold flex items-center gap-2">
+          <span className="live-dot h-1.5 w-1.5 bg-blue-500 rounded-full"></span>
+          Live P&L · 30D
+        </div>
         <svg viewBox="0 0 400 220" className="mt-4 h-[80%] w-full">
+          <defs>
+            <filter id="glow-blue">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
           {[0, 1, 2, 3, 4].map((i) => (
-            <line key={i} x1="0" x2="400" y1={40 * i + 10} y2={40 * i + 10} stroke="oklch(0.94 0 0)" />
+            <line key={i} x1="0" x2="400" y1={40 * i + 10} y2={40 * i + 10} stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
           ))}
           <motion.path
             d="M0,160 C40,150 70,130 110,120 C150,110 180,140 220,100 C260,60 290,80 330,50 C370,30 390,40 400,30"
             fill="none"
-            stroke="currentColor"
-            strokeOpacity={0.8}
-            strokeWidth="1.5"
+            stroke="#3b82f6"
+            strokeOpacity={1}
+            strokeWidth="3"
+            filter="url(#glow-blue)"
             initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.8 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 2, ease: "easeInOut" }}
           />
         </svg>
       </div>
@@ -234,7 +289,16 @@ function FeatureVisual({ index }: { index: number }) {
   if (index === 2) {
     return (
       <div className="absolute inset-0 grid place-items-center">
-        <svg viewBox="0 0 240 240" className="h-64 w-64 text-foreground">
+        <svg viewBox="0 0 240 240" className="h-64 w-64 text-purple-500">
+          <defs>
+            <filter id="glow-purple">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
           {[1, 2, 3].map((r, i) => (
             <motion.circle
               key={r}
@@ -243,21 +307,24 @@ function FeatureVisual({ index }: { index: number }) {
               r={50 + r * 28}
               fill="none"
               stroke="currentColor"
-              strokeOpacity={0.25 - i * 0.06}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.4, delay: i * 0.15 }}
+              strokeOpacity={0.4 - i * 0.1}
+              strokeDasharray="4 8"
+              initial={{ scale: 0.8, opacity: 0, rotate: 0 }}
+              animate={{ scale: 1, opacity: 1, rotate: 360 }}
+              transition={{ duration: 20 + i * 5, repeat: Infinity, ease: "linear" }}
               style={{ transformOrigin: "120px 120px" }}
             />
           ))}
           <motion.path
             d="M120 80 L150 92 V120 C150 142 135 156 120 162 C105 156 90 142 90 120 V92 Z"
-            fill="none"
+            fill="rgba(168,85,247,0.1)"
             stroke="currentColor"
-            strokeOpacity={0.8}
-            strokeWidth="1.5"
+            strokeOpacity={1}
+            strokeWidth="2"
+            filter="url(#glow-purple)"
             initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 1.6 }}
           />
         </svg>
@@ -265,21 +332,29 @@ function FeatureVisual({ index }: { index: number }) {
     );
   }
   return (
-    <div className="absolute inset-0 p-8 font-mono text-[12px] leading-6 text-muted-foreground">
-      <div className="text-[11px] uppercase tracking-wider">Règle</div>
-      <pre className="mt-4 whitespace-pre-wrap">
+    <div className="absolute inset-0 p-8 font-mono text-[13px] leading-7 text-green-400 bg-gray-900/50">
+      <div className="text-[11px] uppercase tracking-wider text-gray-500 font-sans mb-4 flex items-center gap-2">
+        <span className="live-dot h-2 w-2 rounded-full bg-green-500" />
+        Smart Contract Log
+      </div>
+      <motion.pre 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="whitespace-pre-wrap text-glow-green"
+      >
 {`rule "rebalance" {
-  when  drift > 2%
-  then  rebalance(target)
-        notify(team)
+  when  <span className="text-pink-400">drift &gt; 2%</span>
+  then  <span className="text-blue-400">rebalance</span>(target)
+        <span className="text-blue-400">notify</span>(team)
 }
 
 rule "yield" {
-  when  cash > 250_000
-  then  allocate(usdc, 65%)
-        allocate(t-bills, 35%)
+  when  <span className="text-pink-400">balance &gt; 250_000</span>
+  then  <span className="text-blue-400">allocate</span>(usdc, 65%)
+        <span className="text-blue-400">stake</span>(eth, 35%)
 }`}
-      </pre>
+      </motion.pre>
     </div>
   );
 }

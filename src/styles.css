@@ -6,16 +6,7 @@
 
 /*
  * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Fully animated crypto theme
  */
 
 @theme inline {
@@ -46,91 +37,42 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-crypto-amber: var(--crypto-amber);
+  --color-crypto-green: var(--crypto-green);
+  --color-crypto-blue: var(--crypto-blue);
+  --color-crypto-purple: var(--crypto-purple);
+  --color-crypto-pink: var(--crypto-pink);
 }
 
 :root {
   --radius: 0.5rem;
-  /* Premium white system: #FFFFFF / #111111 / #525252 / #E5E5E5 / #FAFAFA */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.18 0 0);
-  --card: oklch(0.985 0 0);
-  --card-foreground: oklch(0.18 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0 0);
-  --primary: oklch(0.18 0 0);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.985 0 0);
-  --secondary-foreground: oklch(0.18 0 0);
-  --muted: oklch(0.985 0 0);
-  --muted-foreground: oklch(0.46 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.18 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.92 0 0);
-  --input: oklch(0.92 0 0);
-  --ring: oklch(0.46 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
-
-.dark {
-  --background: oklch(0.129 0.042 264.695);
+  /* Dark Crypto Theme as Default */
+  --background: oklch(0.129 0.042 264.695); /* Deep Black / Dark Blue-ish */
   --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
+  --card: oklch(0.15 0.04 265); /* Slightly lighter than bg */
   --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
+  --popover: oklch(0.15 0.04 265);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.7 0.2 60); /* Vibrant Amber (Bitcoin) */
+  --primary-foreground: oklch(0.1 0.05 260);
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
   --muted: oklch(0.279 0.041 260.031);
   --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
+  --accent: oklch(0.6 0.2 260); /* Electric Blue */
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --border: oklch(1 0 0 / 15%);
+  --input: oklch(1 0 0 / 20%);
+  --ring: oklch(0.7 0.2 60);
+  
+  /* Crypto neon accents */
+  --crypto-amber: oklch(0.75 0.2 65);
+  --crypto-green: oklch(0.75 0.2 150);
+  --crypto-blue: oklch(0.7 0.2 260);
+  --crypto-purple: oklch(0.65 0.25 310);
+  --crypto-pink: oklch(0.65 0.25 350);
 }
 
 @layer base {
@@ -157,24 +99,32 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* Subtle background grid for hero */
-@utility bg-grid {
+/* Abstract Crypto Backgrounds */
+@utility bg-crypto-grid {
   background-image:
-    linear-gradient(to right, oklch(0.92 0 0) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(0.92 0 0) 1px, transparent 1px);
-  background-size: 64px 64px;
+    linear-gradient(to right, rgba(251, 191, 36, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center;
 }
 
-/* Dark dashboard grid */
-@utility bg-grid-dark {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
+/* Neon Glow Utilities */
+@utility neon-border-amber {
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3), inset 0 0 10px rgba(251, 191, 36, 0.2);
+  border-color: rgba(251, 191, 36, 0.5);
 }
 
-@utility text-balance {
-  text-wrap: balance;
+@utility neon-border-blue {
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3), inset 0 0 10px rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+@utility neon-text-amber {
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+}
+
+@utility neon-text-blue {
+  text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
 }
 
 /* Glass card shimmer */
@@ -184,15 +134,25 @@
 }
 
 @utility shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
   background-size: 200% 100%;
-  animation: shimmer 2.5s ease-in-out infinite;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+@utility float-anim {
+  animation: float 6s ease-in-out infinite;
 }
 
 /* Crypto live pulse */
 @keyframes live-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.9); }
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 rgba(251, 191, 36, 0); }
+  50% { opacity: 0.7; transform: scale(0.95); box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
 }
 
 @utility live-dot {
@@ -201,5 +161,9 @@
 
 /* Number counter glow */
 @utility text-glow-amber {
-  text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+@utility text-glow-green {
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
 }
