@@ -113,7 +113,14 @@ export function AuthModal({
     const e: Partial<Record<keyof SignupForm, string>> = {};
     if (!signup.name.trim()) e.name = "Requis";
     if (!signup.email.trim() || !/\S+@\S+\.\S+/.test(signup.email)) e.email = "E-mail valide requis";
-    if (!signup.phone.trim()) e.phone = "Requis";
+    
+    const cleanNum = signup.phone.replace(/\s+/g, "");
+    if (!cleanNum) {
+      e.phone = "Veuillez entrer un numéro de téléphone";
+    } else if (!/^(\+41|0041|0)?[1-9]\d{8}$/.test(cleanNum)) {
+      e.phone = "Veuillez entrer un numéro suisse valide (ex: 079 123 45 67)";
+    }
+    
     setSignupErrors(e);
     return Object.keys(e).length === 0;
   };

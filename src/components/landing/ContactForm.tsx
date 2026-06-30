@@ -59,7 +59,14 @@ export function ContactForm() {
     const e: Partial<Record<keyof FormState, string>> = {};
     if (!form.name.trim()) e.name = "Requis";
     if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "E-mail valide requis";
-    if (!form.phone.trim()) e.phone = "Requis";
+    
+    const cleanNum = form.phone.replace(/\s+/g, "");
+    if (!cleanNum) {
+      e.phone = "Veuillez entrer un numéro de téléphone";
+    } else if (!/^(\+41|0041|0)?[1-9]\d{8}$/.test(cleanNum)) {
+      e.phone = "Veuillez entrer un numéro suisse valide (ex: 079 123 45 67)";
+    }
+    
     setErrors(e);
     return Object.keys(e).length === 0;
   };

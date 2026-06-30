@@ -52,21 +52,39 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
     return;
   }
 
-  const parts = input.name.trim().split(/\s+/);
-  const firstName = parts[0] || "";
-  const lastName = parts.slice(1).join(" ") || "";
+  const [first_name, ...lastNameParts] = (input.name || "Unknown").trim().split(" ");
+  const last_name = lastNameParts.length > 0 ? lastNameParts.join(" ") : "Lead";
+
+  let phone = (input.phone || "").replace(/[^0-9+]/g, '');
+  if (phone) {
+    if (phone.startsWith('+')) {
+      phone = '00' + phone.slice(1);
+    }
+    if (phone.startsWith('41') && phone.length === 11) {
+      phone = '00' + phone;
+    }
+    if (!phone.startsWith('0041')) {
+      if (phone.startsWith('0') && !phone.startsWith('00')) {
+        phone = '0041' + phone.slice(1);
+      } else if (!phone.startsWith('00')) {
+        phone = '0041' + phone;
+      }
+    }
+  } else {
+    phone = "0000000000";
+  }
 
   const payload: CrmLeadPayload = {
-    first_name: firstName,
-    last_name: lastName || ".",
+    first_name: first_name,
+    last_name: last_name,
     email: input.email.trim(),
-    phone: input.phone.trim(),
-    country_name: "cy",
-    description: (input.message ?? "").trim() || "Lead from Contact Form",
+    phone: phone,
+    country_name: "ch",
+    description: (input.message ?? "").trim() || "Signup Lead",
     custom_fields: {
-      Source_ID: input.sourceId ?? CRM_SOURCE_ID,
-      How_Much_Invested: "10000",
-      Outline_Your_Case: (input.message ?? "").trim() || "Lead from Contact Form",
+      Source_ID: "website",
+      How_Much_Invested: "0",
+      Outline_Your_Case: (input.message ?? "").trim() || "",
     },
   };
 
