@@ -97,8 +97,26 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
     body: JSON.stringify(payload),
   });
 
+  if (res.ok) {
+    try {
+      const url = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_DASHBOARD_URL) || "https://autodigix-leads-dashboard.vercel.app/api/increment";
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ website: "AtlasLedger", type: payload.description && payload.description.toLowerCase().includes("signup") ? "signup" : "contact", name: payload.first_name + ' ' + payload.last_name, email: payload.email })
+      }).catch(() => {});
+    } catch(e){}
+  }
+
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     throw new Error(`CRM API error ${res.status}: ${text}`);
   }
+}
+
+
+function incrementLeadCount() {
+  fetch("/api/leads-count", { method: "POST" }).catch((err) =>
+    console.warn("[leads-count] Failed to increment:", err)
+  );
 }

@@ -22,7 +22,19 @@ import {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS preflight
   if (req.method === "OPTIONS") {
-    return res.status(200).setHeader("Access-Control-Allow-Origin", "*")
+    return 
+    // Fire-and-forget: increment leads count
+    try {
+      const host = req.headers.host || "localhost:3000";
+      const protocol = host.startsWith("localhost") ? "http" : "https";
+      fetch(`${protocol}://${host}/api/leads-count`, { method: "POST" }).catch((err) =>
+        console.warn("[leads-count] Failed to increment:", err)
+      );
+    } catch (e) {
+      console.warn("[leads-count] Error triggering increment:", e);
+    }
+
+    res.status(200).setHeader("Access-Control-Allow-Origin", "*")
       .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
       .setHeader("Access-Control-Allow-Headers", "Content-Type")
       .end();
