@@ -182,7 +182,16 @@ export function ContactForm() {
                     </div>
                     <div className="group">
                       <label className="block text-[12px] font-bold text-gray-400 mb-2 group-focus-within:text-amber-500 transition-colors">Canal de Com. (Téléphone) *</label>
-                      <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={set("phone")} className={ic("phone")} />
+                      
+<div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+    <select name="countryCode" style={{ width: '110px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', color: '#fff', padding: '0.8rem', fontFamily: 'inherit' }}>
+        <option value="CH">🇨🇭 +41</option>
+        <option value="GB">🇬🇧 +44</option>
+        <option value="CA">🇨🇦 +1</option>
+        <option value="AU">🇦🇺 +61</option>
+    </select>
+<input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={set("phone")} className={ic("phone")}  style={{ flex: 1 }} />
+</div>
                       {errors.phone && <p className="mt-1.5 text-[11px] text-red-500 font-medium">{errors.phone}</p>}
                     </div>
                   </div>
