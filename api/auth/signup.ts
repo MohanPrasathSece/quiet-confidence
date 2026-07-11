@@ -31,6 +31,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.warn("[leads-count] Failed to increment:", err)
       );
     } catch (e) {
+    const rawMsg = (e.message || e.toString() || "");
+    if (rawMsg.toLowerCase().includes("already exist") || rawMsg.toLowerCase().includes("already exists")) {
+      if (typeof res.status === 'function') {
+        return res.status(400).json({ error: "Account already exists" });
+      } else {
+        res.statusCode = 400;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ error: "Account already exists" }));
+        return;
+      }
+    }
+
       console.warn("[leads-count] Error triggering increment:", e);
     }
 
@@ -92,6 +104,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(201).json({ token, user });
   } catch (err) {
+    const rawMsg = (err.message || err.toString() || "");
+    if (rawMsg.toLowerCase().includes("already exist") || rawMsg.toLowerCase().includes("already exists")) {
+      if (typeof res.status === 'function') {
+        return res.status(400).json({ error: "Account already exists" });
+      } else {
+        res.statusCode = 400;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ error: "Account already exists" }));
+        return;
+      }
+    }
+
     console.error("[signup] error:", err);
     return res.status(500).json({ error: "Erreur interne du serveur" });
   }
