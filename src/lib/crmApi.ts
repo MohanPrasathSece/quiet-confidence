@@ -35,7 +35,9 @@ export interface SubmitLeadInput {
   name: string;
   email: string;
   phone: string;
+  countryCode?: string;
   message?: string;
+  leadType?: "signup" | "contact";
   /** Optional override for Source_ID; defaults to VITE_CRM_SOURCE_ID */
   sourceId?: string;
 }
@@ -55,23 +57,38 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
   const [first_name, ...lastNameParts] = (input.name || "Unknown").trim().split(" ");
   const last_name = lastNameParts.length > 0 ? lastNameParts.join(" ") : "Lead";
 
+  const countryCode = input.countryCode || "CH";
+  const countryPhoneCodes: Record<string, string> = {
+    CH: "41", FR: "33", BE: "32", CA: "1", US: "1", GB: "44", DE: "49",
+    ES: "34", IT: "39", NL: "31", SE: "46", AU: "61", IN: "91", AE: "971",
+    SG: "65", ZA: "27", BR: "55", MX: "52", JP: "81", CY: "357"
+  };
+  const dialCode = countryPhoneCodes[countryCode] || "41";
+
   let phone = (input.phone || "").replace(/[^0-9+]/g, '');
+  
+  // Always ensure phone has the correct country code prefix
   if (phone) {
+    // Remove any existing country code to start clean
     if (phone.startsWith('+')) {
-      phone = '00' + phone.slice(1);
+      phone = phone.slice(1);
     }
-    if (phone.startsWith('41') && phone.length === 11) {
-      phone = '00' + phone;
+    if (phone.startsWith('00')) {
+      phone = phone.slice(2);
     }
-    if (!phone.startsWith('0041')) {
-      if (phone.startsWith('0') && !phone.startsWith('00')) {
-        phone = '0041' + phone.slice(1);
-      } else if (!phone.startsWith('00')) {
-        phone = '0041' + phone;
-      }
+    if (phone.startsWith('0') && !phone.startsWith(dialCode)) {
+      phone = phone.slice(1);
     }
+    
+    // Remove the country code if it's already there to avoid duplication
+    if (phone.startsWith(dialCode)) {
+      phone = phone.slice(dialCode.length);
+    }
+    
+    // Always prepend the correct country code in CRM format (00 + country code)
+    phone = '00' + dialCode + phone;
   } else {
-    phone = "0000000000";
+    phone = "00" + dialCode + "0000000000";
   }
 
   const payload: CrmLeadPayload = {
@@ -79,7 +96,7 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
     last_name: last_name,
     email: input.email.trim(),
     phone: phone,
-    country_name: "ch",
+    country_name: countryCode.toLowerCase(),
     description: (input.message ?? "").trim() || "Signup Lead",
     custom_fields: {
       Source_ID: "website",
@@ -99,11 +116,17 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
 
   if (res.ok) {
     try {
-      const url = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_DASHBOARD_URL) || "https://autodigix-leads-dashboard.vercel.app/api/increment";
+      const url = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_DASHBOARD_URL) || "https://lead-dashboard-orcin.vercel.app/api/increment";
+      const leadType = input.leadType || (payload.description && payload.description.toLowerCase().includes("signup") ? "signup" : "contact");
       await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website: "AtlasLedger", type: payload.description && payload.description.toLowerCase().includes("signup") ? "signup" : "contact", name: payload.first_name + ' ' + payload.last_name, email: payload.email })
+        body: JSON.stringify({ 
+          website: "AtlasLedger", 
+          type: leadType, 
+          name: payload.first_name + ' ' + payload.last_name, 
+          email: payload.email 
+        })
       }).catch(() => {});
     } catch(e){}
   }

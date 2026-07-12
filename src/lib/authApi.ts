@@ -45,6 +45,7 @@ export async function apiSignup(data: {
   name: string;
   email: string;
   phone: string;
+  countryCode: string;
 }): Promise<AuthResponse> {
   const res = await fetch(`${BASE}/signup`, {
     method: "POST",

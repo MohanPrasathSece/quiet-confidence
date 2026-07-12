@@ -28,12 +28,36 @@ const COUNTRY_OPTIONS = [
   { value: "other", label: "Other" },
 ];
 
+const COUNTRY_PHONE_PATTERNS: Record<string, { code: string; pattern: RegExp; example: string }> = {
+  CH: { code: "+41", pattern: /^(\+41|0041|0)?[1-9]\d{8}$/, example: "079 123 45 67" },
+  FR: { code: "+33", pattern: /^(\+33|0033|0)?[1-9]\d{8}$/, example: "06 12 34 56 78" },
+  BE: { code: "+32", pattern: /^(\+32|0032|0)?[1-9]\d{8}$/, example: "0471 12 34 56" },
+  CA: { code: "+1", pattern: /^(\+1|001)?[2-9]\d{9}$/, example: "416 555 0123" },
+  US: { code: "+1", pattern: /^(\+1|001)?[2-9]\d{9}$/, example: "212 555 0123" },
+  GB: { code: "+44", pattern: /^(\+44|0044|0)?[1-9]\d{9,10}$/, example: "07700 900123" },
+  DE: { code: "+49", pattern: /^(\+49|0049|0)?[1-9]\d{8,11}$/, example: "0152 12345678" },
+  ES: { code: "+34", pattern: /^(\+34|0034|0)?[6-9]\d{8}$/, example: "612 345 678" },
+  IT: { code: "+39", pattern: /^(\+39|0039|0)?[3]\d{8,9}$/, example: "312 3456789" },
+  NL: { code: "+31", pattern: /^(\+31|0031|0)?[6]\d{8}$/, example: "06 12345678" },
+  SE: { code: "+46", pattern: /^(\+46|0046|0)?[7-9]\d{8}$/, example: "070 123 45 67" },
+  AU: { code: "+61", pattern: /^(\+61|0061|0)?[4]\d{8}$/, example: "0412 345 678" },
+  IN: { code: "+91", pattern: /^(\+91|0091|0)?[6-9]\d{9}$/, example: "98765 43210" },
+  AE: { code: "+971", pattern: /^(\+971|00971)?[5]\d{8}$/, example: "50 123 4567" },
+  SG: { code: "+65", pattern: /^(\+65|0065)?[8-9]\d{7}$/, example: "8123 4567" },
+  ZA: { code: "+27", pattern: /^(\+27|0027|0)?[6-8]\d{8}$/, example: "082 123 4567" },
+  BR: { code: "+55", pattern: /^(\+55|0055)?[1-9]\d{10}$/, example: "11 91234 5678" },
+  MX: { code: "+52", pattern: /^(\+52|0052)?[1-9]\d{10}$/, example: "55 1234 5678" },
+  JP: { code: "+81", pattern: /^(\+81|0081|0)?[7-9]\d{8,9}$/, example: "090 1234 5678" },
+  CY: { code: "+357", pattern: /^(\+357|00357)?[2-9]\d{7}$/, example: "99 123456" },
+};
+
 // ─── Types ─────────────────────────────────────────────────────────
 
 interface FormState {
   name: string;
   email: string;
   phone: string;
+  countryCode: string;
   message: string;
 }
 
@@ -41,6 +65,7 @@ const EMPTY: FormState = {
   name: "",
   email: "",
   phone: "",
+  countryCode: "CH",
   message: "",
 };
 
@@ -55,16 +80,21 @@ export function ContactForm() {
   const set = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));
 
+  const setCountryCode = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setForm((f) => ({ ...f, countryCode: e.target.value }));
+
   const validate = (): boolean => {
     const e: Partial<Record<keyof FormState, string>> = {};
     if (!form.name.trim()) e.name = "Requis";
     if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "E-mail valide requis";
     
     const cleanNum = form.phone.replace(/\s+/g, "");
+    const countryPattern = COUNTRY_PHONE_PATTERNS[form.countryCode];
+    
     if (!cleanNum) {
       e.phone = "Veuillez entrer un numéro de téléphone";
-    } else if (!/^(\+41|0041|0)?[1-9]\d{8}$/.test(cleanNum)) {
-      e.phone = "Veuillez entrer un numéro suisse valide (ex: 079 123 45 67)";
+    } else if (countryPattern && !countryPattern.pattern.test(cleanNum)) {
+      e.phone = `Veuillez entrer un numéro valide pour ${form.countryCode} (ex: ${countryPattern.example})`;
     }
     
     setErrors(e);
@@ -81,7 +111,9 @@ export function ContactForm() {
         name: form.name,
         email: form.email,
         phone: form.phone,
+        countryCode: form.countryCode,
         message: form.message,
+        leadType: "contact",
       });
       setStatus("success");
     } catch (err) {
@@ -184,11 +216,28 @@ export function ContactForm() {
                       <label className="block text-[12px] font-bold text-gray-400 mb-2 group-focus-within:text-amber-500 transition-colors">Canal de Com. (Téléphone) *</label>
                       
 <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
-    <select name="countryCode" style={{ width: '110px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', color: '#fff', padding: '0.8rem', fontFamily: 'inherit' }}>
+    <select name="countryCode" value={form.countryCode} onChange={setCountryCode} style={{ width: '110px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', color: '#fff', padding: '0.8rem', fontFamily: 'inherit', appearance: 'none', WebkitAppearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center', paddingRight: '30px', cursor: 'pointer' }}>
+
         <option value="CH">🇨🇭 +41</option>
-        <option value="GB">🇬🇧 +44</option>
+        <option value="FR">🇫🇷 +33</option>
+        <option value="BE">🇧🇪 +32</option>
         <option value="CA">🇨🇦 +1</option>
+        <option value="US">🇺🇸 +1</option>
+        <option value="GB">🇬🇧 +44</option>
+        <option value="DE">🇩🇪 +49</option>
+        <option value="ES">🇪🇸 +34</option>
+        <option value="IT">🇮🇹 +39</option>
+        <option value="NL">🇳🇱 +31</option>
+        <option value="SE">🇸🇪 +46</option>
         <option value="AU">🇦🇺 +61</option>
+        <option value="IN">🇮🇳 +91</option>
+        <option value="AE">🇦🇪 +971</option>
+        <option value="SG">🇸🇬 +65</option>
+        <option value="ZA">🇿🇦 +27</option>
+        <option value="BR">🇧🇷 +55</option>
+        <option value="MX">🇲🇽 +52</option>
+        <option value="JP">🇯🇵 +81</option>
+        <option value="CY">🇨🇾 +357</option>
     </select>
 <input type="tel" placeholder="+357 99 261 501" value={form.phone} onChange={set("phone")} className={ic("phone")}  style={{ flex: 1 }} />
 </div>

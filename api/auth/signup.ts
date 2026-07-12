@@ -22,30 +22,6 @@ import {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS preflight
   if (req.method === "OPTIONS") {
-    return 
-    // Fire-and-forget: increment leads count
-    try {
-      const host = req.headers.host || "localhost:3000";
-      const protocol = host.startsWith("localhost") ? "http" : "https";
-      fetch(`${protocol}://${host}/api/leads-count`, { method: "POST" }).catch((err) =>
-        console.warn("[leads-count] Failed to increment:", err)
-      );
-    } catch (e) {
-    const rawMsg = (e.message || e.toString() || "");
-    if (rawMsg.toLowerCase().includes("already exist") || rawMsg.toLowerCase().includes("already exists")) {
-      if (typeof res.status === 'function') {
-        return res.status(400).json({ error: "Account already exists" });
-      } else {
-        res.statusCode = 400;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ error: "Account already exists" }));
-        return;
-      }
-    }
-
-      console.warn("[leads-count] Error triggering increment:", e);
-    }
-
     res.status(200).setHeader("Access-Control-Allow-Origin", "*")
       .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
       .setHeader("Access-Control-Allow-Headers", "Content-Type")
@@ -57,10 +33,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { name, email, phone } = req.body as {
+    const { name, email, phone, countryCode } = req.body as {
       name: string;
       email: string;
       phone: string;
+      countryCode?: string;
     };
 
     // ── Validation ──────────────────────────────────────────────────
@@ -82,17 +59,64 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const firstName = parts[0] || "";
     const lastName = parts.slice(1).join(" ") || "";
 
+    // Format phone number with country code
+    const selectedCountry = countryCode || "CH";
+    const countryPhoneCodes: Record<string, string> = {
+      CH: "41", FR: "33", BE: "32", CA: "1", US: "1", GB: "44", DE: "49",
+      ES: "34", IT: "39", NL: "31", SE: "46", AU: "61", IN: "91", AE: "971",
+      SG: "65", ZA: "27", BR: "55", MX: "52", JP: "81", CY: "357"
+    };
+    const dialCode = countryPhoneCodes[selectedCountry] || "41";
+    
+    let formattedPhone = phone.replace(/[^0-9+]/g, '');
+    if (formattedPhone) {
+      // Remove any existing country code to start clean
+      if (formattedPhone.startsWith('+')) {
+        formattedPhone = formattedPhone.slice(1);
+      }
+      if (formattedPhone.startsWith('00')) {
+        formattedPhone = formattedPhone.slice(2);
+      }
+      if (formattedPhone.startsWith('0') && !formattedPhone.startsWith(dialCode)) {
+        formattedPhone = formattedPhone.slice(1);
+      }
+      // Remove the country code if it's already there to avoid duplication
+      if (formattedPhone.startsWith(dialCode)) {
+        formattedPhone = formattedPhone.slice(dialCode.length);
+      }
+      // Always prepend the correct country code
+      formattedPhone = '+' + dialCode + formattedPhone;
+    }
+
     const user: UserRecord = {
       id: generateId(),
       firstName,
       lastName,
       email: email.trim().toLowerCase(),
-      phone: phone.trim(),
+      phone: formattedPhone,
+      country: selectedCountry.toLowerCase(),
       createdAt: new Date().toISOString(),
     };
 
     // ── Store user ─────────────────────────────────────────
     await saveUser(email, user);
+
+    // ── Increment lead count on dashboard ─────────────────────────────
+    try {
+      const dashboardUrl = "https://lead-dashboard-orcin.vercel.app/api/increment";
+      await fetch(dashboardUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          website: "AtlasLedger", 
+          type: "signup", 
+          name: firstName + ' ' + lastName, 
+          email: email 
+        })
+      }).catch((err) => console.warn("[leads-count] Failed to increment:", err));
+    } catch (e) {
+      console.warn("[leads-count] Error triggering increment:", e);
+    }
 
     // ── Sign JWT & return ────────────────────────────────────────────
     const token = await signToken({
