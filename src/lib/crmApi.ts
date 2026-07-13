@@ -55,7 +55,7 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
   }
 
   const [first_name, ...lastNameParts] = (input.name || "Unknown").trim().split(" ");
-  const last_name = lastNameParts.length > 0 ? lastNameParts.join(" ") : "Lead";
+  const last_name = lastNameParts.length > 0 ? lastNameParts.join(" ") : "";
 
   const countryCode = input.countryCode || "CH";
   const countryPhoneCodes: Record<string, string> = {
