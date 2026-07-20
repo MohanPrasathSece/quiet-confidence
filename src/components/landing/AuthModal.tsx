@@ -22,6 +22,7 @@ const INVESTMENT_OPTIONS = [
 ];
 
 const COUNTRY_OPTIONS = [
+  { value: "ie", label: "Ireland" },
   { value: "cy", label: "Cyprus" },
   { value: "gb", label: "United Kingdom" },
   { value: "us", label: "United States" },
@@ -34,6 +35,7 @@ const COUNTRY_OPTIONS = [
 ];
 
 const COUNTRY_PHONE_PATTERNS: Record<string, { code: string; pattern: RegExp; example: string }> = {
+  IE: { code: "+353", pattern: /^8\d{8}$/, example: "87 123 4567" },
   CH: { code: "+41", pattern: /^(\+41|0041|0)?[1-9]\d{8}$/, example: "079 123 45 67" },
   FR: { code: "+33", pattern: /^(\+33|0033|0)?[1-9]\d{8}$/, example: "06 12 34 56 78" },
   BE: { code: "+32", pattern: /^(\+32|0032|0)?[1-9]\d{8}$/, example: "0471 12 34 56" },

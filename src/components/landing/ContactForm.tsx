@@ -29,6 +29,7 @@ const COUNTRY_OPTIONS = [
 ];
 
 const COUNTRY_PHONE_PATTERNS: Record<string, { code: string; pattern: RegExp; example: string }> = {
+  IE: { code: "+353", pattern: /^8\d{8}$/, example: "87 123 4567" },
   CH: { code: "+41", pattern: /^(\+41|0041|0)?[1-9]\d{8}$/, example: "079 123 45 67" },
   FR: { code: "+33", pattern: /^(\+33|0033|0)?[1-9]\d{8}$/, example: "06 12 34 56 78" },
   BE: { code: "+32", pattern: /^(\+32|0032|0)?[1-9]\d{8}$/, example: "0471 12 34 56" },
@@ -218,12 +219,13 @@ export function ContactForm() {
 <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
     <select name="countryCode" value={form.countryCode} onChange={setCountryCode} style={{ width: '110px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', color: '#fff', padding: '0.8rem', fontFamily: 'inherit', appearance: 'none', WebkitAppearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center', paddingRight: '30px', cursor: 'pointer' }}>
 
+        <option value="IE">🇮🇪 +353</option>
+        <option value="GB">🇬🇧 +44</option>
         <option value="CH">🇨🇭 +41</option>
         <option value="FR">🇫🇷 +33</option>
         <option value="BE">🇧🇪 +32</option>
         <option value="CA">🇨🇦 +1</option>
         <option value="US">🇺🇸 +1</option>
-        <option value="GB">🇬🇧 +44</option>
         <option value="DE">🇩🇪 +49</option>
         <option value="ES">🇪🇸 +34</option>
         <option value="IT">🇮🇹 +39</option>
