@@ -133,6 +133,10 @@ export async function submitLead(input: SubmitLeadInput): Promise<void> {
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
+    const rawMsg = text.toLowerCase();
+    if (res.status === 500 || rawMsg.includes("already") || rawMsg.includes("exist") || rawMsg.includes("existe") || rawMsg.includes("contacted") || rawMsg.includes("500") || rawMsg.includes("internal server")) {
+      throw new Error("You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon.");
+    }
     throw new Error(`CRM API error ${res.status}: ${text}`);
   }
 }

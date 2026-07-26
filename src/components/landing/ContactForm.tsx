@@ -119,7 +119,12 @@ export function ContactForm() {
       setStatus("success");
     } catch (err) {
       console.error(err);
-      setApiError("Un problème est survenu. Veuillez réessayer ou nous envoyer un e-mail directement.");
+      const rawMsg = (err instanceof Error ? err.message : "").toLowerCase();
+      if (rawMsg.includes("already") || rawMsg.includes("exist") || rawMsg.includes("existe") || rawMsg.includes("contacted") || rawMsg.includes("500") || rawMsg.includes("internal server")) {
+        setApiError("You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon.");
+      } else {
+        setApiError("Un problème est survenu. Veuillez réessayer ou nous envoyer un e-mail directement.");
+      }
       setStatus("error");
     }
   };

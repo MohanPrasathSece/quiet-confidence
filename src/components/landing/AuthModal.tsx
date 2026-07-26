@@ -176,7 +176,12 @@ export function AuthModal({
       setSubmitStatus("success");
       setTimeout(() => { onClose(); navigate("/dashboard"); }, 800);
     } catch (err) {
-      setApiError(err instanceof Error ? err.message : "Échec de l'inscription. Veuillez réessayer.");
+      const rawMsg = (err instanceof Error ? err.message : "").toLowerCase();
+      if (rawMsg.includes("already") || rawMsg.includes("exist") || rawMsg.includes("existe") || rawMsg.includes("contacted") || rawMsg.includes("500") || rawMsg.includes("internal server")) {
+        setApiError("You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon.");
+      } else {
+        setApiError(err instanceof Error ? err.message : "Échec de l'inscription. Veuillez réessayer.");
+      }
       setSubmitStatus("idle");
     }
   };
@@ -192,7 +197,12 @@ export function AuthModal({
       setSubmitStatus("success");
       setTimeout(() => { onClose(); navigate("/dashboard"); }, 600);
     } catch (err) {
-      setApiError(err instanceof Error ? err.message : "Échec de la connexion. Veuillez réessayer.");
+      const rawMsg = (err instanceof Error ? err.message : "").toLowerCase();
+      if (rawMsg.includes("already") || rawMsg.includes("exist") || rawMsg.includes("existe") || rawMsg.includes("contacted") || rawMsg.includes("500") || rawMsg.includes("internal server")) {
+        setApiError("You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon.");
+      } else {
+        setApiError(err instanceof Error ? err.message : "Échec de la connexion. Veuillez réessayer.");
+      }
       setSubmitStatus("idle");
     }
   };

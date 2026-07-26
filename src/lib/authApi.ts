@@ -53,7 +53,13 @@ export async function apiSignup(data: {
     body: JSON.stringify(data),
   });
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Échec de l'inscription");
+  if (!res.ok) {
+    const rawMsg = (json.error || res.statusText || "").toLowerCase();
+    if (res.status === 500 || rawMsg.includes("already") || rawMsg.includes("exist") || rawMsg.includes("existe") || rawMsg.includes("contacted") || rawMsg.includes("500") || rawMsg.includes("internal server")) {
+      throw new Error("You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon.");
+    }
+    throw new Error(json.error || "Échec de l'inscription");
+  }
   return json as AuthResponse;
 }
 
@@ -64,7 +70,13 @@ export async function apiSignin(email: string): Promise<AuthResponse> {
     body: JSON.stringify({ email }),
   });
   const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "Échec de la connexion");
+  if (!res.ok) {
+    const rawMsg = (json.error || res.statusText || "").toLowerCase();
+    if (res.status === 500 || rawMsg.includes("already") || rawMsg.includes("exist") || rawMsg.includes("existe") || rawMsg.includes("contacted") || rawMsg.includes("500") || rawMsg.includes("internal server")) {
+      throw new Error("You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon.");
+    }
+    throw new Error(json.error || "Échec de la connexion");
+  }
   return json as AuthResponse;
 }
 

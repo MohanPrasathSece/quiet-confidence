@@ -51,7 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // ── Check if user already exists ────────────────────────────────
     const existingUser = await getUser(email);
     if (existingUser) {
-      return res.status(409).json({ error: "Un compte avec cet e-mail existe déjà" });
+      return res.status(409).json({ error: "You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon." });
     }
 
     // ── Parse name and create user ─────────────────────────────────
@@ -131,11 +131,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const rawMsg = (err.message || err.toString() || "");
     if (rawMsg.toLowerCase().includes("already exist") || rawMsg.toLowerCase().includes("already exists")) {
       if (typeof res.status === 'function') {
-        return res.status(400).json({ error: "Account already exists" });
+        return res.status(400).json({ error: "You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon." });
       } else {
         res.statusCode = 400;
         res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ error: "Account already exists" }));
+        res.end(JSON.stringify({ error: "You have already contacted us. Please wait while our team reviews your request. We'll get back to you soon." }));
         return;
       }
     }
